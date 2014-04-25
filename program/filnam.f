@@ -163,11 +163,8 @@ c     Check file status and input if necessary
       if(nargs.gt.0) go to 300
       write(*,2007) finp,wd(iinp),fout,wd(ioup),fres,wd(ires),
      &              fsav,wd(isav)
-      write(*,2008)
+
       ierr =  5
-5     read(*,1001,err=901,end=901) y
-      if(y.eq.'S' .or. y.eq.'s') call plstop()
-      if(y.ne.'Y' .and. y.ne.'y') go to 100
 
 c     Save a copy of current filenames
 
@@ -175,7 +172,6 @@ c     Save a copy of current filenames
       rewind ios
       write(ios,2010) finp,fout,fres,fsav,fplt,epmac
       close(ios)
-      write(*,2009)
 
 c     Reset ior unit number
 
@@ -200,8 +196,8 @@ c     Error trap
         go to 3
       elseif(ierr.eq.4) then
         go to 4
-      elseif(ierr.eq.5) then
-        go to 5
+      !elseif(ierr.eq.5) then
+        !go to 5
       else
         call plstop()
       endif
@@ -217,8 +213,8 @@ c     EOF encountered
         go to 30
       elseif(ierr.eq.4) then
         go to 40
-      elseif(ierr.eq.5) then
-        go to 5
+      !elseif(ierr.eq.5) then
+        !go to 5
       else
         call plstop()
       endif
@@ -229,36 +225,27 @@ c     Formats
 
 1001  format(75a1)
 
-2000  format(//
-     & '    F I N I T E   E L E M E N T   A N A L Y S I S',
-     & '   P R O G R A M'
-     &   /14x,'FEAPPV (P e r s o n a l   V e r s i o n)',
-     &  //13x,'(C) Regents of the University of California'
-     &   /23x,'All Rights Reserved.'/23x,'VERSION: ',a17
-     &   /26x,'DATE: ',a17)
+!2000  format('feappv ',a17,' ',a17)
 
-2001  format(/8x,' I n p u t    F i l e n a m e s',
-     & //8x,' Specify filenames:'//
-     &       13x,'Input   Data (default: ',a12,') :',$)
-2002  format(13x,'Output  Data (default: ',a12,') :',$)
-2003  format(13x,'Restart Read (default: ',a12,') :',$)
-2004  format(13x,'Restart Save (default: ',a12,') :',$)
+2000  format('feappv ',a17,' date: ',a17)
 
-2007  format(/8x,' Files are set as:     Filename',9x,'Status'//
-     &       13x,'Input   (read ) : ',a12,5x,a6/
-     &       13x,'Output  (write) : ',a12,5x,a6/
-     &       13x,'Restart (read ) : ',a12,5x,a6/
-     &       13x,'Restart (write) : ',a12,5x,a6//
-     &  8x,' Caution, existing write files will be overwritten.')
+2001  format('Specify input files:', /
+     &       1x,'Input   Data (default: ',a12,') :',$)
+2002  format(1x,'Output  Data (default: ',a12,') :',$)
+2003  format(1x,'Restart Read (default: ',a12,') :',$)
+2004  format(1x,'Restart Save (default: ',a12,') :',$)
 
-2008  format(/8x,' Are filenames correct? ( y or n; s = stop) : ',$)
-2009  format(/8x,' R U N N I N G    F E A P p v    P R O B L E M',
-     &           '    N O W')
+2007  format(/14x,'Filename',9x,'Status'/
+     &       1x,'Input   (r) : ',a12,5x,a6/
+     &       1x,'Output  (w) : ',a12,5x,a6/
+     &       1x,'Restart (r) : ',a12,5x,a6/
+     &       1x,'Restart (w) : ',a12,5x,a6//
+     &   'Caution, existing write files will be overwritten.')
 
 2010  format(a/a/a/a/a/1p,1e25.15)
 
-3000  format(/' *ERROR* Specified input file does not exist, ',
+3000  format(/'*ERROR* Specified input file does not exist, ',
      &        'reinput name.'/)
-3001  format(/' *ERROR* Reinput data')
+3001  format(/'*ERROR* Reinput data')
 
       end
