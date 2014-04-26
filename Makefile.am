@@ -16,8 +16,8 @@ AM_FFLAGS = -g $(INCLUDE_DIRS)
 AM_FCFLAGS = -g $(INLUDE_DIRS)
 AM_LDFLAGS = -L/usr/X11R6/lib -lX11 -lm
 
-EXTRA_DIST = src/libfeappv_SOURCES \
-	     src/rebuild_libfeappv_SOURCES.sh \
+EXTRA_DIST = src/libfeappv_la_SOURCES \
+	     src/rebuild_libfeappv_la_SOURCES.sh \
 	     include/rebuild_include_HEADERS.sh \
 	     include/include_HEADERS
 
@@ -27,15 +27,11 @@ include include/include_HEADERS
 
 #libfeappv_HEADERS = $(include_HEADERS)
 
-#libfeappvdir = lel
 
 # this lists the binaries to produce, the (non-PHONY, binary) targets in
 # the previous manual Makefil
 
 lib_LTLIBRARIES  = libfeappv.la
-#libfeappv_SOURCES  = $(libfeappv_SOURCES)
-
-
 
 
 bin_PROGRAMS = feappv 
