@@ -29,20 +29,20 @@ subroutine ploa1(time,dt)
   !     For restart only
 
   if (refl) then
-    refl = .false. 
+     refl = .false. 
   endif
 
   !     Check if new time step
 
   if(arcf .and. time /= timold) then
 
-    !       Set new load level
+     !       Set new load level
 
-    rlnew = rlnew + dt
+     rlnew = rlnew + dt
 
   elseif( .not. arcf) then
 
-    rlnew = 1.d0
+     rlnew = 1.d0
 
   endif
 

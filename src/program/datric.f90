@@ -33,35 +33,35 @@ subroutine datric(iops,mops,jp,neq)
   iops = 0
   mops = 0
   do j = 2,neq
-  jh = jp(j) - jp(j-1) - 1
-  if(jh > 0) then
-    is = j - jh
+     jh = jp(j) - jp(j-1) - 1
+     if(jh > 0) then
+        is = j - jh
 
-    !         Reduce each column
+        !         Reduce each column
 
-    do i = is,j-1
-    id = jp(i)
-    ih = min(id-jp(i-1),i-is+1)
-    if(ih > 0) then
-      iops = iops + ih + ih + 1
-    endif
-    end do
-  endif
+        do i = is,j-1
+           id = jp(i)
+           ih = min(id-jp(i-1),i-is+1)
+           if(ih > 0) then
+              iops = iops + ih + ih + 1
+           endif
+        end do
+     endif
 
-  !       Reduce diagonal
+     !       Reduce diagonal
 
-  if(jh >= 0) then
-    iops = iops +3*jh + 2
-  endif
+     if(jh >= 0) then
+        iops = iops +3*jh + 2
+     endif
 
-  !       Accumulate megaflops
+     !       Accumulate megaflops
 
-  !       if(iops.gt.1000000) then
-  do while(iops > 1000000)
-  iops = iops - 1000000
-  mops = mops + 1
-  end do ! while
-  !       endif
+     !       if(iops.gt.1000000) then
+     do while(iops > 1000000)
+        iops = iops - 1000000
+        mops = mops + 1
+     end do ! while
+     !       endif
   end do
 
   !     Total number of operations
@@ -69,10 +69,10 @@ subroutine datric(iops,mops,jp,neq)
   tar = etime(tt)
   write(iow,2000) iops,mops,tt
   if(ior < 0) then
-    write(  *,2000) iops,mops,tt
+     write(  *,2000) iops,mops,tt
   end if
 
-  2000 format('   Number of operations =',i8,' plus ',i8,' Mega-ops'/ &
-    '  Time: CPU = ',f12.2,' , System = ',f12.2)
+2000 format('   Number of operations =',i8,' plus ',i8,' Mega-ops'/ &
+       '  Time: CPU = ',f12.2,' , System = ',f12.2)
 
 end subroutine datric

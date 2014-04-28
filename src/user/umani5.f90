@@ -24,7 +24,7 @@ subroutine umani5
   logical ::  pcomp
 
   if (pcomp(uct,'man5',4)) then
-    !         uct = 'name'
+     !         uct = 'name'
   else
 
   end if

@@ -30,27 +30,27 @@ logical function savefl(tx)
   save
 
   if(pcomp(tx,'end',3)) then
-    inquire(file=fnams,opened=lopen,exist=lexist)
-    if(lexist .and. lopen .and. lsave) then
-      backspace lfile
-      write(lfile,2000)
-      close(lfile)
-    endif
-    savefl = .false. 
+     inquire(file=fnams,opened=lopen,exist=lexist)
+     if(lexist .and. lopen .and. lsave) then
+        backspace lfile
+        write(lfile,2000)
+        close(lfile)
+     endif
+     savefl = .false. 
   else
-    fnams  = tx
-    fext   = tx
-    inquire(unit=ios,opened=lopen)
-    if(lopen) then
-      write(iow,3000)
-      call plstop()
-    endif
-    call opnfil(fext,fnams,-1,ios,lopen)
-    savefl =  .true. 
+     fnams  = tx
+     fext   = tx
+     inquire(unit=ios,opened=lopen)
+     if(lopen) then
+        write(iow,3000)
+        call plstop()
+     endif
+     call opnfil(fext,fnams,-1,ios,lopen)
+     savefl =  .true. 
   endif
 
-  2000 format('read,end')
+2000 format('read,end')
 
-  3000 format(5x,' *ERROR* - Nested SAVE commands not allowed.')
+3000 format(5x,' *ERROR* - Nested SAVE commands not allowed.')
 
 end function savefl

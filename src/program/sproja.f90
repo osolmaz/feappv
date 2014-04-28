@@ -39,18 +39,18 @@ subroutine sproja(v,t,g,neq,nv)
   k = 0
   do j = 1,nv
 
-  !     Copy vector 'v' into 'z' and solve equations
+     !     Copy vector 'v' into 'z' and solve equations
 
-  call pmove (v(1,j),t(1),neq)
-  call dasol (hr(np(1)+neq),hr(np(1)+neq),hr(np(1)), &
-    v(1,j),mr(np(21)),neq,neq,en)
+     call pmove (v(1,j),t(1),neq)
+     call dasol (hr(np(1)+neq),hr(np(1)+neq),hr(np(1)), &
+          v(1,j),mr(np(21)),neq,neq,en)
 
-  !     Compute projection of stiffness
+     !     Compute projection of stiffness
 
-  do i = 1,j
-  k = k + 1
-  g(k) = dot(v(1,i),t(1),neq)
-  end do
+     do i = 1,j
+        k = k + 1
+        g(k) = dot(v(1,i),t(1),neq)
+     end do
   end do
 
 end subroutine sproja

@@ -34,39 +34,39 @@ subroutine perspj(xp,ntyp,numnp,errv)
   !     Loop over data points and find projection
 
   do n=1,numnp
-  if(ntyp(n) >= 0) then
-    lview = .false. 
-    do i=1,3
-    t1(i) = xp(i,n) - e(i)
-    end do
+     if(ntyp(n) >= 0) then
+        lview = .false. 
+        do i=1,3
+           t1(i) = xp(i,n) - e(i)
+        end do
 
-    do i=1,3
-    xp(i,n) = xlbda(i,1)*t1(1) + xlbda(i,2)*t1(2) &
-      + xlbda(i,3)*t1(3)
-    end do
+        do i=1,3
+           xp(i,n) = xlbda(i,1)*t1(1) + xlbda(i,2)*t1(2) &
+                + xlbda(i,3)*t1(3)
+        end do
 
-    alpha = -enorm/(t1(1)*q(1,3)+t1(2)*q(2,3)+t1(3)*q(3,3))
-    if(alpha < 0.d0) then
-      errv = .true. 
-      if(ior < 0) then
-        write(*,2000)
-        return
-      else
-        write(iow,2000)
-        call plstop
-      endif
-    elseif(xp(3,n) > zview) then
-      lview = .true. 
-      errv  = .false. 
-    else
-      errv  = .false. 
-    endif
-    do i=1,3
-    xp(i,n) = alpha * xp(i,n)
-    end do
-  endif
+        alpha = -enorm/(t1(1)*q(1,3)+t1(2)*q(2,3)+t1(3)*q(3,3))
+        if(alpha < 0.d0) then
+           errv = .true. 
+           if(ior < 0) then
+              write(*,2000)
+              return
+           else
+              write(iow,2000)
+              call plstop
+           endif
+        elseif(xp(3,n) > zview) then
+           lview = .true. 
+           errv  = .false. 
+        else
+           errv  = .false. 
+        endif
+        do i=1,3
+           xp(i,n) = alpha * xp(i,n)
+        end do
+     endif
   end do
 
-  2000 format(//1x,' Point too close, choose another one!'//)
+2000 format(//1x,' Point too close, choose another one!'//)
 
 end subroutine perspj

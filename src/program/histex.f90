@@ -40,49 +40,49 @@ subroutine histex(wd,clab1,jct,lct,ct,nwd,nlp,nnx,ll,is)
 
   is = 0
   if(nn <= 0) then
-    write(*,2000)
-    is = 1
+     write(*,2000)
+     is = 1
   else
-    if(clab1(2:2) /= '!') then
-    nc = 3
-    if(clab1(4:4) == ' ') nc = 2
-    if(clab1(3:3) == ' ') nc = 1
-    if(clab1(2:2) == ' ') nc = 0
-  else
-    nc = 0
+     if(clab1(2:2) /= '!') then
+        nc = 3
+        if(clab1(4:4) == ' ') nc = 2
+        if(clab1(3:3) == ' ') nc = 1
+        if(clab1(2:2) == ' ') nc = 0
+     else
+        nc = 0
+     endif
+     if(nc > 0) then
+        do n = nn,1,-1
+           if(pcomp(clab1(2:2+nc),wd(js(n)),nc)) go to 102
+        end do
+        write(*,2001)
+        is = 1
+        return
+     else
+        n = nn
+     endif
+
+102  if(js(n) /= nlp .and. js(n) /= nnx) then
+        jct(ll) = js(n)
+        lct(ll) = ljs(n)
+        lzz(ll) = lzs(n)
+        errck   = vinput(lzz(ll),50,ct(1,ll),3)
+103     write(*,2002) wd(jct(ll)),lct(ll),(ct(i,ll),i=1,3)
+        read(*,1000,err=103,end=900) y
+104     if(y /= ' ' .and. y /= 'y' .and. y /= 'Y') is = 1
+        return
+
+        !         Eof encountered
+
+900     call  endclr ('PMACIO',y)
+        goto 104
+     else
+        write(*,2003)
+        is = 1
+     endif
   endif
-  if(nc > 0) then
-    do n = nn,1,-1
-    if(pcomp(clab1(2:2+nc),wd(js(n)),nc)) go to 102
-    end do
-    write(*,2001)
-    is = 1
-    return
-  else
-    n = nn
-  endif
 
-  102 if(js(n) /= nlp .and. js(n) /= nnx) then
-    jct(ll) = js(n)
-    lct(ll) = ljs(n)
-    lzz(ll) = lzs(n)
-    errck   = vinput(lzz(ll),50,ct(1,ll),3)
-    103 write(*,2002) wd(jct(ll)),lct(ll),(ct(i,ll),i=1,3)
-    read(*,1000,err=103,end=900) y
-    104 if(y /= ' ' .and. y /= 'y' .and. y /= 'Y') is = 1
-    return
-
-    !         Eof encountered
-
-    900 call  endclr ('PMACIO',y)
-    goto 104
-  else
-    write(*,2003)
-    is = 1
-  endif
-endif
-
-!     Formats
+  !     Formats
 
 1000 format(a1)
 
@@ -91,8 +91,8 @@ endif
 2001 format(/' *ERROR* No match of this macro name')
 
 2002 format(/' Macro to be executed.'/10x,'--> ',a4,1x,a15,1p,3e12.4 &
-  /' Enter y or <CR> to accept.-->',$)
+       /' Enter y or <CR> to accept.-->',$)
 
 2003 format(/' *ERROR* loop/next execution not permitted')
 
-    end subroutine histex
+end subroutine histex

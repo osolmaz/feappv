@@ -1,6 +1,6 @@
 ! Id:$
 subroutine sblke(nr,ns,x,ix,ni,ne,n,ndm,nen1,nodinc,ntyp,nm,mat, &
-    dlayer,ilr,ctype)
+     dlayer,ilr,ctype)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -71,211 +71,211 @@ subroutine sblke(nr,ns,x,ix,ni,ne,n,ndm,nen1,nodinc,ntyp,nm,mat, &
   !     Generate elements
 
   if(dlayer >= 0) then
-    ma = mat
+     ma = mat
   endif
   if(ne > 0) then
-    do i = 1,9
-    iq(i) = i
-    end do ! i
-    do i = 1,6
-    it(i) = i
-    end do ! i
-    if(trdet < 0.0d0) then
-      iq(1) = 4
-      iq(2) = 3
-      iq(3) = 2
-      iq(4) = 1
-      iq(5) = 7
-      iq(7) = 5
-      it(1) = 2
-      it(2) = 1
-      it(5) = 6
-      it(6) = 5
-    endif
-    me = ne - 1
+     do i = 1,9
+        iq(i) = i
+     end do ! i
+     do i = 1,6
+        it(i) = i
+     end do ! i
+     if(trdet < 0.0d0) then
+        iq(1) = 4
+        iq(2) = 3
+        iq(3) = 2
+        iq(4) = 1
+        iq(5) = 7
+        iq(7) = 5
+        it(1) = 2
+        it(2) = 1
+        it(5) = 6
+        it(6) = 5
+     endif
+     me = ne - 1
 
-    !       Line generations
+     !       Line generations
 
-    if(nm < 4) then
-      inc = max(1,min(2,ns))
-      nn  = ni
-      do i = 1,nr-1,inc
-      if(dlayer == 1) then
-        ma = ilr(inc*i-inc+1)
-      endif
-      nn = nn + 1
-      me = me + 1
-      ix(nen1,me) = ma
-      ix(1,me)    = nn - 1
-      if(inc == 2) then
-        ix(3,me) = nn
-        nn       = nn + 1
-      endif
-      ix(2,me) = nn
-      end do
+     if(nm < 4) then
+        inc = max(1,min(2,ns))
+        nn  = ni
+        do i = 1,nr-1,inc
+           if(dlayer == 1) then
+              ma = ilr(inc*i-inc+1)
+           endif
+           nn = nn + 1
+           me = me + 1
+           ix(nen1,me) = ma
+           ix(1,me)    = nn - 1
+           if(inc == 2) then
+              ix(3,me) = nn
+              nn       = nn + 1
+           endif
+           ix(2,me) = nn
+        end do
 
-      !       Block generations
+        !       Block generations
 
-    elseif(ntyp >= 0 .or. ntyp == -7) then
-      inc = 1
-      if(abs(ntyp) >= 7) inc = 2
-      do j = 1,ns-1,inc
-      if(dlayer == 2) then
-        ma = ilr(inc*j-inc+1)
-      endif
-      if(ntyp == 8) then
-        nn = (nr + nodinc*2 + (nr+1)/2)*(j-1)/2 + ni
-        n8 =  nn
-      else
-        nn = (nr + nodinc)*(j-1) + ni
-      endif
-      do i = 1,nr-1,inc
-      if(dlayer == 1) then
-        ma = ilr(inc*i-inc+1)
-      endif
-      nn = nn + 1
-      me = me + 1
-      ix(nen1,me) = ma
-      if(ntyp == 0) then
-        if(ndm == 1) then
-          ix(1,me)     = nn - 1
-          ix(2,me)     = nn
-        else
-          ix(iq(1),me) = nn - 1
-          ix(iq(2),me) = nn
-          ix(iq(3),me) = nn + nr + nodinc
-          ix(iq(4),me) = nn + nr - 1 + nodinc
-        endif
-      elseif(abs(ntyp) == 7) then
-        ix(it(1),me) = nn - 1
-        ix(it(4),me) = nn
-        ix(it(2),me) = nn + 1
-        ix(it(6),me) = nr+nodinc + nn
-        ix(it(5),me) = nr+nodinc + nn + 1
-        ix(it(3),me) = 2*(nr+nodinc) + nn + 1
-        if(ntyp == -7) then
-          ix(7,me) = n
-          x(1,n)   = (x(1,nn-1)+x(1,nn+1)+x(1,ix(3,me)))*o3
-          x(2,n)   = (x(2,nn-1)+x(2,nn+1)+x(2,ix(3,me)))*o3
-          if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
-            call pdegree(x(2,n), sn,cn)
-            rr     = x(1,n)
-            x(1,n) = x0(1) + rr*cn
-            x(2,n) = x0(2) + rr*sn
-          endif
-          n        = n + 1
-        endif
-        me           = me + 1
-        ix(it(1),me) = nn - 1
-        ix(it(6),me) = nr+nodinc + nn - 1
-        ix(it(4),me) = nr+nodinc + nn
-        ix(it(3),me) = 2*(nr+nodinc) + nn - 1
-        ix(it(5),me) = 2*(nr+nodinc) + nn
-        ix(it(2),me) = 2*(nr+nodinc) + nn + 1
-        ix(nen1,me)  = ma
-        if(ntyp == -7) then
-          ix(7,me) = n
-          x(1,n)   = (x(1,nn-1)+x(1,ix(2,me))+x(1,ix(3,me)))*o3
-          x(2,n)   = (x(2,nn-1)+x(2,ix(2,me))+x(2,ix(3,me)))*o3
-          if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
-            call pdegree(x(2,n), sn,cn)
-            rr     = x(1,n)
-            x(1,n) = x0(1) + rr*cn
-            x(2,n) = x0(2) + rr*sn
-          endif
-          n        = n + 1
-        endif
-        nn = nn + 1
-      elseif(ntyp == 8) then
-        ix(iq(1),me) = nn - 1
-        ix(iq(2),me) = nn + 1
-        ix(iq(3),me) = nr + nodinc + (nr+1)/2 + nodinc + nn + 1
-        ix(iq(4),me) = nr + nodinc + (nr+1)/2 + nodinc + nn - 1
-        ix(iq(5),me) = nn
-        ix(iq(6),me) = nr + nodinc +  n8 + 1
-        ix(iq(7),me) = nr + nodinc + (nr+1)/2 + nodinc + nn
-        ix(iq(8),me) = nr + nodinc +  n8
-        nn = nn + 1
-        n8 = n8 + 1
-      elseif(ntyp == 9) then
-        ix(iq(1),me) = nn - 1
-        ix(iq(2),me) = nn + 1
-        ix(iq(3),me) = 2*(nr+nodinc) + nn + 1
-        ix(iq(4),me) = 2*(nr+nodinc) + nn - 1
-        ix(iq(5),me) = nn
-        ix(iq(6),me) = nr+nodinc + nn + 1
-        ix(iq(7),me) = 2*(nr+nodinc) + nn
-        ix(iq(8),me) = nr+nodinc + nn - 1
-        ix(iq(9),me) = nr+nodinc + nn
-        nn = nn + 1
-      else
-        ityp = (ntyp == 1)  .or. &
-          (ntyp == 3 .and. mod(j,2)  == 1) .or. &
-          (ntyp == 4 .and. mod(j,2)  == 0) .or. &
-          (ntyp == 5 .and. mod(i+j,2) == 0) .or. &
-          (ntyp == 6 .and. mod(i+j,2) == 1)
-        if(ityp) then
-          ix(it(1),me) = nn - 1
-          ix(it(2),me) = nn + nr + nodinc
-          ix(it(3),me) = nn + nr + nodinc - 1
-          me = me + 1
-          ix(it(1),me) = nn - 1
-          ix(it(2),me) = nn
-          ix(it(3),me) = nn + nr + nodinc
-          ix(nen1,me)  = ma
-        else
-          ix(it(1),me) = nn - 1
-          ix(it(2),me) = nn
-          ix(it(3),me) = nn + nr + nodinc - 1
-          me = me + 1
-          ix(it(1),me) = nn
-          ix(it(2),me) = nn + nr + nodinc
-          ix(it(3),me) = nn + nr + nodinc - 1
-          ix(nen1,me)  = ma
-        endif
-      endif
-      end do
-      end do
-    elseif(ntyp == -1) then
-      do j = 1,ns-1
-      if(dlayer == 2) then
-        ma = ilr(j)
-      endif
-      n  = (2*nr+nodinc-1)*(j-1) + ni
-      nn = n + 2*nr + nodinc - 1
-      inc = 2
-      if(j == ns-1) inc = 1
-      do i = 1,nr-1
-      if(dlayer == 1) then
-        ma = ilr(i)
-      endif
-      n            = n  + 1
-      np           = nn + inc
-      me           = me + 1
-      ix(nen1,me)  = ma
-      ix(it(1),me) = n - 1
-      ix(it(2),me) = n + 1
-      ix(it(3),me) = n
-      me           = me + 1
-      ix(nen1,me)  = ma
-      ix(it(1),me) = n + 1
-      ix(it(2),me) = np
-      ix(it(3),me) = n
-      me           = me + 1
-      ix(nen1,me)  = ma
-      ix(it(1),me) = np
-      ix(it(2),me) = nn
-      ix(it(3),me) = n
-      me           = me + 1
-      ix(nen1,me)  = ma
-      ix(it(1),me) = nn
-      ix(it(2),me) = n - 1
-      ix(it(3),me) = n
-      n            = n  + 1
-      nn           = nn + inc
-      end do
-      end do
-    endif
+     elseif(ntyp >= 0 .or. ntyp == -7) then
+        inc = 1
+        if(abs(ntyp) >= 7) inc = 2
+        do j = 1,ns-1,inc
+           if(dlayer == 2) then
+              ma = ilr(inc*j-inc+1)
+           endif
+           if(ntyp == 8) then
+              nn = (nr + nodinc*2 + (nr+1)/2)*(j-1)/2 + ni
+              n8 =  nn
+           else
+              nn = (nr + nodinc)*(j-1) + ni
+           endif
+           do i = 1,nr-1,inc
+              if(dlayer == 1) then
+                 ma = ilr(inc*i-inc+1)
+              endif
+              nn = nn + 1
+              me = me + 1
+              ix(nen1,me) = ma
+              if(ntyp == 0) then
+                 if(ndm == 1) then
+                    ix(1,me)     = nn - 1
+                    ix(2,me)     = nn
+                 else
+                    ix(iq(1),me) = nn - 1
+                    ix(iq(2),me) = nn
+                    ix(iq(3),me) = nn + nr + nodinc
+                    ix(iq(4),me) = nn + nr - 1 + nodinc
+                 endif
+              elseif(abs(ntyp) == 7) then
+                 ix(it(1),me) = nn - 1
+                 ix(it(4),me) = nn
+                 ix(it(2),me) = nn + 1
+                 ix(it(6),me) = nr+nodinc + nn
+                 ix(it(5),me) = nr+nodinc + nn + 1
+                 ix(it(3),me) = 2*(nr+nodinc) + nn + 1
+                 if(ntyp == -7) then
+                    ix(7,me) = n
+                    x(1,n)   = (x(1,nn-1)+x(1,nn+1)+x(1,ix(3,me)))*o3
+                    x(2,n)   = (x(2,nn-1)+x(2,nn+1)+x(2,ix(3,me)))*o3
+                    if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
+                       call pdegree(x(2,n), sn,cn)
+                       rr     = x(1,n)
+                       x(1,n) = x0(1) + rr*cn
+                       x(2,n) = x0(2) + rr*sn
+                    endif
+                    n        = n + 1
+                 endif
+                 me           = me + 1
+                 ix(it(1),me) = nn - 1
+                 ix(it(6),me) = nr+nodinc + nn - 1
+                 ix(it(4),me) = nr+nodinc + nn
+                 ix(it(3),me) = 2*(nr+nodinc) + nn - 1
+                 ix(it(5),me) = 2*(nr+nodinc) + nn
+                 ix(it(2),me) = 2*(nr+nodinc) + nn + 1
+                 ix(nen1,me)  = ma
+                 if(ntyp == -7) then
+                    ix(7,me) = n
+                    x(1,n)   = (x(1,nn-1)+x(1,ix(2,me))+x(1,ix(3,me)))*o3
+                    x(2,n)   = (x(2,nn-1)+x(2,ix(2,me))+x(2,ix(3,me)))*o3
+                    if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
+                       call pdegree(x(2,n), sn,cn)
+                       rr     = x(1,n)
+                       x(1,n) = x0(1) + rr*cn
+                       x(2,n) = x0(2) + rr*sn
+                    endif
+                    n        = n + 1
+                 endif
+                 nn = nn + 1
+              elseif(ntyp == 8) then
+                 ix(iq(1),me) = nn - 1
+                 ix(iq(2),me) = nn + 1
+                 ix(iq(3),me) = nr + nodinc + (nr+1)/2 + nodinc + nn + 1
+                 ix(iq(4),me) = nr + nodinc + (nr+1)/2 + nodinc + nn - 1
+                 ix(iq(5),me) = nn
+                 ix(iq(6),me) = nr + nodinc +  n8 + 1
+                 ix(iq(7),me) = nr + nodinc + (nr+1)/2 + nodinc + nn
+                 ix(iq(8),me) = nr + nodinc +  n8
+                 nn = nn + 1
+                 n8 = n8 + 1
+              elseif(ntyp == 9) then
+                 ix(iq(1),me) = nn - 1
+                 ix(iq(2),me) = nn + 1
+                 ix(iq(3),me) = 2*(nr+nodinc) + nn + 1
+                 ix(iq(4),me) = 2*(nr+nodinc) + nn - 1
+                 ix(iq(5),me) = nn
+                 ix(iq(6),me) = nr+nodinc + nn + 1
+                 ix(iq(7),me) = 2*(nr+nodinc) + nn
+                 ix(iq(8),me) = nr+nodinc + nn - 1
+                 ix(iq(9),me) = nr+nodinc + nn
+                 nn = nn + 1
+              else
+                 ityp = (ntyp == 1)  .or. &
+                      (ntyp == 3 .and. mod(j,2)  == 1) .or. &
+                      (ntyp == 4 .and. mod(j,2)  == 0) .or. &
+                      (ntyp == 5 .and. mod(i+j,2) == 0) .or. &
+                      (ntyp == 6 .and. mod(i+j,2) == 1)
+                 if(ityp) then
+                    ix(it(1),me) = nn - 1
+                    ix(it(2),me) = nn + nr + nodinc
+                    ix(it(3),me) = nn + nr + nodinc - 1
+                    me = me + 1
+                    ix(it(1),me) = nn - 1
+                    ix(it(2),me) = nn
+                    ix(it(3),me) = nn + nr + nodinc
+                    ix(nen1,me)  = ma
+                 else
+                    ix(it(1),me) = nn - 1
+                    ix(it(2),me) = nn
+                    ix(it(3),me) = nn + nr + nodinc - 1
+                    me = me + 1
+                    ix(it(1),me) = nn
+                    ix(it(2),me) = nn + nr + nodinc
+                    ix(it(3),me) = nn + nr + nodinc - 1
+                    ix(nen1,me)  = ma
+                 endif
+              endif
+           end do
+        end do
+     elseif(ntyp == -1) then
+        do j = 1,ns-1
+           if(dlayer == 2) then
+              ma = ilr(j)
+           endif
+           n  = (2*nr+nodinc-1)*(j-1) + ni
+           nn = n + 2*nr + nodinc - 1
+           inc = 2
+           if(j == ns-1) inc = 1
+           do i = 1,nr-1
+              if(dlayer == 1) then
+                 ma = ilr(i)
+              endif
+              n            = n  + 1
+              np           = nn + inc
+              me           = me + 1
+              ix(nen1,me)  = ma
+              ix(it(1),me) = n - 1
+              ix(it(2),me) = n + 1
+              ix(it(3),me) = n
+              me           = me + 1
+              ix(nen1,me)  = ma
+              ix(it(1),me) = n + 1
+              ix(it(2),me) = np
+              ix(it(3),me) = n
+              me           = me + 1
+              ix(nen1,me)  = ma
+              ix(it(1),me) = np
+              ix(it(2),me) = nn
+              ix(it(3),me) = n
+              me           = me + 1
+              ix(nen1,me)  = ma
+              ix(it(1),me) = nn
+              ix(it(2),me) = n - 1
+              ix(it(3),me) = n
+              n            = n  + 1
+              nn           = nn + inc
+           end do
+        end do
+     endif
   endif
 
   !     Set final element number

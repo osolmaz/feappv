@@ -40,41 +40,41 @@ subroutine pload(id,f1,dr,prop,flg)
   fl(11) = .false. 
   do n = 1,nneq
 
-  !               F
-  fp(1) = np(27) + n - 1
-  fp(2) = fp(1) + nneq
-  !               FU
-  fp(3) = np(28) + n - 1
-  fp(4) = fp(3) + nneq
-  !               F0
-  fp(5) = fp(4) + nneq
-  fp(6) = fp(5) + nneq
+     !               F
+     fp(1) = np(27) + n - 1
+     fp(2) = fp(1) + nneq
+     !               FU
+     fp(3) = np(28) + n - 1
+     fp(4) = fp(3) + nneq
+     !               F0
+     fp(5) = fp(4) + nneq
+     fp(6) = fp(5) + nneq
 
-  !                   FPRO
-  ipro = mr(np(29)+n-1)
-  if(ipro == 0) then     ! {
-    if(id(n) > 0) then
-      f1(n,1) = hr(fp(1))*prop  + hr(fp(5)) + hr(fp(3))
-    else
-      f1(n,1) = hr(fp(2))*prop  + hr(fp(6)) + hr(fp(4))
-    endif
-    f1(n,3)   = hr(fp(1))*prop + hr(fp(5)) + hr(fp(3))
-  else
-    if(id(n) > 0) then
-      f1(n,1) = hr(fp(1))*prldv(ipro) + hr(fp(5)) + hr(fp(3))
-    else
-      f1(n,1) = hr(fp(2))*prldv(ipro) + hr(fp(6)) + hr(fp(4))
-    endif
-    f1(n,3) = hr(fp(1))*prldv(ipro) + hr(fp(5)) + hr(fp(3))
-  endif                  ! if }
+     !                   FPRO
+     ipro = mr(np(29)+n-1)
+     if(ipro == 0) then     ! {
+        if(id(n) > 0) then
+           f1(n,1) = hr(fp(1))*prop  + hr(fp(5)) + hr(fp(3))
+        else
+           f1(n,1) = hr(fp(2))*prop  + hr(fp(6)) + hr(fp(4))
+        endif
+        f1(n,3)   = hr(fp(1))*prop + hr(fp(5)) + hr(fp(3))
+     else
+        if(id(n) > 0) then
+           f1(n,1) = hr(fp(1))*prldv(ipro) + hr(fp(5)) + hr(fp(3))
+        else
+           f1(n,1) = hr(fp(2))*prldv(ipro) + hr(fp(6)) + hr(fp(4))
+        endif
+        f1(n,3) = hr(fp(1))*prldv(ipro) + hr(fp(5)) + hr(fp(3))
+     endif                  ! if }
   end do ! n
 
   !     Initialize residual/reaction
 
   if(flg) then
-    do n = 1,nneq
-    dr(n) = 0.0d0
-    end  do ! n
+     do n = 1,nneq
+        dr(n) = 0.0d0
+     end  do ! n
   endif
 
   !     Compute interpolated load vector
@@ -82,14 +82,14 @@ subroutine pload(id,f1,dr,prop,flg)
   thn = 1.0d0 - theta(3)
 
   do n = 1,nneq
-  j = id(n)
-  if(j > 0) then
-    if(flg) then
-      dr(j) = dr(j) + theta(3)*f1(n,1) + thn*f1(n,2)
-    else
-      dr(n) =         theta(3)*f1(n,1) + thn*f1(n,2)
-    endif
-  endif
+     j = id(n)
+     if(j > 0) then
+        if(flg) then
+           dr(j) = dr(j) + theta(3)*f1(n,1) + thn*f1(n,2)
+        else
+           dr(n) =         theta(3)*f1(n,1) + thn*f1(n,2)
+        endif
+     endif
   end do ! n
 
 end subroutine pload

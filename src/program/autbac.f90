@@ -45,22 +45,22 @@ subroutine autbac ( dtnew )
   npl(2) = 0
   if(npld > 0) prop = propld(ttim,npl)
   if(prnt) then
-    if(npld > 1) then
-      k1 = npld
-    else
-      k1 = 0
-    endif
-    write(iow,2000) ttim,prop,(i,prldv(i),i=1,k1)
-    if(ior < 0) then
-      write(*,2000) ttim,prop,(i,prldv(i),i=1,k1)
-    endif
+     if(npld > 1) then
+        k1 = npld
+     else
+        k1 = 0
+     endif
+     write(iow,2000) ttim,prop,(i,prldv(i),i=1,k1)
+     if(ior < 0) then
+        write(*,2000) ttim,prop,(i,prldv(i),i=1,k1)
+     endif
   endif
   rnmax = 0.0d0
 
   !     Reinitialize solution and dynamic vectors for step
 
   call update(mr(np(31)),hr(np(30)),hr(np(40)),hr(np(42)), &
-    hr(np(26)),fl(9),3)
+       hr(np(26)),fl(9),3)
 
   !     Reinitialize history vectors for step
 
@@ -70,53 +70,53 @@ subroutine autbac ( dtnew )
 
   if(dtnew > 0.0d0) then
 
-    !       Increment time
+     !       Increment time
 
-    dt   = dtnew
-    ttim = ttim + dt
+     dt   = dtnew
+     ttim = ttim + dt
 
-    if(npld > 0) prop = propld(ttim,npl)
-    if(prnt) then
-      write(iow,2000) ttim,prop,(i,prldv(i),i=1,k1)
-      if(ior < 0) then
-        write(*,2000) ttim,prop,(i,prldv(i),i=1,k1)
-      endif
-    endif
+     if(npld > 0) prop = propld(ttim,npl)
+     if(prnt) then
+        write(iow,2000) ttim,prop,(i,prldv(i),i=1,k1)
+        if(ior < 0) then
+           write(*,2000) ttim,prop,(i,prldv(i),i=1,k1)
+        endif
+     endif
 
-    !       Move interpolated force vector
+     !       Move interpolated force vector
 
-    call pmove (hr(np(30)       ),hr(np(30)+  nneq), nneq)
-    call pmove (hr(np(30)+2*nneq),hr(np(30)+3*nneq), nneq)
+     call pmove (hr(np(30)       ),hr(np(30)+  nneq), nneq)
+     call pmove (hr(np(30)+2*nneq),hr(np(30)+3*nneq), nneq)
 
-    !       Update dynamic vectors for transient step
+     !       Update dynamic vectors for transient step
 
-    if(fl(9)) then
-      call dsetci
-      call update(mr(np(31)),hr(np(30)),hr(np(40)),hr(np(42)), &
-        hr(np(26)),fl(9),1)
-    end if
+     if(fl(9)) then
+        call dsetci
+        call update(mr(np(31)),hr(np(30)),hr(np(40)),hr(np(42)), &
+             hr(np(26)),fl(9),1)
+     end if
 
-    !       Zero displacement increments for time step
+     !       Zero displacement increments for time step
 
-    call pzero(hr(np(40)+nneq),nneq+nneq)
+     call pzero(hr(np(40)+nneq),nneq+nneq)
 
-    !       Reset history variables
+     !       Reset history variables
 
-    call reshis(mr(np(33)+nen),nen1,numel,2, 1)
+     call reshis(mr(np(33)+nen),nen1,numel,2, 1)
 
-    !       Reset parameters for solution step
+     !       Reset parameters for solution step
 
-    augf  = 1.0d0
-    rnmax = 0.0d0
-    fl( 8) = .false. 
-    fl(10) = .true. 
+     augf  = 1.0d0
+     rnmax = 0.0d0
+     fl( 8) = .false. 
+     fl(10) = .true. 
 
   endif
 
   !     Format
 
-  2000 format(/,'   Computing solution at time ',1p,1e11.4, &
-    ': Total proportional load ',1p,1e11.4:/ &
-    '   Individual factors: '/(3x,4(i4,' =',1p,1e12.4)))
+2000 format(/,'   Computing solution at time ',1p,1e11.4, &
+       ': Total proportional load ',1p,1e11.4:/ &
+       '   Individual factors: '/(3x,4(i4,' =',1p,1e12.4)))
 
 end subroutine autbac

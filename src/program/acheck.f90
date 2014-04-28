@@ -30,30 +30,30 @@ subroutine acheck(x,y,n0,nl,nlc)
   !     Find last character in 'x' array
 
   do ii = nl,1,-1
-  if(x(ii:ii) /= ' ') go to 110
+     if(x(ii:ii) /= ' ') go to 110
   end do
 
   !     Zero the y array
 
-  110 y(1:nlc) = ' '
+110 y(1:nlc) = ' '
 
   !     Locate separator ','
 
   k = 0
   il= 0
   do i = 1,ii
-  if(cksep(x(i:i))) then
-    k  = k + n0
-    if(k > nlc-n0) go to 210
-    il = k - i
-  else
-    y(i+il:i+il) = x(i:i)
-  endif
+     if(cksep(x(i:i))) then
+        k  = k + n0
+        if(k > nlc-n0) go to 210
+        il = k - i
+     else
+        y(i+il:i+il) = x(i:i)
+     endif
   end do
   k  = k + n0
 
   !     Justify numerical and character data
 
-  210 call just(y,k,n0)
+210 call just(y,k,n0)
 
 end subroutine acheck

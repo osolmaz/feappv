@@ -75,331 +75,331 @@ subroutine arclen(du,u1,u2,f,al,au,ad,jp,id,ndf,numnp,neq,time)
 
   if(time /= timold) then
 
-    ite = 0
-    timold = time
+     ite = 0
+     timold = time
 
-    !       Calculate arc length at beginning of time step
+     !       Calculate arc length at beginning of time step
 
-    ds = sqrt(dot(du,du,neq))
+     ds = sqrt(dot(du,du,neq))
 
-    !       Check for limit points
+     !       Check for limit points
 
-    do j = 1,ndf
-    do i = 1,numnp
-    jj = id(j,i)
-    if (jj > 0) u1(jj) = f(j,i)
-    end do
-    end do
-    rr = dot(du,u1,neq)
+     do j = 1,ndf
+        do i = 1,numnp
+           jj = id(j,i)
+           if (jj > 0) u1(jj) = f(j,i)
+        end do
+     end do
+     rr = dot(du,u1,neq)
 
-    !       Set arc length constant  (only in very first time step)
-    !       sign of r positive
-    !       Safe energy value at beginning of loading
+     !       Set arc length constant  (only in very first time step)
+     !       sign of r positive
+     !       Safe energy value at beginning of loading
 
-    !       First load/time step only
+     !       First load/time step only
 
-    if (time <= dt) then
-      r     = 1.0d0
-      ds0   = ds
-      c0    = rr
-      dtold = dt
-    endif
+     if (time <= dt) then
+        r     = 1.0d0
+        ds0   = ds
+        c0    = rr
+        dtold = dt
+     endif
 
-    !       Rescale arclength for changing time steps
+     !       Rescale arclength for changing time steps
 
-    if(dt /= dtold .and. dtold /= 0.0d0) then
-      ds0   = ds0*abs(dt/dtold)
-      dtold = dt
-    end if
+     if(dt /= dtold .and. dtold /= 0.0d0) then
+        ds0   = ds0*abs(dt/dtold)
+        dtold = dt
+     end if
 
-    !       Current stiffness parameter of current load increment
+     !       Current stiffness parameter of current load increment
 
-    cs = c0/rr
-    rr = sign(1.d00,rr)
+     cs = c0/rr
+     rr = sign(1.d00,rr)
 
-    !       Check if stiffness parameter passes infinity
-    !       or limit point (then change of sign!)
+     !       Check if stiffness parameter passes infinity
+     !       or limit point (then change of sign!)
 
-    if (time > 2.d0*dt) then
-      if (cs02 > 0.0d0 .and. cs < 0.0d0) then
-        dcs = cs02 - cs01
-        !           if (dcs.lt.0.0d0) r = rr*sign(1.d0,c0)
-        if (dcs < 0.0d0) r = rr
-      elseif (cs02 < 0.0d0 .and. cs > 0.0d0) then
-        dcs = cs02 - cs01
-        !           if (dcs.gt.0.0d0) r = rr*sign(1.d0,c0)
-        if (dcs > 0.0d0) r = rr
-      endif
-    endif
-
-    !       Save current stiffness values
-
-    if (time == dt) then
-      cs01 = cs
-    else
-      cs01 = cs02
-    endif
-    cs02 = cs
-
-    !       Constant arc length method
-
-    if (kflag <= 3 .or. kflag == 6) then
-
-      !         Calculate reducing factor
-
-      alfa0 = ds0/ds
-
-      !         Change direction if passing limit points
-
-      alfa0 = alfa0*r
-
-      !         Actual load level
-
-      rlnew = rlnew + alfa0 - dt
-
-      !         Save displacement vector for this load step
-      !         for modified and original Newton/Raphson
-
-      do i = 1,neq
-      du(i) = du(i)*alfa0
-      u1(i) = du(i)
-      end do
-
-      if(prnt) then
-        write (iow,2001) time,ds,alfa0
-        write (iow,2002) rlnew*prop
-        write (iow,2005) cs,cs01,cs02
-        if(ior < 0 .and. pfr) then
-          write (*,2001) time,ds,alfa0
-          write (*,2002) rlnew*prop
-          write (*,2005) cs,cs01,cs02
+     if (time > 2.d0*dt) then
+        if (cs02 > 0.0d0 .and. cs < 0.0d0) then
+           dcs = cs02 - cs01
+           !           if (dcs.lt.0.0d0) r = rr*sign(1.d0,c0)
+           if (dcs < 0.0d0) r = rr
+        elseif (cs02 < 0.0d0 .and. cs > 0.0d0) then
+           dcs = cs02 - cs01
+           !           if (dcs.gt.0.0d0) r = rr*sign(1.d0,c0)
+           if (dcs > 0.0d0) r = rr
         endif
-      endif
-    endif
+     endif
 
-    !       Displacement control (beginning of time step)
-    !       calculate displacements for load level 1.0
+     !       Save current stiffness values
 
-    if (kflag == 4 .or. kflag == 5) then
+     if (time == dt) then
+        cs01 = cs
+     else
+        cs01 = cs02
+     endif
+     cs02 = cs
 
-      do j = 1,ndf
-      do i = 1,numnp
-      jj = id(j,i)
-      if (jj > 0) u1(jj) = f(j,i)*prop
-      end do
-      end do
-      call dasol(al,au,ad,u1,jp,neqs,neq,energy)
+     !       Constant arc length method
 
-      !         Load factor for displacement control
+     if (kflag <= 3 .or. kflag == 6) then
 
-      alfa = (alfa0 - du(ndis))/u1(ndis)
+        !         Calculate reducing factor
 
-      !         Update displacements
+        alfa0 = ds0/ds
 
-      do i = 1,neq
-      du(i) = du(i) + alfa*u1(i)
-      end do
+        !         Change direction if passing limit points
 
-      !         Update load level
+        alfa0 = alfa0*r
 
-      rlnew = rlnew + alfa
-      if(prnt) then
-        write (iow,2006) alfa*prop,rlnew*prop
-        write (iow,2005) cs,cs01,cs02
-        if(ior < 0) then
-          if(pfr) then
-            write (*,2006) alfa*prop,rlnew*prop
-            write (*,2005) cs,cs01,cs02
-          else
-            write (*,2002) rlnew*prop
-          endif
+        !         Actual load level
+
+        rlnew = rlnew + alfa0 - dt
+
+        !         Save displacement vector for this load step
+        !         for modified and original Newton/Raphson
+
+        do i = 1,neq
+           du(i) = du(i)*alfa0
+           u1(i) = du(i)
+        end do
+
+        if(prnt) then
+           write (iow,2001) time,ds,alfa0
+           write (iow,2002) rlnew*prop
+           write (iow,2005) cs,cs01,cs02
+           if(ior < 0 .and. pfr) then
+              write (*,2001) time,ds,alfa0
+              write (*,2002) rlnew*prop
+              write (*,2005) cs,cs01,cs02
+           endif
         endif
-      else
-        write (iow,2002) rlnew*prop
-      endif
-    endif
+     endif
 
-    !     Iteration starts
+     !       Displacement control (beginning of time step)
+     !       calculate displacements for load level 1.0
+
+     if (kflag == 4 .or. kflag == 5) then
+
+        do j = 1,ndf
+           do i = 1,numnp
+              jj = id(j,i)
+              if (jj > 0) u1(jj) = f(j,i)*prop
+           end do
+        end do
+        call dasol(al,au,ad,u1,jp,neqs,neq,energy)
+
+        !         Load factor for displacement control
+
+        alfa = (alfa0 - du(ndis))/u1(ndis)
+
+        !         Update displacements
+
+        do i = 1,neq
+           du(i) = du(i) + alfa*u1(i)
+        end do
+
+        !         Update load level
+
+        rlnew = rlnew + alfa
+        if(prnt) then
+           write (iow,2006) alfa*prop,rlnew*prop
+           write (iow,2005) cs,cs01,cs02
+           if(ior < 0) then
+              if(pfr) then
+                 write (*,2006) alfa*prop,rlnew*prop
+                 write (*,2005) cs,cs01,cs02
+              else
+                 write (*,2002) rlnew*prop
+              endif
+           endif
+        else
+           write (iow,2002) rlnew*prop
+        endif
+     endif
+
+     !     Iteration starts
 
   else
-    ite = ite + 1
+     ite = ite + 1
 
-    !       Rescale arclength for changing time steps
+     !       Rescale arclength for changing time steps
 
-    if(dt /= dtold .and. dtold /= 0.0d0) then
-      ds0   = ds0*abs(dt/dtold)
-      dtold = dt
-    end if
+     if(dt /= dtold .and. dtold /= 0.0d0) then
+        ds0   = ds0*abs(dt/dtold)
+        dtold = dt
+     end if
 
-    if(kflag > 1 .and. kflag /= 4) then
+     if(kflag > 1 .and. kflag /= 4) then
 
-      !         Calculate Newton displacement for load level 1.0
+        !         Calculate Newton displacement for load level 1.0
 
-      do j = 1,ndf
-      do i = 1,numnp
-      jj = id(j,i)
-      if (jj > 0) u2(jj) = f(j,i)
-      end do
-      end do
-      call dasol(al,au,ad,u2,jp,neqs,neq,energy)
-    endif
-
-    !       Update 1. Modified and original Newton Raphson
-    !       Calculate reducing factor by iteration on normal plane
-    !         (unscaled displ. vector)
-
-    if (kflag == 0) then
-      alfa = dot(du,u1,neq)
-      alfa = - alfa*alfa0/(ds0*ds0)
-
-      !       Iteration on updated normal plane
-
-    elseif (kflag == 1) then
-      if (ite == 1) then
-        do i = 1,neq
-        u2(i) = u1(i)
+        do j = 1,ndf
+           do i = 1,numnp
+              jj = id(j,i)
+              if (jj > 0) u2(jj) = f(j,i)
+           end do
         end do
-      endif
-      alfa  = dot(du,u2,neq)
-      alfa1 = dot(u1,u2,neq)
-      alfa  = alfa/alfa1
+        call dasol(al,au,ad,u2,jp,neqs,neq,energy)
+     endif
 
-      !       Single displacement control
+     !       Update 1. Modified and original Newton Raphson
+     !       Calculate reducing factor by iteration on normal plane
+     !         (unscaled displ. vector)
 
-    elseif (kflag == 4) then
-      alfa = - du(ndis)/u1(ndis)
+     if (kflag == 0) then
+        alfa = dot(du,u1,neq)
+        alfa = - alfa*alfa0/(ds0*ds0)
 
-      !       Displacement control
+        !       Iteration on updated normal plane
 
-    elseif (kflag == 5) then
-      alfa = - du(ndis)/u2(ndis)
-
-      !       Arc length (unscaled displacement vector)
-
-    else
-      alfa  = dot(du,u1,neq)
-      alfa1 = dot(u1,u2,neq)
-      if(abs(alfa1) > tol*abs(alfa)) then
-        alfa = - alfa/alfa1    ! previously, only possibility
-      else
-        alfa = - alfa/(alfa1 + sign(tol,alfa1))
-      endif
-    endif
-
-    !       Numerical damping if sign of alfa is varying
-
-    damp = 1.d0
-    if (ndamp == 0) then
-      if (ite == 1) alfold = alfa
-      if(abs(alfold) > tol) then
-        rat = alfa/alfold
-      else
-        rat = alfa/(alfold + tol)
-      endif
-      if (-1.0d0 < rat .and. rat < 0.0d0) damp = 0.5d0
-      alfa   = alfa*damp
-      alfold = alfa
-    endif
-
-    !       Update new load level
-
-    rlnew = rlnew + alfa
-    if(prnt) then
-      write (iow,2003) ite,alfa*prop,rlnew*prop
-      write (iow,2004) damp
-      if(ior < 0) then
-        if(pfr) then
-          write (*,2003) ite,alfa*prop,rlnew*prop
-          write (*,2004) damp
-        else
-          write (*,2002) rlnew*prop
+     elseif (kflag == 1) then
+        if (ite == 1) then
+           do i = 1,neq
+              u2(i) = u1(i)
+           end do
         endif
-      endif
-    else
-      write (iow,2002) rlnew*prop
-    endif
+        alfa  = dot(du,u2,neq)
+        alfa1 = dot(u1,u2,neq)
+        alfa  = alfa/alfa1
 
-    !       Update displacements in iteration step
+        !       Single displacement control
 
-    if(kflag <= 1 .or. kflag == 4) then
-      do i = 1,neq
-      du(i) = du(i)*damp + u1(i)*alfa
-      end do
+     elseif (kflag == 4) then
+        alfa = - du(ndis)/u1(ndis)
 
-      !         Updated normal plane iteration
+        !       Displacement control
 
-      if (kflag == 1) then
+     elseif (kflag == 5) then
+        alfa = - du(ndis)/u2(ndis)
+
+        !       Arc length (unscaled displacement vector)
+
+     else
+        alfa  = dot(du,u1,neq)
+        alfa1 = dot(u1,u2,neq)
+        if(abs(alfa1) > tol*abs(alfa)) then
+           alfa = - alfa/alfa1    ! previously, only possibility
+        else
+           alfa = - alfa/(alfa1 + sign(tol,alfa1))
+        endif
+     endif
+
+     !       Numerical damping if sign of alfa is varying
+
+     damp = 1.d0
+     if (ndamp == 0) then
+        if (ite == 1) alfold = alfa
+        if(abs(alfold) > tol) then
+           rat = alfa/alfold
+        else
+           rat = alfa/(alfold + tol)
+        endif
+        if (-1.0d0 < rat .and. rat < 0.0d0) damp = 0.5d0
+        alfa   = alfa*damp
+        alfold = alfa
+     endif
+
+     !       Update new load level
+
+     rlnew = rlnew + alfa
+     if(prnt) then
+        write (iow,2003) ite,alfa*prop,rlnew*prop
+        write (iow,2004) damp
+        if(ior < 0) then
+           if(pfr) then
+              write (*,2003) ite,alfa*prop,rlnew*prop
+              write (*,2004) damp
+           else
+              write (*,2002) rlnew*prop
+           endif
+        endif
+     else
+        write (iow,2002) rlnew*prop
+     endif
+
+     !       Update displacements in iteration step
+
+     if(kflag <= 1 .or. kflag == 4) then
         do i = 1,neq
-        u2(i) = u1(i) + du(i)
+           du(i) = du(i)*damp + u1(i)*alfa
         end do
-      endif
 
-      !       Update displacements in iteration step
+        !         Updated normal plane iteration
 
-    else
+        if (kflag == 1) then
+           do i = 1,neq
+              u2(i) = u1(i) + du(i)
+           end do
+        endif
 
-      do i = 1,neq
-      du(i) = u2(i)*alfa + du(i)*damp
-      end do
+        !       Update displacements in iteration step
 
-      !         Only for updated normal plane iteration
+     else
 
-      if (kflag == 3) then
         do i = 1,neq
-        u1(i) = du(i) + u1(i)
+           du(i) = u2(i)*alfa + du(i)*damp
         end do
 
-        !         New tangent plane
+        !         Only for updated normal plane iteration
 
-      elseif (kflag == 6) then
-        do i = 1,neq
-        u1(i) =  du(i)
-        end do
-      endif
-    endif
+        if (kflag == 3) then
+           do i = 1,neq
+              u1(i) = du(i) + u1(i)
+           end do
 
-    !       Calculate determinant
+           !         New tangent plane
 
-    det  = 0.0d0
-    nneg = 0
-    do i = 1,neq
-    if(abs(ad(i)) > 1.d-30) then
-      if(ad(i) < 0.0d0) then
-        nneg = nneg + 1
-      endif
-      det = det + log(abs(ad(i)))
-    endif
-    end do
-    if(time <= dt) det0 = det
-    det = max(-30.d0,min(30.d0,det0 - det))
-    det = exp(det)
-    if(prnt) then
-      write(iow,2007) det,nneg
-      if(ior < 0 .and. pfr) then
-        write(*,2007) det,nneg
-      endif
-    endif
+        elseif (kflag == 6) then
+           do i = 1,neq
+              u1(i) =  du(i)
+           end do
+        endif
+     endif
+
+     !       Calculate determinant
+
+     det  = 0.0d0
+     nneg = 0
+     do i = 1,neq
+        if(abs(ad(i)) > 1.d-30) then
+           if(ad(i) < 0.0d0) then
+              nneg = nneg + 1
+           endif
+           det = det + log(abs(ad(i)))
+        endif
+     end do
+     if(time <= dt) det0 = det
+     det = max(-30.d0,min(30.d0,det0 - det))
+     det = exp(det)
+     if(prnt) then
+        write(iow,2007) det,nneg
+        if(ior < 0 .and. pfr) then
+           write(*,2007) det,nneg
+        endif
+     endif
 
   endif
 
   !     Formats
 
-  2001 format(/3x,'A r c   L e n g t h   M e t h o d'//3x,'Time =',g9.2, &
-    ' Arc Length = ',g12.5,' Red. factor = ',g12.5)
+2001 format(/3x,'A r c   L e n g t h   M e t h o d'//3x,'Time =',g9.2, &
+       ' Arc Length = ',g12.5,' Red. factor = ',g12.5)
 
-  2002 format( 3x,'Load level = ',g12.5)
+2002 format( 3x,'Load level = ',g12.5)
 
-  2003 format(/3x,'Iteration:',i5,' Reduct.factor = ',g12.5, &
-    ' Load level = ',g12.5)
+2003 format(/3x,'Iteration:',i5,' Reduct.factor = ',g12.5, &
+       ' Load level = ',g12.5)
 
-  2004 format( 3x,'Damp. fact = ',g12.5)
+2004 format( 3x,'Damp. fact = ',g12.5)
 
-  2005 format( 3x,'Cs-param.  = ',g12.5,/,3x,'Cs01       = ',g12.5,/, &
-    &         3x,'Cs02       = ',g12.5)
+2005 format( 3x,'Cs-param.  = ',g12.5,/,3x,'Cs01       = ',g12.5,/, &
+       &         3x,'Cs02       = ',g12.5)
 
-  2006 format( 3x,'Displacement Control Parameters',/, &
-    &         3x,'Reduction factor  = ',g12.5,' Load level = ',g12.5)
+2006 format( 3x,'Displacement Control Parameters',/, &
+       &         3x,'Reduction factor  = ',g12.5,' Load level = ',g12.5)
 
-  2007 format( 3x,'Determinant Ratio = ',g12.5,' Neg. diagonals =',i3)
+2007 format( 3x,'Determinant Ratio = ',g12.5,' Neg. diagonals =',i3)
 
 end subroutine arclen

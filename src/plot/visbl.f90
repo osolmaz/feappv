@@ -26,14 +26,14 @@ logical function visbl(xl)
   save
 
   do k = 1,3
-  v1(k) = xl(k,3) - xl(k,1)
-  v2(k) = xl(k,4) - xl(k,2)
+     v1(k) = xl(k,3) - xl(k,1)
+     v2(k) = xl(k,4) - xl(k,2)
   end do
 
   call vecp(v1,v2,v3)
 
   do k = 1,3
-  v1(k) = e(k) - (xl(k,1)+xl(k,2)+xl(k,3)+xl(k,4))*0.25d0
+     v1(k) = e(k) - (xl(k,1)+xl(k,2)+xl(k,3)+xl(k,4))*0.25d0
   end do
 
   visbl = (dot(v3,v1,3)) > 0.0d0

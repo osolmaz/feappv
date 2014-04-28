@@ -56,53 +56,53 @@ subroutine dfind(ad,jp,d,ri,r0,nupd,g0,g,s,neq,v,w,nbfgs)
 
   if (up) then
 
-    stcond=sqrt(delgam/dlkdl)
+     stcond=sqrt(delgam/dlkdl)
 
-    if(ior < 0) write(*,2000) stcond
+     if(ior < 0) write(*,2000) stcond
 
-    !       Compute updating vectors v, w and put residual into d
+     !       Compute updating vectors v, w and put residual into d
 
-    fact = s/delgam
-    coef = 1.d0 + s*stcond
-    do i = 1,neq
-    v(i)  = ri(i) - coef*r0(i)
-    w(i)  = d(i)*fact
-    d(i)  = ri(i)
-    r0(i) = ri(i)
-    end do
+     fact = s/delgam
+     coef = 1.d0 + s*stcond
+     do i = 1,neq
+        v(i)  = ri(i) - coef*r0(i)
+        w(i)  = d(i)*fact
+        d(i)  = ri(i)
+        r0(i) = ri(i)
+     end do
 
-    !       Check estimate on condition number
+     !       Check estimate on condition number
 
-    up = up .and. stcond < condmx
-    if ( up ) then
+     up = up .and. stcond < condmx
+     if ( up ) then
 
-      !         Save updating factors
+        !         Save updating factors
 
-      call store(v,w,nupd+1,1)
+        call store(v,w,nupd+1,1)
 
-      !         Compute search direction: d
+        !         Compute search direction: d
 
-      coef=fact*g
-      do i=1,neq
-      d(i) = d(i) + coef*v(i)
-      end do
-    endif
+        coef=fact*g
+        do i=1,neq
+           d(i) = d(i) + coef*v(i)
+        end do
+     endif
   else
-    do i = 1,neq
-    d(i)  = ri(i)
-    r0(i) = ri(i)
-    end do
+     do i = 1,neq
+        d(i)  = ri(i)
+        r0(i) = ri(i)
+     end do
   endif
 
   !     Right half of update
 
   do i=1,nupd
-  ii = nupd - i + 1
-  call store(v,w,ii,2)
-  coef = dot(w,d,neq)
-  do j = 1,neq
-  d(j)=d(j)+coef*v(j)
-  end do
+     ii = nupd - i + 1
+     call store(v,w,ii,2)
+     coef = dot(w,d,neq)
+     do j = 1,neq
+        d(j)=d(j)+coef*v(j)
+     end do
   end do
 
   !     Forward + backward substitution
@@ -114,17 +114,17 @@ subroutine dfind(ad,jp,d,ri,r0,nupd,g0,g,s,neq,v,w,nbfgs)
   !     Left half of updating
 
   do i = 1,nupd
-  if(i > 1) call store(v,w,i,2)
-  coef = dot(v,d,neq)
-  do j = 1,neq
-  d(j) = d(j) + coef*w(j)
-  end do
+     if(i > 1) call store(v,w,i,2)
+     coef = dot(v,d,neq)
+     do j = 1,neq
+        d(j) = d(j) + coef*w(j)
+     end do
   end do
 
   nupd = mod(nupd,nbfgs)
 
   !     Format
 
-  2000 format(' ---> Stiffness condition no. ',e12.5)
+2000 format(' ---> Stiffness condition no. ',e12.5)
 
 end subroutine dfind

@@ -1,6 +1,6 @@
 ! Id:$
 subroutine pltelc(x,ie,ix,ip,dt,st,vv, &
-    nie,ndm,ndf,nen1,ic,mc,lc,mmc,label)
+     nie,ndm,ndf,nen1,ic,mc,lc,mmc,label)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -68,109 +68,109 @@ subroutine pltelc(x,ie,ix,ip,dt,st,vv, &
   cont = .true. 
   labl = label
   call pzerol ( tvc , .true. , 81 )
-  1 if(mc > 0) then
-    nc    = max(1,min(mc,12))
-    nlabi = 0
-    dx1   = .024d0/scale
-    vflg  = ipb == 0
-    nerr=0
-    11 if(ior < 0) write(*,2001) nc
-    nnc = min(8,nc)
-    if(prompt .and. .not. defalt) then
-      if(ior < 0) write(*,2009)
-      errck = pinput(vc,nnc)
-      nerr  = nerr+1
-      if(nerr > 5) then
-        if(ior < 0) return
-        call plstop
-      endif
-      if(errck) go to 11
-    else
-      vc(1) = 0.0d0
-      vc(2) = 0.0d0
-    endif
-    if(nc > 1 .and. vc(1) == 0.0d0 .and. vc(2) == 0.0d0) then
-      vc(1)   = rmn +    (rmx - rmn)/(nc+1)
-      vc(nc)  = rmn + nc*(rmx - rmn)/(nc+1)
-      do i = 2,nc-1
-      vc(i) = vc(1) + (vc(nc)-vc(1))*(i-1)/(nc-1)
-      end do
-    else
-      if(nc > 8) then
-        nnc = min(12,nc) - 8
+1 if(mc > 0) then
+     nc    = max(1,min(mc,12))
+     nlabi = 0
+     dx1   = .024d0/scale
+     vflg  = ipb == 0
+     nerr=0
+11   if(ior < 0) write(*,2001) nc
+     nnc = min(8,nc)
+     if(prompt .and. .not. defalt) then
         if(ior < 0) write(*,2009)
-        errck = pinput(vc(9),nnc)
+        errck = pinput(vc,nnc)
+        nerr  = nerr+1
+        if(nerr > 5) then
+           if(ior < 0) return
+           call plstop
+        endif
         if(errck) go to 11
-      endif
-    endif
-    if(prompt) then
-      if(pfr) write(iow,2000) (vc(i),i=1,nc)
-      if(ior < 0 .and. .not. defalt ) then
-        write(*,2000) (vc(i),i=1,nc)
-      endif
-    endif
-
-    !       Input label and color for first contour
-
-    13 if(prompt .and. .not. defalt) then
-      if (ior < 0) write(*,2002)
-      errck = pinput(vlu(1),1)
-      if(errck) go to 13
-      nlabi = max(1,min(int(vlu(1)),12)) - 1
-      if(nlabi+nc > 12) then
-        if(ior < 0) write(*,2007)
-        nlabi = 12 - nc
-      endif
-    else
-      nlabi = 0
-    endif
-
-    !     Inputs for filled plots
-
-  else
-    cont  = .false. 
-    nc    = 6
-    if(ipb >= 0) then
-      15 if(rangfl) then
-        vc(1) = rangmn
-        vc(2) = rangmx
-      elseif(prompt .and. .not. defalt) then
-        if(ior < 0) write(*,2008) rmn,rmx
-        errck = pinput(vc,2)
-        if(errck) go to 15
-      else
+     else
         vc(1) = 0.0d0
         vc(2) = 0.0d0
-      endif
-      if(vc(1) == vc(2)) then
-        vc(1) = rmn +      (rmx - rmn)/7.0d0
-        vc(6) = rmn + 6.d0*(rmx - rmn)/7.0d0
-      else
-        vc(6) = vc(2)
-      endif
-      do i = 2,5
-      vc(i) = vc(1) + (vc(6)-vc(1))*(i-1)/5.0d0
-      end do
-      if(prompt) then
+     endif
+     if(nc > 1 .and. vc(1) == 0.0d0 .and. vc(2) == 0.0d0) then
+        vc(1)   = rmn +    (rmx - rmn)/(nc+1)
+        vc(nc)  = rmn + nc*(rmx - rmn)/(nc+1)
+        do i = 2,nc-1
+           vc(i) = vc(1) + (vc(nc)-vc(1))*(i-1)/(nc-1)
+        end do
+     else
+        if(nc > 8) then
+           nnc = min(12,nc) - 8
+           if(ior < 0) write(*,2009)
+           errck = pinput(vc(9),nnc)
+           if(errck) go to 11
+        endif
+     endif
+     if(prompt) then
         if(pfr) write(iow,2000) (vc(i),i=1,nc)
         if(ior < 0 .and. .not. defalt ) then
-          write(*,2000) (vc(i),i=1,nc)
+           write(*,2000) (vc(i),i=1,nc)
         endif
-      endif
-    endif
+     endif
+
+     !       Input label and color for first contour
+
+13   if(prompt .and. .not. defalt) then
+        if (ior < 0) write(*,2002)
+        errck = pinput(vlu(1),1)
+        if(errck) go to 13
+        nlabi = max(1,min(int(vlu(1)),12)) - 1
+        if(nlabi+nc > 12) then
+           if(ior < 0) write(*,2007)
+           nlabi = 12 - nc
+        endif
+     else
+        nlabi = 0
+     endif
+
+     !     Inputs for filled plots
+
+  else
+     cont  = .false. 
+     nc    = 6
+     if(ipb >= 0) then
+15      if(rangfl) then
+           vc(1) = rangmn
+           vc(2) = rangmx
+        elseif(prompt .and. .not. defalt) then
+           if(ior < 0) write(*,2008) rmn,rmx
+           errck = pinput(vc,2)
+           if(errck) go to 15
+        else
+           vc(1) = 0.0d0
+           vc(2) = 0.0d0
+        endif
+        if(vc(1) == vc(2)) then
+           vc(1) = rmn +      (rmx - rmn)/7.0d0
+           vc(6) = rmn + 6.d0*(rmx - rmn)/7.0d0
+        else
+           vc(6) = vc(2)
+        endif
+        do i = 2,5
+           vc(i) = vc(1) + (vc(6)-vc(1))*(i-1)/5.0d0
+        end do
+        if(prompt) then
+           if(pfr) write(iow,2000) (vc(i),i=1,nc)
+           if(ior < 0 .and. .not. defalt ) then
+              write(*,2000) (vc(i),i=1,nc)
+           endif
+        endif
+     endif
   endif
 
   !     If interactive, offer chance to change inputs
 
   if(ior < 0 .and. prompt .and. .not. defalt) then
-    write(*,2006)
-    20 read (*,1000,err=21,end=22) y
-    goto  23
-    21 call  errclr ('PLTCON')
-    goto  20
-    22 call  endclr ('PLTCON',y)
-    23 if(y == 'c' .or. y == 'C') return
-    if(y /= 'y' .and. y /= 'Y') go to 1
+     write(*,2006)
+20   read (*,1000,err=21,end=22) y
+     goto  23
+21   call  errclr ('PLTCON')
+     goto  20
+22   call  endclr ('PLTCON',y)
+23   if(y == 'c' .or. y == 'C') return
+     if(y /= 'y' .and. y /= 'Y') go to 1
   endif
 
   !     Compute projected max/min values
@@ -178,42 +178,42 @@ subroutine pltelc(x,ie,ix,ip,dt,st,vv, &
   vmn = st(1,lc)
   vmx = st(1,lc)
   do i = 1,numnp
-  vmn = min(vmn,st(i,lc))
-  vmx = max(vmx,st(i,lc))
-  st(i,lc) = 0.0d0
-  dt(i)    = 0.0d0
+     vmn = min(vmn,st(i,lc))
+     vmx = max(vmx,st(i,lc))
+     st(i,lc) = 0.0d0
+     dt(i)    = 0.0d0
   end do
 
   if(vmn == vmx) then
-    write(iow,2005)
-    if(ior < 0) write(*,2005)
-    return
+     write(iow,2005)
+     if(ior < 0) write(*,2005)
+     return
   endif
 
   !     Compute element nodal values
 
   do n = 1,numel
 
-  !       Compute value in element
+     !       Compute value in element
 
-  call formfe(np(40),np(40),np(40),np(40), &
-    .false. , .false. , .false. ,8,n,n,1)
+     call formfe(np(40),np(40),np(40),np(40), &
+          .false. , .false. , .false. ,8,n,n,1)
 
-  !       Do projection
+     !       Do projection
 
-  do i = 1,nen
-  if(ix(i,n) > 0) then
-    if(dt(ix(i,n)) /= 0.0d0) then
-      vv(i,n) = st(ix(i,n),lc)/dt(ix(i,n))
-    endif
-  endif
-  end do
-  do i = 1,nen
-  if(ix(i,n) > 0) then
-    st(ix(i,n),lc) = 0.0d0
-    dt(ix(i,n))    = 0.0d0
-  endif
-  end do
+     do i = 1,nen
+        if(ix(i,n) > 0) then
+           if(dt(ix(i,n)) /= 0.0d0) then
+              vv(i,n) = st(ix(i,n),lc)/dt(ix(i,n))
+           endif
+        endif
+     end do
+     do i = 1,nen
+        if(ix(i,n) > 0) then
+           st(ix(i,n),lc) = 0.0d0
+           dt(ix(i,n))    = 0.0d0
+        endif
+     end do
   end do
 
   !     Open plot and find max/min of plot variable
@@ -224,10 +224,10 @@ subroutine pltelc(x,ie,ix,ip,dt,st,vv, &
   xmn = x(1,1)
   ymn = x(2,1)
   do i = 1,numnp
-  xmx = max(x(1,i),xmx)
-  ymx = max(x(2,i),ymx)
-  xmn = min(x(1,i),xmn)
-  ymn = min(x(2,i),ymn)
+     xmx = max(x(1,i),xmx)
+     ymx = max(x(2,i),ymx)
+     xmn = min(x(1,i),xmn)
+     ymn = min(x(2,i),ymn)
   end do
   if(xmx /= xmn) xmx = 8.2d0/(xmx-xmn)
   if(ymx /= ymn) ymx = 8.2d0/(ymx-ymn)
@@ -241,83 +241,83 @@ subroutine pltelc(x,ie,ix,ip,dt,st,vv, &
   psmn  = vmx + 1.
   do ne = 1,nfac
 
-  !       Set element based on symmetry condition
+     !       Set element based on symmetry condition
 
-  n  = ip(ne)
+     n  = ip(ne)
 
-  !       If region is active: Plot material number maplt
-  !                            - all if maplt = 0; ma > 0 active
+     !       If region is active: Plot material number maplt
+     !                            - all if maplt = 0; ma > 0 active
 
-  ma = ix(nen1,n)
-  if((ix(nen1-1,n) >= 0) .and. &
-    (ma > 0 .and. maplt == 0) .or. ma == maplt) then
-  ma = ie(nie-1,ix(nen1,n))
+     ma = ix(nen1,n)
+     if((ix(nen1-1,n) >= 0) .and. &
+          (ma > 0 .and. maplt == 0) .or. ma == maplt) then
+        ma = ie(nie-1,ix(nen1,n))
 
-  !         Get plot order for each element
+        !         Get plot order for each element
 
-  call pltord(ix(1,n),ma, iu,iplt)
-  iutot = iu
+        call pltord(ix(1,n),ma, iu,iplt)
+        iutot = iu
 
-  !         Set values of vlu(1) and vlu(2)
+        !         Set values of vlu(1) and vlu(2)
 
-  vlu(1) = vmx
-  vlu(2) = vmn
-  ns     = 0
-  do i = 1,iu
-  ii = ix(iplt(i),n)
-  if(ii > 0) then
-    ns = ns + 1
-    xl(1,ns) = x(1,ii)
-    xl(2,ns) = x(2,ii)
-    if(ndm >= 3) xl(3,ns) = x(3,ii)
-    v(ns)  = vv(iplt(i),n)
-    vlu(1) = min(vlu(1),v(ns))
-    vlu(2) = max(vlu(2),v(ns))
+        vlu(1) = vmx
+        vlu(2) = vmn
+        ns     = 0
+        do i = 1,iu
+           ii = ix(iplt(i),n)
+           if(ii > 0) then
+              ns = ns + 1
+              xl(1,ns) = x(1,ii)
+              xl(2,ns) = x(2,ii)
+              if(ndm >= 3) xl(3,ns) = x(3,ii)
+              v(ns)  = vv(iplt(i),n)
+              vlu(1) = min(vlu(1),v(ns))
+              vlu(2) = max(vlu(2),v(ns))
 
-    !             Plot min/max for graphics
+              !             Plot min/max for graphics
 
-    if(psmn > v(ns)) then
-      psmn = v(ns)
-      xpsn(1) = xl(1,ns)
-      xpsn(2) = xl(2,ns)
-      xpsn(3) = xl(3,ns)
-    endif
-    if(psmx < v(ns)) then
-      psmx = v(ns)
-      xpsx(1) = xl(1,ns)
-      xpsx(2) = xl(2,ns)
-      xpsx(3) = xl(3,ns)
-    endif
-  endif
+              if(psmn > v(ns)) then
+                 psmn = v(ns)
+                 xpsn(1) = xl(1,ns)
+                 xpsn(2) = xl(2,ns)
+                 xpsn(3) = xl(3,ns)
+              endif
+              if(psmx < v(ns)) then
+                 psmx = v(ns)
+                 xpsx(1) = xl(1,ns)
+                 xpsx(2) = xl(2,ns)
+                 xpsx(3) = xl(3,ns)
+              endif
+           endif
+        end do
+        if(ns > 3) then
+           if(nen >= 9 .and. iutot == 9) then
+              if(ix(9,n) > 0) v(29) = vv(9,n)
+           elseif(nen >= 7 .and. iutot == 7) then
+              if(ix(7,n) > 0) v(29) = vv(7,n)
+           endif
+           call pltris(ic,nc,n,ns,iutot,ndm,ndf,nen,nen1,nlabi, &
+                icolor,ix,x,xl,v,vc,dx1,vlu(1),vlu(2),tvc, &
+                cont,vflg)
+        else
+           call pltlfl(ns,xl,v,vc,nc)
+        endif
+     endif
+
   end do
-  if(ns > 3) then
-    if(nen >= 9 .and. iutot == 9) then
-      if(ix(9,n) > 0) v(29) = vv(9,n)
-    elseif(nen >= 7 .and. iutot == 7) then
-      if(ix(7,n) > 0) v(29) = vv(7,n)
-    endif
-    call pltris(ic,nc,n,ns,iutot,ndm,ndf,nen,nen1,nlabi, &
-      icolor,ix,x,xl,v,vc,dx1,vlu(1),vlu(2),tvc, &
-      cont,vflg)
-  else
-    call pltlfl(ns,xl,v,vc,nc)
-  endif
-endif
 
-end do
+  !     Put on labels
 
-!     Put on labels
+  if(labl) then
+     if(cont) then
+        call pltctx(vc,lc,nlabi,nc,mmc)
+     else
+        call pltftx(vc,-mc,mmc)
+     endif
+     labl = .false. 
+  end if
 
-if(labl) then
-  if(cont) then
-    call pltctx(vc,lc,nlabi,nc,mmc)
-  else
-    call pltftx(vc,-mc,mmc)
-  endif
-  labl = .false. 
-end if
-
-!     Formats
+  !     Formats
 
 1000 format(a)
 2000 format('   ------ Contour Values for Plot ------'/(3x,1p,5e15.6))
@@ -328,4 +328,4 @@ end if
 2007 format(' ** WARNING ** Initial label reset to fit screen')
 2008 format(' Input Min/Max (Default:',1p,e9.2,'/',1p,e9.2,'): >',$)
 2009 format(3x,'>',$)
-    end subroutine pltelc
+end subroutine pltelc

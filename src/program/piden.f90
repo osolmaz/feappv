@@ -26,7 +26,7 @@ subroutine piden(d,ns,ne)
   save
 
   do n = ns,ne
-  d(n) = 1.0d0
+     d(n) = 1.0d0
   end do
 
 end subroutine piden

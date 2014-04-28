@@ -42,15 +42,15 @@ subroutine poutie(itie,ix,nty,nen,nen1,numnp,numel,prt)
   !     Compute and Output list of nodes removed
 
   do j1 = 1,numnp
-  itie(j1) = 0
+     itie(j1) = 0
   end do
 
   do j1 = 1,numel
-  do i1 = 1,nen
-  if(ix(i1,j1) > 0) then
-    itie(ix(i1,j1)) = 1
-  endif
-  end do
+     do i1 = 1,nen
+        if(ix(i1,j1) > 0) then
+           itie(ix(i1,j1)) = 1
+        endif
+     end do
   end do
 
   if(ior < 0 .and. prt) write(  *,2001)
@@ -60,43 +60,43 @@ subroutine poutie(itie,ix,nty,nen,nen1,numnp,numel,prt)
   fflg = .true. 
   do j1 = 1,numnp
 
-  !       Delete equations for all unused nodes from a tie
+     !       Delete equations for all unused nodes from a tie
 
-  if(itie(j1) == 0) then
-    nty(j1) = -1
-    i1         = i1 + 1
-    nn         = nn + 1
-    il(i1)     = j1
-  endif
+     if(itie(j1) == 0) then
+        nty(j1) = -1
+        i1         = i1 + 1
+        nn         = nn + 1
+        il(i1)     = j1
+     endif
 
-  !       Output list of eliminated nodes
+     !       Output list of eliminated nodes
 
-  if(i1 >= 10 .or. (i1 > 0 .and. j1 == numnp)) then
-    if(ior < 0 .and. prt) write(  *,2002) (il(ii),ii=1,i1)
-    if(prt)write(iow,2002) (il(ii),ii=1,i1)
-    i1 = 0
-    fflg = .false. 
-  endif
+     if(i1 >= 10 .or. (i1 > 0 .and. j1 == numnp)) then
+        if(ior < 0 .and. prt) write(  *,2002) (il(ii),ii=1,i1)
+        if(prt)write(iow,2002) (il(ii),ii=1,i1)
+        i1 = 0
+        fflg = .false. 
+     endif
 
   end do
 
   !     Output results of tie command
 
   if(fflg) then
-    if(ior < 0 .and. prt) write(  *,2003)
-    write(iow,2003)
+     if(ior < 0 .and. prt) write(  *,2003)
+     write(iow,2003)
   else
-    if(ior < 0 .and. prt) write(  *,2004) nn
-    write(iow,2004) nn
+     if(ior < 0 .and. prt) write(  *,2004) nn
+     write(iow,2004) nn
   endif
 
-  2001 format(//6x,' T i e  - - -  N o d a l   C o o r d i n a t e s'// &
-    &          6x,'    The following nodes have been deleted:'/)
+2001 format(//6x,' T i e  - - -  N o d a l   C o o r d i n a t e s'// &
+       &          6x,'    The following nodes have been deleted:'/)
 
-  2002 format(6x,10i7)
+2002 format(6x,10i7)
 
-  2003 format(6x,'No nodes merged by the tie command'/1x)
+2003 format(6x,'No nodes merged by the tie command'/1x)
 
-  2004 format(/6x,i5,' nodes merged by the tie command'/1x)
+2004 format(/6x,i5,' nodes merged by the tie command'/1x)
 
 end subroutine poutie

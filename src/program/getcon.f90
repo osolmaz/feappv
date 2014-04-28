@@ -26,7 +26,7 @@ subroutine getcon(epmac)
   !     Compute machine epsilon estimate
 
   epmac = 1.0d0
-  100 epmac = epmac*0.5d0
+100 epmac = epmac*0.5d0
   if(1.d0 /= 1.d0 + epmac) go to 100
   epmac = 2.0d0*epmac
 

@@ -14,4 +14,4 @@ subroutine pstart()
 
   idev = 1
 
-  end
+end subroutine pstart

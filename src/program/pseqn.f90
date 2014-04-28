@@ -24,7 +24,7 @@ subroutine pseqn(ip,numnp)
   save
 
   do n = 1,numnp
-  ip(n) = n
+     ip(n) = n
   end do
 
 end subroutine pseqn

@@ -35,4 +35,4 @@ subroutine plstrt()
   call clearscreen($GCLEARSCREEN)
   status = displaycursor($GCURSOROFF)
 
-  end
+end subroutine plstrt

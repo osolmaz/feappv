@@ -40,30 +40,30 @@ subroutine pltnod(x,ip,ndm,n1,n2,n3)
 
   dx1 = .002d0/scale
   if(kpers /= 0) then
-    shft1 = -12.d0*dx1
-    shft2 =   2.d0*dx1
-    shft3 = -12.d0*dx1
+     shft1 = -12.d0*dx1
+     shft2 =   2.d0*dx1
+     shft3 = -12.d0*dx1
   else
-    shft1 = -12.d0*dx1
-    shft2 =   2.d0*dx1
-    shft3 =   0.d0*dx1
+     shft1 = -12.d0*dx1
+     shft2 =   2.d0*dx1
+     shft3 =   0.d0*dx1
   endif
   x3 = 0.0d0
   do n = n2,n3
-  if(ip(n) > 0 .and. zoom(x(1,n),ndm)) then
-    x1 = x(1,n)
-    x2 = x(2,n)
-    if(ndm >= 3) x3 = x(3,n)
-    call plotl(x1-dx1 , x2+dx1 , x3, 3)
-    call plotl(x1-dx1 , x2-dx1 , x3, 2)
-    call plotl(x1+dx1 , x2-dx1 , x3, 2)
-    call plotl(x1+dx1 , x2+dx1 , x3, 2)
-    call plotl(x1-dx1 , x2+dx1 , x3, 2)
-    if(n1 /= 0) then
-      call plotl(x1+shft1, x2+shft2, x3+shft3, 3)
-      if(clip) call plabl(n)
-    endif
-  endif
+     if(ip(n) > 0 .and. zoom(x(1,n),ndm)) then
+        x1 = x(1,n)
+        x2 = x(2,n)
+        if(ndm >= 3) x3 = x(3,n)
+        call plotl(x1-dx1 , x2+dx1 , x3, 3)
+        call plotl(x1-dx1 , x2-dx1 , x3, 2)
+        call plotl(x1+dx1 , x2-dx1 , x3, 2)
+        call plotl(x1+dx1 , x2+dx1 , x3, 2)
+        call plotl(x1-dx1 , x2+dx1 , x3, 2)
+        if(n1 /= 0) then
+           call plotl(x1+shft1, x2+shft2, x3+shft3, 3)
+           if(clip) call plabl(n)
+        endif
+     endif
   end do
 
-  end
+end subroutine pltnod

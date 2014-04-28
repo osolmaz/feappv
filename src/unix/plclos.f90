@@ -35,4 +35,4 @@ subroutine plclos()
 
   if(screfl) call gdx11(5,xx,yy)
 
-  end
+end subroutine plclos

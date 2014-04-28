@@ -37,92 +37,92 @@ subroutine mergei ( dir, nip, ip, numa, ipc )
 
   inc = 1
   do ii = 1,numa
-  do j = 1,nip
-  ipc(j,ii) = 0
-  end do ! j
+     do j = 1,nip
+        ipc(j,ii) = 0
+     end do ! j
   end do
 
   !     Perform sort on list pairs in increments of step
 
   pass = 0
-  100 step = min(2*inc,max(1,numa))
+100 step = min(2*inc,max(1,numa))
   do ii = 1,numa,step
 
-  !       Set values for pointers - limit to entries in list
+     !       Set values for pointers - limit to entries in list
 
-  a    = ii
-  au   = min(a  - 1 + inc,numa)
-  b    = min(au + 1,      numa)
-  bu   = min(b  - 1 + inc,numa)
-  c = 1
+     a    = ii
+     au   = min(a  - 1 + inc,numa)
+     b    = min(au + 1,      numa)
+     bu   = min(b  - 1 + inc,numa)
+     c = 1
 
-  !       Perform merge of two lists
+     !       Perform merge of two lists
 
-  110 if(dir >= 0) then
+110  if(dir >= 0) then
 
-    !         Increasing sort
+        !         Increasing sort
 
-    if(ip(1,a) <= ip(1,b)) then
-      do j = 1,nip
-      ipc(j,c) = ip(j,a)
-      end do ! j
-      a     = a + 1
-    else
-      do j = 1,nip
-      ipc(j,c) = ip(j,b)
-      end do ! j
-      b     = b + 1
-    endif
+        if(ip(1,a) <= ip(1,b)) then
+           do j = 1,nip
+              ipc(j,c) = ip(j,a)
+           end do ! j
+           a     = a + 1
+        else
+           do j = 1,nip
+              ipc(j,c) = ip(j,b)
+           end do ! j
+           b     = b + 1
+        endif
 
-  else
+     else
 
-    !         Decreasing sort
+        !         Decreasing sort
 
-    if(ip(1,a) >= ip(1,b)) then
-      do j = 1,nip
-      ipc(j,c) = ip(j,a)
-      end do ! j
-      a     = a + 1
-    else
-      do j = 1,nip
-      ipc(j,c) = ip(j,b)
-      end do ! j
-      b     = b + 1
-    endif
-  endif
+        if(ip(1,a) >= ip(1,b)) then
+           do j = 1,nip
+              ipc(j,c) = ip(j,a)
+           end do ! j
+           a     = a + 1
+        else
+           do j = 1,nip
+              ipc(j,c) = ip(j,b)
+           end do ! j
+           b     = b + 1
+        endif
+     endif
 
-  !       Copy remaining list when first list is finished
+     !       Copy remaining list when first list is finished
 
-  if(a > au) then
-    do i = b, bu
-    c     = c + 1
-    do j = 1,nip
-    ipc(j,c) = ip(j,i)
-    end do ! j
-    end do
-  elseif(b > bu) then
-    do i = a, au
-    c     = c + 1
-    do j = 1,nip
-    ipc(j,c) = ip(j,i)
-    end do ! j
-    end do
+     if(a > au) then
+        do i = b, bu
+           c     = c + 1
+           do j = 1,nip
+              ipc(j,c) = ip(j,i)
+           end do ! j
+        end do
+     elseif(b > bu) then
+        do i = a, au
+           c     = c + 1
+           do j = 1,nip
+              ipc(j,c) = ip(j,i)
+           end do ! j
+        end do
 
-    !       Increment and repeat for next list items
+        !       Increment and repeat for next list items
 
-  else
-    c = c + 1
-    go to 110
-  endif
+     else
+        c = c + 1
+        go to 110
+     endif
 
-  !       Lists have been sorted using ic, copy back to original list
+     !       Lists have been sorted using ic, copy back to original list
 
-  b = ii - 1
-  do i = ii,bu
-  do j = 1,nip
-  ip(j,i) = ipc(j,i-b)
-  end do ! j
-  end do
+     b = ii - 1
+     do i = ii,bu
+        do j = 1,nip
+           ip(j,i) = ipc(j,i-b)
+        end do ! j
+     end do
   end do
 
   !     Increment step size for next pass

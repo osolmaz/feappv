@@ -51,117 +51,117 @@ subroutine writer(ctc,b,nneq)
 
   if(pcomp(ct,'eige',4)) then
 
-    if(lflg) then
-      call peigsv(fname,1)
-    else
-      go to 920
-    endif
+     if(lflg) then
+        call peigsv(fname,1)
+     else
+        go to 920
+     endif
 
-    !     Save current displacement state
+     !     Save current displacement state
 
   elseif(pcomp(ct,'disp',4)) then
-    if(lflg) then
-      write(iwd,err=910) ct,ttim
-      write(iwd,err=910) b
-    else
-      go to 920
-    endif
+     if(lflg) then
+        write(iwd,err=910) ct,ttim
+        write(iwd,err=910) b
+     else
+        go to 920
+     endif
 
-    !     Save current nodal stress state
+     !     Save current nodal stress state
 
   elseif(pcomp(ct,'stre',4)) then
-    if(lflg) then
-      if(fl(11)) then
-        write(iwd,err=910) ct,ttim
-        fp(1) = nph -1 + npstr*numnp
-        write(iwd,err=910) istv,(hr(point),point=nph,fp(1))
-      else
-        write(iow,2004)
-        if(ior < 0) write(*,2004)
-      endif
-    else
-      go to 920
-    endif
+     if(lflg) then
+        if(fl(11)) then
+           write(iwd,err=910) ct,ttim
+           fp(1) = nph -1 + npstr*numnp
+           write(iwd,err=910) istv,(hr(point),point=nph,fp(1))
+        else
+           write(iow,2004)
+           if(ior < 0) write(*,2004)
+        endif
+     else
+        go to 920
+     endif
 
-    !     Rewind file
+     !     Rewind file
 
   elseif(pcomp(ct,'wind',4)) then
-    if(lflg) then
-      rewind iwd
-    endif
+     if(lflg) then
+        rewind iwd
+     endif
 
-    !     Close file
+     !     Close file
 
   elseif(pcomp(ct,'clos',4)) then
-    close(iwd)
-    lflg = .false. 
+     close(iwd)
+     lflg = .false. 
 
-    !     Set filename
+     !     Set filename
 
   else
-    fname = ct
-    inquire(file=fname,exist=lflg)
+     fname = ct
+     inquire(file=fname,exist=lflg)
 
-    !       This is a old file name
+     !       This is a old file name
 
-    if(lflg) then
-      if(ior < 0) then
-        write(*,2002) fname
-        10 read (*,1000,err=11,end=12) y
-        goto  13
-        11 call  errclr ('WRITER')
-        goto  10
-        12 call  endclr ('WRITER',y)
-        13 if(y /= 'y' .or. y /= 'Y') return
-      else
-        write(iow,2003) fname
-        call plstop()
-      endif
-      open(iwd,file=fname,status='old',form='unformatted')
-      rewind iwd
+     if(lflg) then
+        if(ior < 0) then
+           write(*,2002) fname
+10         read (*,1000,err=11,end=12) y
+           goto  13
+11         call  errclr ('WRITER')
+           goto  10
+12         call  endclr ('WRITER',y)
+13         if(y /= 'y' .or. y /= 'Y') return
+        else
+           write(iow,2003) fname
+           call plstop()
+        endif
+        open(iwd,file=fname,status='old',form='unformatted')
+        rewind iwd
 
-      !       This is a new file name
+        !       This is a new file name
 
-    else
-      if(ior < 0) write(*,2001) fname
-      write(iow,2001) fname
-      open(iwd,file=fname,status='new',form='unformatted')
-    endif
-    lflg = .true. 
+     else
+        if(ior < 0) write(*,2001) fname
+        write(iow,2001) fname
+        open(iwd,file=fname,status='new',form='unformatted')
+     endif
+     lflg = .true. 
   endif
   return
 
   !     Error messages
 
-  910 if(ior > 0) then
-    write(iow,3001) ct
-    call plstop()
+910 if(ior > 0) then
+     write(iow,3001) ct
+     call plstop()
   else
-    write(*,3001)
+     write(*,3001)
   endif
   return
 
-  920 if(ior > 0) then
-    write(iow,3002)
-    call plstop()
+920 if(ior > 0) then
+     write(iow,3002)
+     call plstop()
   else
-    write(*,3002)
+     write(*,3002)
   endif
 
   !     Formats
 
-  1000 format(a1)
+1000 format(a1)
 
-  2001 format('   Output file for write operations is named ',a)
+2001 format('   Output file for write operations is named ',a)
 
-  2002 format(' *WARNING* File ',a,' exists. Erase? (y or n) >',$)
+2002 format(' *WARNING* File ',a,' exists. Erase? (y or n) >',$)
 
-  2003 format(' *ERROR* File ',a,' exists.')
+2003 format(' *ERROR* File ',a,' exists.')
 
-  2004 format(' *ERROR* Nodal stresses do not exist for tape write')
+2004 format(' *ERROR* Nodal stresses do not exist for tape write')
 
-  3001 format(' *ERROR* On a tape write command for ',a4)
+3001 format(' *ERROR* On a tape write command for ',a4)
 
-  3002 format(' *ERROR* No write file is open.')
+3002 format(' *ERROR* No write file is open.')
 
 end subroutine writer

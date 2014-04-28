@@ -24,7 +24,7 @@ function  dotx(a,b,n)
 
   dotx = 0.0d0
   do i = 1,n
-  dotx = dotx + ( a(i) - b(i) )**2
+     dotx = dotx + ( a(i) - b(i) )**2
   end do
 
-end function 
+end function dotx

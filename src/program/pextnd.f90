@@ -31,6 +31,6 @@ subroutine pextnd()
   setvar = palloc(37,'NORMV',numnp*3,2)
 
   call pnorml(mr(np(32)),mr(np(33)),hr(np(43)),hr(np(37)), &
-    mr(np(78)),nie,ndm,nen1,numnp,numel)
+       mr(np(78)),nie,ndm,nen1,numnp,numel)
 
 end subroutine pextnd

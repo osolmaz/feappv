@@ -43,66 +43,66 @@ subroutine dyna01(du,urate,nneq,isw)
 
   if(isw == 1) then
 
-    !       Initialize step: GN11
+     !       Initialize step: GN11
 
-    if(theta(2) == 0.0d0) then
+     if(theta(2) == 0.0d0) then
 
-      cr = 1.d0 - 1.d0/theta(1)
-      do n = 1,nneq
-      urate(n,6) =    urate(n,1)
-      urate(n,1) = cr*urate(n,1)
-      end do
+        cr = 1.d0 - 1.d0/theta(1)
+        do n = 1,nneq
+           urate(n,6) =    urate(n,1)
+           urate(n,1) = cr*urate(n,1)
+        end do
 
-      !       Initialize step: GN22
+        !       Initialize step: GN22
 
-    else
+     else
 
-      cr =  1.d0 - 2.d0*theta(1)/theta(2)
-      cs = (1.d0 - theta(1)/theta(2))*dt
-      ct =  2.d0/(theta(2)*dt)
-      cu =  1.d0 - 1.d0/theta(2)
-      do n = 1,nneq
-      urate(n,6) =     urate(n,1)
-      urate(n,7) =     urate(n,2)
-      ur1        =  cr*urate(n,1) + cs*urate(n,2)
-      urate(n,2) = -ct*urate(n,1) + cu*urate(n,2)
-      urate(n,1) =     ur1
-      end do
+        cr =  1.d0 - 2.d0*theta(1)/theta(2)
+        cs = (1.d0 - theta(1)/theta(2))*dt
+        ct =  2.d0/(theta(2)*dt)
+        cu =  1.d0 - 1.d0/theta(2)
+        do n = 1,nneq
+           urate(n,6) =     urate(n,1)
+           urate(n,7) =     urate(n,2)
+           ur1        =  cr*urate(n,1) + cs*urate(n,2)
+           urate(n,2) = -ct*urate(n,1) + cu*urate(n,2)
+           urate(n,1) =     ur1
+        end do
 
-    endif
+     endif
 
-    !     (2) Update with in time step
+     !     (2) Update with in time step
 
   elseif(isw == 2) then
 
-    !       GN11 Algorithm
+     !       GN11 Algorithm
 
-    if(theta(2) == 0.0d0) then
+     if(theta(2) == 0.0d0) then
 
-      do n = 1,nneq
-      urate(n,1) = urate(n,1) + du(n)
-      end do
+        do n = 1,nneq
+           urate(n,1) = urate(n,1) + du(n)
+        end do
 
-      !       GN22 Algorithm
+        !       GN22 Algorithm
 
-    else
+     else
 
-      cr = theta(1)*dt
-      do n = 1,nneq
-      urate(n,1) = urate(n,1) + cr*du(n)
-      urate(n,2) = urate(n,2) +    du(n)
-      end do
+        cr = theta(1)*dt
+        do n = 1,nneq
+           urate(n,1) = urate(n,1) + cr*du(n)
+           urate(n,2) = urate(n,2) +    du(n)
+        end do
 
-    endif
+     endif
 
-    !     (3) Backup solution vectors to reinitiate a step
+     !     (3) Backup solution vectors to reinitiate a step
 
   elseif(isw == 3) then
 
-    do n = 1,nneq
-    urate(n,1) = urate(n,6)
-    urate(n,2) = urate(n,7)
-    end do
+     do n = 1,nneq
+        urate(n,1) = urate(n,6)
+        urate(n,2) = urate(n,7)
+     end do
 
   endif
 

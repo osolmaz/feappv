@@ -27,15 +27,15 @@ subroutine umaclib(i,lct,ct)
   save
 
   if(    i == 1) then
-    call umacr1(lct,ct)
+     call umacr1(lct,ct)
   elseif(i == 2) then
-    call umacr2(lct,ct)
+     call umacr2(lct,ct)
   elseif(i == 3) then
-    call umacr3(lct,ct)
+     call umacr3(lct,ct)
   elseif(i == 4) then
-    call umacr4(lct,ct)
+     call umacr4(lct,ct)
   elseif(i == 5) then
-    call umacr5(lct,ct)
+     call umacr5(lct,ct)
   endif
 
 end subroutine umaclib

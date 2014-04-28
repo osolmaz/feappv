@@ -44,63 +44,63 @@ subroutine pprtd
   totrmem = 0
   skip   = idev /= 1 .and. ior < 0
   if(ior < 0) then
-    write(*,2000)
+     write(*,2000)
   endif
   write(iow,2000)
   do j = 1,ndict,lines
-  do i = j,min(j+lines-1,ndict)
-  if(ddict(i) == pdict(i)) then
-    ity = 1
-  else
-    ity = 2
-  endif
-  if(ior < 0) then
-    write(*,2001) i,dict(i),ddict(i),iprec(i),ipoint(i) &
-      ,np(pdict(i)),ptype(ity)
-  endif
-  write(iow,2001) i,dict(i),ddict(i),iprec(i),ipoint(i) &
-    ,np(pdict(i)),ptype(ity)
-  if(iprec(i) == 1) then
-    totimem = totimem + ipoint(i)
-  else
-    totrmem = totrmem + ipoint(i)
-  endif
-  end do ! i
-  if(skip .and. min(j+lines,ndict) /= ndict) then
-    write(*,*) '   ** PRESS ENTER **'
-    read(*,1000) c
-    write(  *,2000)
-  endif
+     do i = j,min(j+lines-1,ndict)
+        if(ddict(i) == pdict(i)) then
+           ity = 1
+        else
+           ity = 2
+        endif
+        if(ior < 0) then
+           write(*,2001) i,dict(i),ddict(i),iprec(i),ipoint(i) &
+                ,np(pdict(i)),ptype(ity)
+        endif
+        write(iow,2001) i,dict(i),ddict(i),iprec(i),ipoint(i) &
+             ,np(pdict(i)),ptype(ity)
+        if(iprec(i) == 1) then
+           totimem = totimem + ipoint(i)
+        else
+           totrmem = totrmem + ipoint(i)
+        endif
+     end do ! i
+     if(skip .and. min(j+lines,ndict) /= ndict) then
+        write(*,*) '   ** PRESS ENTER **'
+        read(*,1000) c
+        write(  *,2000)
+     endif
   end do ! j
   if(maxuse > 0) then
-    if(skip) then
-      write(*,*) '   ** PRESS ENTER **'
-      read(*,1000) c
-    endif
-    if(ior < 0) then
-      write(*,2002) totimem,totrmem,totimem+totrmem,maxuse
-    endif
-    write(iow,2002) totimem,totrmem,totimem+totrmem,maxuse
+     if(skip) then
+        write(*,*) '   ** PRESS ENTER **'
+        read(*,1000) c
+     endif
+     if(ior < 0) then
+        write(*,2002) totimem,totrmem,totimem+totrmem,maxuse
+     endif
+     write(iow,2002) totimem,totrmem,totimem+totrmem,maxuse
   else
-    if(ior < 0) then
-      write(*,2002) totimem,totrmem
-    endif
-    write(iow,2002) totimem,totrmem
+     if(ior < 0) then
+        write(*,2002) totimem,totrmem
+     endif
+     write(iow,2002) totimem,totrmem
   endif
 
   !     Formats
 
-  1000 format(a)
-  2000 format(5x,'D i c t i o n a r y    o f   A r r a y s'// &
-    &  10x,' Entry  Array   Array  Array    Array            Pointer'/ &
-    &  10x,'Number  Names  Number  Precn   Length          Value', &
-    ' Type')
+1000 format(a)
+2000 format(5x,'D i c t i o n a r y    o f   A r r a y s'// &
+       &  10x,' Entry  Array   Array  Array    Array            Pointer'/ &
+       &  10x,'Number  Names  Number  Precn   Length          Value', &
+       ' Type')
 
-  2001 format(10x,i5,3x,a5,2i7,1i9,1i16,a8)
-  2002 format(10x,'Total memory used by FEAP:'/ &
-    &        20x,'Integer Arrays = ',1i9/ &
-    &        20x,'Real    Arrays = ',1i9:/ &
-    &        20x,'Total used     = ',1i9/ &
-    &        20x,'Total allowed  = ',1i9)
+2001 format(10x,i5,3x,a5,2i7,1i9,1i16,a8)
+2002 format(10x,'Total memory used by FEAP:'/ &
+       &        20x,'Integer Arrays = ',1i9/ &
+       &        20x,'Real    Arrays = ',1i9:/ &
+       &        20x,'Total used     = ',1i9/ &
+       &        20x,'Total allowed  = ',1i9)
 
 end subroutine pprtd

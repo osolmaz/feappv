@@ -28,9 +28,9 @@ subroutine pstr2d(sig,pp)
   pp(1)  = xi1 + rho
   pp(2)  = xi1 - rho
   if(xi2 /= 0.0d0) then
-    pp(3) = 22.5d0*atan2(sig(4),xi2)/atan(1.0d0)
+     pp(3) = 22.5d0*atan2(sig(4),xi2)/atan(1.0d0)
   else
-    pp(3)  = 45.0d0
+     pp(3)  = 45.0d0
   endif
 
 end subroutine pstr2d

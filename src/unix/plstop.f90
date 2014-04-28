@@ -39,4 +39,4 @@ subroutine plstop()
 
   stop
 
-  end
+end subroutine plstop

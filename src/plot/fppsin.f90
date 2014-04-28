@@ -34,8 +34,8 @@ subroutine fppsin(string)
 
   if ((nxtchr+l) >= ibufsz) call fppsdu()
   do i = 1, l
-  nxtchr         = nxtchr + 1
-  buffer(nxtchr) = string(i:i)
+     nxtchr         = nxtchr + 1
+     buffer(nxtchr) = string(i:i)
   end do
 
 end subroutine fppsin

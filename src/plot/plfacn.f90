@@ -53,70 +53,70 @@ subroutine plfacn(ix,ia,nen,numel,nface,ie,nie)
 
   nface = 0
   do n = 1,numel
-  if(ix(nen1-1,n) >= 0 .and. ia(n) >= 0) then
-    iel = ie(nie-1,ix(nen1,n))
-    if(iel > 0) then
-      iiel = inord(iel)
-    else
-      iiel = exord(-iel)
-    endif
-
-    !        No face if inord < 0
-
-    if     (iiel < 0) then
-
-      !        Set for tetrahedral element faces
-
-    elseif (iiel == 9 ) then
-
-      if( lclip(ix(1,n),4,hr(np(43)),ndm) ) then
-        do m = 1,4
-        addfac = .true. 
-        do j = 1,3
-        i = ix(it(j,m),n) - 1
-        if(mr(np(47)+i) == 0) then
-          addfac = .false. 
+     if(ix(nen1-1,n) >= 0 .and. ia(n) >= 0) then
+        iel = ie(nie-1,ix(nen1,n))
+        if(iel > 0) then
+           iiel = inord(iel)
+        else
+           iiel = exord(-iel)
         endif
-        end do ! j
-        if(addfac) then
-          nface = nface + 1
-        endif
-        end do ! m
-      end if
 
-      !        Set for brick element faces
+        !        No face if inord < 0
 
-    elseif (iiel > 10 ) then
+        if     (iiel < 0) then
 
-      if( lclip(ix(1,n),8,hr(np(43)),ndm) ) then
-        do m = 1,6
-        addfac = .true. 
-        do j = 1,4
-        i = ix(iq(j,m),n) - 1
-        if(mr(np(47)+i) == 0) then
-          addfac = .false. 
-        endif
-        end do ! j
-        if(addfac) then
-          nface = nface + 1
-        endif
-        end do ! m
-      end if
+           !        Set for tetrahedral element faces
 
-      !        Set space for line elements
+        elseif (iiel == 9 ) then
 
-    elseif( iiel > 0 .and. iiel <= 3 ) then
-      nface = nface + 1
+           if( lclip(ix(1,n),4,hr(np(43)),ndm) ) then
+              do m = 1,4
+                 addfac = .true. 
+                 do j = 1,3
+                    i = ix(it(j,m),n) - 1
+                    if(mr(np(47)+i) == 0) then
+                       addfac = .false. 
+                    endif
+                 end do ! j
+                 if(addfac) then
+                    nface = nface + 1
+                 endif
+              end do ! m
+           end if
 
-      !        Set space for top and bottom shell faces
+           !        Set for brick element faces
 
-    elseif( lclip(ix(1,n),min(4,nen),hr(np(43)),ndm) ) then
+        elseif (iiel > 10 ) then
 
-      nface = nface + 2
+           if( lclip(ix(1,n),8,hr(np(43)),ndm) ) then
+              do m = 1,6
+                 addfac = .true. 
+                 do j = 1,4
+                    i = ix(iq(j,m),n) - 1
+                    if(mr(np(47)+i) == 0) then
+                       addfac = .false. 
+                    endif
+                 end do ! j
+                 if(addfac) then
+                    nface = nface + 1
+                 endif
+              end do ! m
+           end if
 
-    end if
+           !        Set space for line elements
 
-  end if
+        elseif( iiel > 0 .and. iiel <= 3 ) then
+           nface = nface + 1
+
+           !        Set space for top and bottom shell faces
+
+        elseif( lclip(ix(1,n),min(4,nen),hr(np(43)),ndm) ) then
+
+           nface = nface + 2
+
+        end if
+
+     end if
   end do
 
 end subroutine plfacn

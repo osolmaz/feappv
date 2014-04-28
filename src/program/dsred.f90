@@ -24,9 +24,9 @@ function dsred(au,ad,jh)
 
   dj = 0.0d0
   do j = 1,jh
-  ud    = au(j)*ad(j)
-  dj    = dj + au(j)*ud
-  au(j) = ud
+     ud    = au(j)*ad(j)
+     dj    = dj + au(j)*ud
+     au(j) = ud
   end do
   dsred = dj
 

@@ -1,6 +1,6 @@
 ! Id:$
 subroutine pltris(ic,nc,n,ns,iutot,ndm,ndf,nen,nen1,nlabi, &
-    icolor,ix,x,xl,v,vc,dx1,vl,vu,tvc,cont,vflg)
+     icolor,ix,x,xl,v,vc,dx1,vl,vu,tvc,cont,vflg)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -60,54 +60,54 @@ subroutine pltris(ic,nc,n,ns,iutot,ndm,ndf,nen,nen1,nlabi, &
   !     Get center values - assign to node 1 and 4 of triangle
 
   if(ns > 4) then
-    nsi = 1
-    center = .false. 
-    if(nen >= 9) then
-      ii = 0
-      if(iutot == 9) ii  = ix(9,n)
-      if(iutot == 7) ii  = ix(7,n)
-      if(ii > 0) center = .true. 
-    endif
-    if(center) then
-      xt(1,1) = x(1,ii)
-      xt(2,1) = x(2,ii)
-      if(ndm >= 3) xt(3,1) = x(3,ii)
-      j       = ndf*(ii-1) + ic
-      vt(1)   = v(29)
-    elseif(ns == 9) then
-      xt(1,1) = - 0.25d0*(xl(1,1) + xl(1,3) + xl(1,5) + xl(1,7)) &
-        + 0.50d0*(xl(1,2) + xl(1,4) + xl(1,6) + xl(1,8))
-      xt(2,1) = - 0.25d0*(xl(2,1) + xl(2,3) + xl(2,5) + xl(2,7)) &
-        + 0.50d0*(xl(2,2) + xl(2,4) + xl(2,6) + xl(2,8))
-      if(ndm == 3) then
-        xt(3,1) = - 0.25d0*(xl(3,1) + xl(3,3) + xl(3,5) + xl(3,7)) &
-          + 0.50d0*(xl(3,2) + xl(3,4) + xl(3,6) + xl(3,8))
-      endif
-      vt(1) = - 0.25d0*(v(1) + v(3) + v(5) + v(7)) &
-        + 0.50d0*(v(2) + v(4) + v(6) + v(8))
-    else
-      xt(1,1) = 0.d0
-      xt(2,1) = 0.d0
-      xt(3,1) = 0.d0
-      vt(1)   = 0.d0
-      ii = ns-1
-      do i = 1,ii
-      xt(1,1) = xt(1,1) + xl(1,i)
-      xt(2,1) = xt(2,1) + xl(2,i)
-      if(ndm >= 3) xt(3,1) = xt(3,1) + xl(3,i)
-      vt(1)   = vt(1) + v(i)
-      end do
-      xt(1,1) = xt(1,1)/ii
-      xt(2,1) = xt(2,1)/ii
-      xt(3,1) = xt(3,1)/ii
-      vt(1)   = vt(1)/ii
-    endif
+     nsi = 1
+     center = .false. 
+     if(nen >= 9) then
+        ii = 0
+        if(iutot == 9) ii  = ix(9,n)
+        if(iutot == 7) ii  = ix(7,n)
+        if(ii > 0) center = .true. 
+     endif
+     if(center) then
+        xt(1,1) = x(1,ii)
+        xt(2,1) = x(2,ii)
+        if(ndm >= 3) xt(3,1) = x(3,ii)
+        j       = ndf*(ii-1) + ic
+        vt(1)   = v(29)
+     elseif(ns == 9) then
+        xt(1,1) = - 0.25d0*(xl(1,1) + xl(1,3) + xl(1,5) + xl(1,7)) &
+             + 0.50d0*(xl(1,2) + xl(1,4) + xl(1,6) + xl(1,8))
+        xt(2,1) = - 0.25d0*(xl(2,1) + xl(2,3) + xl(2,5) + xl(2,7)) &
+             + 0.50d0*(xl(2,2) + xl(2,4) + xl(2,6) + xl(2,8))
+        if(ndm == 3) then
+           xt(3,1) = - 0.25d0*(xl(3,1) + xl(3,3) + xl(3,5) + xl(3,7)) &
+                + 0.50d0*(xl(3,2) + xl(3,4) + xl(3,6) + xl(3,8))
+        endif
+        vt(1) = - 0.25d0*(v(1) + v(3) + v(5) + v(7)) &
+             + 0.50d0*(v(2) + v(4) + v(6) + v(8))
+     else
+        xt(1,1) = 0.d0
+        xt(2,1) = 0.d0
+        xt(3,1) = 0.d0
+        vt(1)   = 0.d0
+        ii = ns-1
+        do i = 1,ii
+           xt(1,1) = xt(1,1) + xl(1,i)
+           xt(2,1) = xt(2,1) + xl(2,i)
+           if(ndm >= 3) xt(3,1) = xt(3,1) + xl(3,i)
+           vt(1)   = vt(1) + v(i)
+        end do
+        xt(1,1) = xt(1,1)/ii
+        xt(2,1) = xt(2,1)/ii
+        xt(3,1) = xt(3,1)/ii
+        vt(1)   = vt(1)/ii
+     endif
   else
-    nsi     = 2
-    xt(1,1) = xl(1,1)
-    xt(2,1) = xl(2,1)
-    xt(3,1) = xl(3,1)
-    vt(1) = v(1)
+     nsi     = 2
+     xt(1,1) = xl(1,1)
+     xt(2,1) = xl(2,1)
+     xt(3,1) = xl(3,1)
+     vt(1) = v(1)
   endif
   xt(1,4) = xt(1,1)
   xt(2,4) = xt(2,1)
@@ -118,81 +118,81 @@ subroutine pltris(ic,nc,n,ns,iutot,ndm,ndf,nen,nen1,nlabi, &
 
   do ii = nsi,ns-nsi
 
-  !       Set other points on triangle
+     !       Set other points on triangle
 
-  xt(1,2) = xl(1,ii)
-  xt(2,2) = xl(2,ii)
-  xt(3,2) = xl(3,ii)
-  vt(2) = v(ii)
-  xt(1,3) = xl(1,ii+1)
-  xt(2,3) = xl(2,ii+1)
-  xt(3,3) = xl(3,ii+1)
-  vt(3) = v(ii+1)
-  if(cont) then
+     xt(1,2) = xl(1,ii)
+     xt(2,2) = xl(2,ii)
+     xt(3,2) = xl(3,ii)
+     vt(2) = v(ii)
+     xt(1,3) = xl(1,ii+1)
+     xt(2,3) = xl(2,ii+1)
+     xt(3,3) = xl(3,ii+1)
+     vt(3) = v(ii+1)
+     if(cont) then
 
-    !         Plot all contours which intersect element
+        !         Plot all contours which intersect element
 
-    do nn = 1,nc
-    vv = vc(nn)
-    if(vv >= vl .and. vv <= vu) then
-      call pppcol(icolor+nn,1)
+        do nn = 1,nc
+           vv = vc(nn)
+           if(vv >= vl .and. vv <= vu) then
+              call pppcol(icolor+nn,1)
 
-      !             Loop over sides of triangle to find plot points
+              !             Loop over sides of triangle to find plot points
 
-      j = 3
-      do i = 1,3
-      if(vv == vt(i)) then
-        x1 = xt(1,i)
-        y1 = xt(2,i)
-        z1 = xt(3,i)
-        call plotl(x1,y1,z1,j)
-        j = 2
-      elseif((vt(i)-vv)*(vt(i+1)-vv) < 0.0d0) then
-        s = (vv - vt(i))/(vt(i+1)-vt(i))
-        x1 = xt(1,i) + s*(xt(1,i+1) - xt(1,i))
-        y1 = xt(2,i) + s*(xt(2,i+1) - xt(2,i))
-        z1 = xt(3,i) + s*(xt(3,i+1) - xt(3,i))
-        call plotl(x1,y1,z1,j)
-        j = 2
-      endif
+              j = 3
+              do i = 1,3
+                 if(vv == vt(i)) then
+                    x1 = xt(1,i)
+                    y1 = xt(2,i)
+                    z1 = xt(3,i)
+                    call plotl(x1,y1,z1,j)
+                    j = 2
+                 elseif((vt(i)-vv)*(vt(i+1)-vv) < 0.0d0) then
+                    s = (vv - vt(i))/(vt(i+1)-vt(i))
+                    x1 = xt(1,i) + s*(xt(1,i+1) - xt(1,i))
+                    y1 = xt(2,i) + s*(xt(2,i+1) - xt(2,i))
+                    z1 = xt(3,i) + s*(xt(3,i+1) - xt(3,i))
+                    call plotl(x1,y1,z1,j)
+                    j = 2
+                 endif
 
-      !               Add labels
+                 !               Add labels
 
-      if(vflg .and. j == 2) then
-        ivc = nint((x1-xmn)*xmx) + 1
-        ivc = max(1,min(9,ivc))
-        jvc = nint((y1-ymn)*ymx) + 1
-        jvc = max(1,min(9,jvc))
-        if(tvc(ivc,jvc)) then
-          tvc(ivc,jvc) = .false. 
-          call plotl(x1-dx1,y1,z1,3)
-          nnn = nlabi + nn
-          if(clip) call plabl(nnn)
-          call plotl(x1,y1,z1,3)
-        endif
-      endif
-      end do
-    endif
-    end do
-  else
-    call pltcor(3,ilc,vt,vc,nc)
-    call pltefl(3,ilc,xt,vt,vc,nc)
-  endif
+                 if(vflg .and. j == 2) then
+                    ivc = nint((x1-xmn)*xmx) + 1
+                    ivc = max(1,min(9,ivc))
+                    jvc = nint((y1-ymn)*ymx) + 1
+                    jvc = max(1,min(9,jvc))
+                    if(tvc(ivc,jvc)) then
+                       tvc(ivc,jvc) = .false. 
+                       call plotl(x1-dx1,y1,z1,3)
+                       nnn = nlabi + nn
+                       if(clip) call plabl(nnn)
+                       call plotl(x1,y1,z1,3)
+                    endif
+                 endif
+              end do
+           endif
+        end do
+     else
+        call pltcor(3,ilc,vt,vc,nc)
+        call pltefl(3,ilc,xt,vt,vc,nc)
+     endif
   end do
 
   !     Draw border around element
 
   call pppcol(0,1)
   if( .not. cont .and. ipb == 0 ) then
-    z1 = 0.0d0
-    if(ndm == 3) z1 = xl(3,1)
-    call plotl(xl(1,1),xl(2,1),z1,3)
-    do i = 1,ns
-    if(ndm == 3) z1 = xl(3,i)
-    call plotl(xl(1,i),xl(2,i),z1,2)
-    end do
-    if(ndm == 3) z1 = xl(3,1)
-    call plotl(xl(1,1),xl(2,1),z1,2)
+     z1 = 0.0d0
+     if(ndm == 3) z1 = xl(3,1)
+     call plotl(xl(1,1),xl(2,1),z1,3)
+     do i = 1,ns
+        if(ndm == 3) z1 = xl(3,i)
+        call plotl(xl(1,i),xl(2,i),z1,2)
+     end do
+     if(ndm == 3) z1 = xl(3,1)
+     call plotl(xl(1,1),xl(2,1),z1,2)
   endif
 
 end subroutine pltris

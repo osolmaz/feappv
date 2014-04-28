@@ -32,8 +32,8 @@ subroutine geig(g,h,d,p,t,nv,nvs,prt)
   !     Output projected matrices
 
   if(prt) then
-    call wprojm(g,nv,'Projected G')
-    call wprojm(h,nv,'Projected H')
+     call wprojm(g,nv,'Projected G')
+     call wprojm(h,nv,'Projected H')
   endif
 
   !     Compute standard eigenvalue problem matrix 'c'
@@ -54,22 +54,22 @@ subroutine geig(g,h,d,p,t,nv,nvs,prt)
 
   ir = 0
   do j = 1,nv
-  ir = ir + j
-  if(nvs > 0 .and. d(j) /= 0.0d0) then
-    t(1) = 1.0d0/d(j)
-  elseif(nvs <= 0 .and. h(ir) /= 0.0d0) then
-    if(d(j) /= 0.0d0) then
-      t(1) = abs(d(j))/sqrt(abs(h(ir)))
-    else
-      t(1) = 1.0d0/sqrt(abs(h(ir)))
-    endif
-  else
-    t(1) = 1.0d0
-  endif
-  if(p(j,j) < -0.00001d0) t(1) = -t(1)
-  do i = 1,nv
-  p(i,j) = p(i,j)*t(1)
-  end do
+     ir = ir + j
+     if(nvs > 0 .and. d(j) /= 0.0d0) then
+        t(1) = 1.0d0/d(j)
+     elseif(nvs <= 0 .and. h(ir) /= 0.0d0) then
+        if(d(j) /= 0.0d0) then
+           t(1) = abs(d(j))/sqrt(abs(h(ir)))
+        else
+           t(1) = 1.0d0/sqrt(abs(h(ir)))
+        endif
+     else
+        t(1) = 1.0d0
+     endif
+     if(p(j,j) < -0.00001d0) t(1) = -t(1)
+     do i = 1,nv
+        p(i,j) = p(i,j)*t(1)
+     end do
   end do
 
 end subroutine geig

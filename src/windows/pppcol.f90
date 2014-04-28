@@ -43,57 +43,57 @@ subroutine pppcol(icol,jsw)
 
   if (hdcpy) then
 
-    !       Line for postscript
+     !       Line for postscript
 
-    if(isw == 0 .or. isw == 1) then
+     if(isw == 0 .or. isw == 1) then
 
-      !         Reverse line color for black background
+        !         Reverse line color for black background
 
-      if(blk) then
-        clin = 'g1 '
-      else
-        clin = 'g0 '
-      endif
-    endif
-
-    !       Gray scale for postscript
-
-    if(isw == 0 .or. isw == 2) then
-
-      do ii=1,15
-      if (icol == ipal(ii)) goto 110
-      end do
-      ii = 1
-
-      110 if (icol < 0) then
-        jj = 1
-      elseif (icol == 0) then
-        jj = 2
-      else
-        jj = ipsm(ii) + 2
-      endif
-      write(cvar,4001) jj
-
-      !         Color for postscript
-
-      if(icol <= 0) then
         if(blk) then
-          colv = '0 '
+           clin = 'g1 '
         else
-          colv = '8 '
+           clin = 'g0 '
         endif
-      else
-        if(psrevs) then
-          ii = max( 1, min( 7, 8 - ii) )
+     endif
+
+     !       Gray scale for postscript
+
+     if(isw == 0 .or. isw == 2) then
+
+        do ii=1,15
+           if (icol == ipal(ii)) goto 110
+        end do
+        ii = 1
+
+110     if (icol < 0) then
+           jj = 1
+        elseif (icol == 0) then
+           jj = 2
         else
-          ii = max( 1, min( 7, ii    ) )
+           jj = ipsm(ii) + 2
         endif
-        write( colv, '(i1,1x)' ) ii
-      endif
-      if(isw == 0) then
-        write(clin,4002) ii
-      endif
-    endif
+        write(cvar,4001) jj
+
+        !         Color for postscript
+
+        if(icol <= 0) then
+           if(blk) then
+              colv = '0 '
+           else
+              colv = '8 '
+           endif
+        else
+           if(psrevs) then
+              ii = max( 1, min( 7, 8 - ii) )
+           else
+              ii = max( 1, min( 7, ii    ) )
+           endif
+           write( colv, '(i1,1x)' ) ii
+        endif
+        if(isw == 0) then
+           write(clin,4002) ii
+        endif
+     endif
   endif
 
   coli = max(0,icol)
@@ -103,8 +103,8 @@ subroutine pppcol(icol,jsw)
 
   !     Format
 
-  4001 format(' g',i1)
-  4002 format('h',i1,' ')
+4001 format(' g',i1)
+4002 format('h',i1,' ')
 
 
-  end
+end subroutine pppcol

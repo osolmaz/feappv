@@ -65,7 +65,7 @@ double precision function gamma1(id,pu,pr,du,t,s)
   !     Multiply increment by current step size
 
   do n = 1,neq
-  du(n) = du(n)*s
+     du(n) = du(n)*s
   end do
 
   !     Update with step control
@@ -87,4 +87,4 @@ double precision function gamma1(id,pu,pr,du,t,s)
 
   gamma1 = dot (du,hr(pr),neq)
 
-end function
+end function gamma1

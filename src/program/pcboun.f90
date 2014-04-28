@@ -1,6 +1,6 @@
 ! Id:$
 subroutine pcboun(td,x,id,ntyp,ndm,ndf,numnp,numprt,gap0, &
-    vtype,prt,prth)
+     vtype,prt,prth)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -48,84 +48,84 @@ subroutine pcboun(td,x,id,ntyp,ndm,ndf,numnp,numprt,gap0, &
   !     Find closest node to input coordinates
 
   if(prt .and. numprt <= 0) then
-    call prtitl(prth)
-    write(iow,2000) (i,i=1,ndf)
-    if(ior < 0) write(*,2000) (i,i=1,ndf)
-    numprt = 50
+     call prtitl(prth)
+     write(iow,2000) (i,i=1,ndf)
+     if(ior < 0) write(*,2000) (i,i=1,ndf)
+     numprt = 50
   endif
 
   clflg = .false. 
   do n = 1,numnp
-  if(ntyp(n) >= 0) then
-    tmn = dotx(td(1),x(1,n),ndm)
-    if(clflg) then
-      if(tmn < gmn) then
-        gmn = tmn
-      endif
-      do i = 1,min(ndm,3)
-      xmn(i) = min(xmn(i),x(i,n))
-      xmx(i) = max(xmx(i),x(i,n))
-      end do ! i
-    else
-      gmn   =  tmn
-      clflg = .true. 
-      do i = 1,min(ndm,3)
-      xmn(i) = x(i,n)
-      xmx(i) = x(i,n)
-      end do ! i
-    endif
-  endif
+     if(ntyp(n) >= 0) then
+        tmn = dotx(td(1),x(1,n),ndm)
+        if(clflg) then
+           if(tmn < gmn) then
+              gmn = tmn
+           endif
+           do i = 1,min(ndm,3)
+              xmn(i) = min(xmn(i),x(i,n))
+              xmx(i) = max(xmx(i),x(i,n))
+           end do ! i
+        else
+           gmn   =  tmn
+           clflg = .true. 
+           do i = 1,min(ndm,3)
+              xmn(i) = x(i,n)
+              xmx(i) = x(i,n)
+           end do ! i
+        endif
+     endif
   end do
 
   !     Set search gap
 
   tmn = 0.0d0
   do i = 1,min(ndm,3)
-  tmn = max(xmx(i) - xmn(i),tmn)
+     tmn = max(xmx(i) - xmn(i),tmn)
   end do ! i
 
   if(gap0 == 0.0d0) then
-    gmn = gmn + tmn*1.d-10
+     gmn = gmn + tmn*1.d-10
   else
-    gmn = gmn + gap0
+     gmn = gmn + gap0
   endif
 
   !     Set b.c. restraint codes
 
   if(clflg) then
-    do nbc = 1,numnp
-    if(ntyp(nbc) >= 0) then
-      tmn = dotx(td(1),x(1,nbc),ndm)
-      if(tmn <= gmn) then
-        if(pcomp(vtype,'add',3)) then
-          do n = 1,ndf
-          id(n,nbc) = max(abs(id(n,nbc)),abs(nint(td(ndm+n))))
-          end do
-        else
-          do n = 1,ndf
-          id(n,nbc) = abs(nint(td(ndm+n)))
-          end do
-        endif
+     do nbc = 1,numnp
+        if(ntyp(nbc) >= 0) then
+           tmn = dotx(td(1),x(1,nbc),ndm)
+           if(tmn <= gmn) then
+              if(pcomp(vtype,'add',3)) then
+                 do n = 1,ndf
+                    id(n,nbc) = max(abs(id(n,nbc)),abs(nint(td(ndm+n))))
+                 end do
+              else
+                 do n = 1,ndf
+                    id(n,nbc) = abs(nint(td(ndm+n)))
+                 end do
+              endif
 
-        !             Output current restraint codes set
+              !             Output current restraint codes set
 
-        if(prt) then
-          write(iow,2001) nbc,(id(i,nbc),i=1,ndf)
-          if(ior < 0) then
-            write(*,2001) nbc,(id(i,nbc),i=1,ndf)
-          endif
-          numprt = numprt - 1
-        endif
-      endif ! tmn < gmn
-    endif ! ntyp(n) > 0
-    end do ! nbc
+              if(prt) then
+                 write(iow,2001) nbc,(id(i,nbc),i=1,ndf)
+                 if(ior < 0) then
+                    write(*,2001) nbc,(id(i,nbc),i=1,ndf)
+                 endif
+                 numprt = numprt - 1
+              endif
+           endif ! tmn < gmn
+        endif ! ntyp(n) > 0
+     end do ! nbc
   endif ! clflg = .true. 
 
   !     Format
 
-  2000 format('  C o o r d i n a t e    N o d a l    V a l u e s'/ &
-    /(4x,'node',9(i3,'-b.c.',:)))
+2000 format('  C o o r d i n a t e    N o d a l    V a l u e s'/ &
+       /(4x,'node',9(i3,'-b.c.',:)))
 
-  2001 format(10i8)
+2001 format(10i8)
 
 end subroutine pcboun

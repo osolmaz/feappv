@@ -37,21 +37,21 @@ subroutine pdelfl()
 
   do m = 0,mmx
 
-  do i = 1,5
-  fname = fsav
-  fext  = ftyp(i)
-  if(m <= 9) then
-    write(fext(3:3),'(i1)') m
-  else
-    write(fext(2:3),'(i2)') m
-  endif
-  call addext(fname,fext,21,4)
-  inquire(file=fname,exist=exst)
-  if(exst) then
-    open (unit = ios, file = fname, status = 'old')
-    close(unit = ios, status = 'delete')
-  endif
-  end do
+     do i = 1,5
+        fname = fsav
+        fext  = ftyp(i)
+        if(m <= 9) then
+           write(fext(3:3),'(i1)') m
+        else
+           write(fext(2:3),'(i2)') m
+        endif
+        call addext(fname,fext,21,4)
+        inquire(file=fname,exist=exst)
+        if(exst) then
+           open (unit = ios, file = fname, status = 'old')
+           close(unit = ios, status = 'delete')
+        endif
+     end do
   end do
 
 end subroutine pdelfl

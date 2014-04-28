@@ -1,6 +1,6 @@
 ! Id:$
 subroutine conjgd(ad,ac,adr,x,jc,ir,r,z,p,b, &
-    neq,jmax,tol,rn,rn0)
+     neq,jmax,tol,rn,rn0)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -56,9 +56,9 @@ subroutine conjgd(ad,ac,adr,x,jc,ir,r,z,p,b, &
   !     Initialize
 
   do ni = 1,neq
-  r(ni) = x(ni)
-  b(ni) = x(ni)
-  x(ni) = 0.0d0
+     r(ni) = x(ni)
+     b(ni) = x(ni)
+     x(ni) = 0.0d0
   end do
 
   if(rn0 == 0.0d0) rn0 = dot(r,r,neq)
@@ -70,89 +70,89 @@ subroutine conjgd(ad,ac,adr,x,jc,ir,r,z,p,b, &
 
 
   do ni = 1,neq
-  if(ad(ni) /= 0.0d0) then
-    adr(ni) = 1.d0/ad(ni)
-  else
-    adr(ni) = 0.0d0
-  end if
+     if(ad(ni) /= 0.0d0) then
+        adr(ni) = 1.d0/ad(ni)
+     else
+        adr(ni) = 0.0d0
+     end if
   end do
 
   do ni = 1,neq
-  z(ni) = adr(ni)*r(ni)
-  p(ni) = z(ni)
+     z(ni) = adr(ni)*r(ni)
+     p(ni) = z(ni)
   end do
 
   gam    = dot(r,z,neq)
   noconv = .true. 
   nj     = 1
 
-  100 if(noconv) then
+100 if(noconv) then
 
-    !       Form A*p product for current tangent
+     !       Form A*p product for current tangent
 
-    call caprod(ad,ac,p,z,jc,ir,neq)
+     call caprod(ad,ac,p,z,jc,ir,neq)
 
-    !       Compute update vector
+     !       Compute update vector
 
-    alp = dot(p,z,neq)
-    alp = gam/alp
+     alp = dot(p,z,neq)
+     alp = gam/alp
 
-    do ni = 1,neq
-    x(ni) = x(ni) + alp*p(ni)
-    end do
+     do ni = 1,neq
+        x(ni) = x(ni) + alp*p(ni)
+     end do
 
-    if(mod(nj,50) == 0) then
-      call caprod(ad,ac,x,z,jc,ir,neq)
-      do ni = 1,neq
-      r(ni) = b(ni) - z(ni)
-      end do
-    else
-      do ni = 1,neq
-      r(ni) = r(ni) - alp*z(ni)
-      end do
-    endif
+     if(mod(nj,50) == 0) then
+        call caprod(ad,ac,x,z,jc,ir,neq)
+        do ni = 1,neq
+           r(ni) = b(ni) - z(ni)
+        end do
+     else
+        do ni = 1,neq
+           r(ni) = r(ni) - alp*z(ni)
+        end do
+     endif
 
-    !       Check convergence
+     !       Check convergence
 
-    rn     = dot(r,r,neq)
-    if(mod(nj,20) == 0) then
-      tt = etime(tary)
-      if(ior < 0) then
-        write(*,2000) nj,sqrt(rn),tary
-      endif
-      write(iow,2000) nj,sqrt(rn),tary
-    endif
-    noconv = (rn > tolr0) .and. ( nj < jmax)
-    nj     = nj + 1
+     rn     = dot(r,r,neq)
+     if(mod(nj,20) == 0) then
+        tt = etime(tary)
+        if(ior < 0) then
+           write(*,2000) nj,sqrt(rn),tary
+        endif
+        write(iow,2000) nj,sqrt(rn),tary
+     endif
+     noconv = (rn > tolr0) .and. ( nj < jmax)
+     nj     = nj + 1
 
-    !       Diagonal preconditioning
+     !       Diagonal preconditioning
 
-    do ni = 1,neq
-    z(ni) = adr(ni)*r(ni)
-    end do
+     do ni = 1,neq
+        z(ni) = adr(ni)*r(ni)
+     end do
 
-    !       Compute final update vector for step
+     !       Compute final update vector for step
 
-    bet = gam
-    gam = dot(r,z,neq)
-    bet = gam/bet
-    do ni = 1,neq
-    p(ni) = z(ni) + bet*p(ni)
-    end do
+     bet = gam
+     gam = dot(r,z,neq)
+     bet = gam/bet
+     do ni = 1,neq
+        p(ni) = z(ni) + bet*p(ni)
+     end do
 
-    go to 100
+     go to 100
   endif
 
   !     Output solution data
 
   if(mod(nj-1,20) /= 0) then
-    tt = etime(tary)
-    if(ior < 0) write(  *,2000) nj-1,sqrt(rn),tary
+     tt = etime(tary)
+     if(ior < 0) write(  *,2000) nj-1,sqrt(rn),tary
   endif
   write(iow,2000) nj-1,sqrt(rn),tary
 
   !     Format
 
-  2000 format('   CG: NJ =',i5,' Resid. =',1p,e10.3, &
-    ' Cpu. = ',1p,e10.3,' Sys. = ',1p,e10.3)
+2000 format('   CG: NJ =',i5,' Resid. =',1p,e10.3, &
+       ' Cpu. = ',1p,e10.3,' Sys. = ',1p,e10.3)
 end subroutine conjgd

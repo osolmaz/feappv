@@ -39,34 +39,34 @@ subroutine perspz(x,ix, ip, nen1,nen,ndm,numnp,numel)
   !     Loop over data points and find projection
 
   do n=1,numnp
-  if(mr(np(49)-1+n) >= 0) then
-    do i=1,3
-    t(i) = x(i,n) - e(i)
-    end do
-    zn(n) = -real(xlbda(3,1)*t(1) &
-      + xlbda(3,2)*t(2) &
-      + xlbda(3,3)*t(3))
-  else
-    zn(n) = 0.0e0
-  endif
+     if(mr(np(49)-1+n) >= 0) then
+        do i=1,3
+           t(i) = x(i,n) - e(i)
+        end do
+        zn(n) = -real(xlbda(3,1)*t(1) &
+             + xlbda(3,2)*t(2) &
+             + xlbda(3,3)*t(3))
+     else
+        zn(n) = 0.0e0
+     endif
   end do
 
   !     Search visible faces for depth sort
 
   do n = 1,nfac
-  nne = ip(n)
-  if(nne > 0 .and. nne <= numel) then
-    if(ix(nen1,nne) > 0) then
-      zmax  = 0.0e0
-      do i = 1,nen
-      ii = abs(ix(i,nne))
-      if( ii > 0 .and. ii <= numnp) then
-        zmax = max(zmax,zn(ii))
-      endif
-      end do
-      ze(nne) = zmax
-    endif
-  endif
+     nne = ip(n)
+     if(nne > 0 .and. nne <= numel) then
+        if(ix(nen1,nne) > 0) then
+           zmax  = 0.0e0
+           do i = 1,nen
+              ii = abs(ix(i,nne))
+              if( ii > 0 .and. ii <= numnp) then
+                 zmax = max(zmax,zn(ii))
+              endif
+           end do
+           ze(nne) = zmax
+        endif
+     endif
   end do ! n
 
   !     Sort element plot order array 'ip' to produce hidden surface

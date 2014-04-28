@@ -36,30 +36,30 @@ subroutine sprojb(b,v,t,h,neq,nv,imas)
 
   do j = 1,nv
 
-  !       Consistent mass
+     !       Consistent mass
 
-  if(imas == 1) then
-    call pzero(t,neq)
-    call caprod(b(1),b(neq+1),v(1,j),t,mr(np(10)),mr(np(11)),neq)
+     if(imas == 1) then
+        call pzero(t,neq)
+        call caprod(b(1),b(neq+1),v(1,j),t,mr(np(10)),mr(np(11)),neq)
 
-    !       Lumped mass
+        !       Lumped mass
 
-  else
-    do i = 1,neq
-    t(i) = v(i,j)*b(i)
-    end do
-  endif
+     else
+        do i = 1,neq
+           t(i) = v(i,j)*b(i)
+        end do
+     endif
 
-  !       Project 'z' and 'v' vectors to form 'h'
+     !       Project 'z' and 'v' vectors to form 'h'
 
-  k = j*(j+1)/2
-  do i = j,nv
-  h(k) = dot(t,v(1,i),neq)
-  k = k + i
-  end do
-  do i = 1,neq
-  v(i,j) = t(i)
-  end do
+     k = j*(j+1)/2
+     do i = j,nv
+        h(k) = dot(t,v(1,i),neq)
+        k = k + i
+     end do
+     do i = 1,neq
+        v(i,j) = t(i)
+     end do
   end do
 
 end subroutine sprojb

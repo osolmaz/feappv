@@ -39,23 +39,23 @@ subroutine seteq(id,ndf,ndm,numnp,neq,prt)
   neq  = 0
   nad  = 0
   do n = 0,numnp-1
-  nn = mr(np(47)+n)
-  do i = 1,ndf
-  j = id(i,nn)
-  if(j == 0) then
-    neq     = neq + 1
-    id(i,nn) = neq
-  else
-    nad     = nad - 1
-    id(i,nn) = nad
-  endif
-  end do
+     nn = mr(np(47)+n)
+     do i = 1,ndf
+        j = id(i,nn)
+        if(j == 0) then
+           neq     = neq + 1
+           id(i,nn) = neq
+        else
+           nad     = nad - 1
+           id(i,nn) = nad
+        endif
+     end do
   end do
 
   !     Link nodes from data
 
   if(lkflg) then
-    call plink(id,hr(np(43)),ndm,ndf,numnp,neq,prt)
+     call plink(id,hr(np(43)),ndm,ndf,numnp,neq,prt)
   endif
 
 end subroutine seteq

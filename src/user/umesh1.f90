@@ -28,7 +28,7 @@ subroutine umesh1(tx,prt)
   !     Set command
 
   if(pcomp(uct,'mes1',4)) then      ! Usual    form
-    !       uct = 'name'                    ! Specify 'name'
+     !       uct = 'name'                    ! Specify 'name'
   elseif(ucount) then               ! Count elements and nodes
 
   elseif(urest == 1) then           ! Read  restart data

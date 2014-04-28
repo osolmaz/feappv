@@ -28,10 +28,10 @@ subroutine pltmv(pl,ipl,u,nplts,save)
   real*8 ::    pl(nplts),u(*)
 
   do n = 1,nplts
-  j = ipl(1,n)
-  if(j > 0) then
-    pl(n) = u(j)*save
-  end if
+     j = ipl(1,n)
+     if(j > 0) then
+        pl(n) = u(j)*save
+     end if
   end do
 
 end subroutine pltmv

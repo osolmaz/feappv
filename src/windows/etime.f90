@@ -29,9 +29,9 @@ real function etime(tt)
   tt(2) = 0.0
   tt(1) = 0.01*ihth + isec + 60.*(imin + 60.*ihr) - tim0
   if(tt(1) < 0.0) then
-    tt(1) = tt(1) + 86400.0
-    tim0  = tim0  - 86400.0
+     tt(1) = tt(1) + 86400.0
+     tim0  = tim0  - 86400.0
   endif
   etime = tt(1) + tt(2)
 
-  end
+end function etime

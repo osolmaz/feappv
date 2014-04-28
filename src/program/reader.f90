@@ -50,132 +50,132 @@ subroutine reader(ctc,b,nneq)
 
   if(pcomp(ct,'eige',4)) then
 
-    if(lflg) then
-      call peigsv(fname,2)
-    else
-      go to 940
-    endif
+     if(lflg) then
+        call peigsv(fname,2)
+     else
+        go to 940
+     endif
 
-    !     Read displacement state from disk
+     !     Read displacement state from disk
 
   elseif(pcomp(ct,'disp',4)) then
 
-    if(lflg) then
-      read(ird,end=920,err=930) cc,ttim
-      if( .not. pcomp(cc,ct,4)) go to 910
-      read(ird,end=920,err=930) b
-    else
-      go to 940
-    endif
+     if(lflg) then
+        read(ird,end=920,err=930) cc,ttim
+        if( .not. pcomp(cc,ct,4)) go to 910
+        read(ird,end=920,err=930) b
+     else
+        go to 940
+     endif
 
-    !     Read nodal stress state from disk
+     !     Read nodal stress state from disk
 
   elseif(pcomp(ct,'stre',4)) then
-    if(lflg) then
-      read(ird,end=920,err=930) cc,ttim
-      if( .not. pcomp(cc,ct,4)) go to 910
-      if(plfl) setvar = palloc( 58,'NDNP ',numnp*npstr,2)
-      fp(1) = np(58)
-      fp(2) = fp(1) - 1 + numnp*npstr
-      read(ird,end=920,err=930) istv,(hr(point),point=fp(1),fp(2))
-      fl(11) = .true. 
-    else
-      go to 940
-    endif
+     if(lflg) then
+        read(ird,end=920,err=930) cc,ttim
+        if( .not. pcomp(cc,ct,4)) go to 910
+        if(plfl) setvar = palloc( 58,'NDNP ',numnp*npstr,2)
+        fp(1) = np(58)
+        fp(2) = fp(1) - 1 + numnp*npstr
+        read(ird,end=920,err=930) istv,(hr(point),point=fp(1),fp(2))
+        fl(11) = .true. 
+     else
+        go to 940
+     endif
 
-    !     Rewind file
+     !     Rewind file
 
   elseif(pcomp(ct,'wind',4)) then
-    if(lflg) rewind ird
+     if(lflg) rewind ird
 
-    !     Backspace file
+     !     Backspace file
 
   elseif(pcomp(ct,'back',4)) then
-    if(lflg) then
-      backspace ird
-      backspace ird
-    endif
+     if(lflg) then
+        backspace ird
+        backspace ird
+     endif
 
-    !     Close file
+     !     Close file
 
   elseif(pcomp(ct,'clos',4)) then
-    if(lflg) close(ird)
-    if(ior > 0) write(iow,2002) fname
-    if(ior < 0) write(  *,2002) fname
-    lflg = .false. 
+     if(lflg) close(ird)
+     if(ior > 0) write(iow,2002) fname
+     if(ior < 0) write(  *,2002) fname
+     lflg = .false. 
 
-    !     Open file set with name 'ct'
+     !     Open file set with name 'ct'
 
   else
-    if( .not. lflg) then
-      fname = ct
-      inquire(file=fname,exist=lflg)
-      if(lflg) then
-        write(iow,2001) fname
-        if(ior < 0) write(*,2001) fname
-        open(ird,file=fname,status='old', &
-          form='unformatted',err=930)
-      else
-        if(ior > 0) then
-          write(iow,3000) fname
-          call plstop()
+     if( .not. lflg) then
+        fname = ct
+        inquire(file=fname,exist=lflg)
+        if(lflg) then
+           write(iow,2001) fname
+           if(ior < 0) write(*,2001) fname
+           open(ird,file=fname,status='old', &
+                form='unformatted',err=930)
+        else
+           if(ior > 0) then
+              write(iow,3000) fname
+              call plstop()
+           endif
+           write(*,3000) fname
         endif
-        write(*,3000) fname
-      endif
-    else
-      write(iow,3005) fname
-      if(ior < 0) write(*,3005) fname
-    endif
+     else
+        write(iow,3005) fname
+        if(ior < 0) write(*,3005) fname
+     endif
   endif
   return
 
   !     Error messages
 
-  910 if(ior > 0) then
-    write(iow,3001) ct,cc
-    call plstop()
+910 if(ior > 0) then
+     write(iow,3001) ct,cc
+     call plstop()
   endif
   write(*,3001) ct,cc
   backspace ird
   return
 
-  920 if(ior > 0) then
-    write(iow,3002) ct
-    call plstop()
+920 if(ior > 0) then
+     write(iow,3002) ct
+     call plstop()
   endif
   write(*,3002) ct
   return
 
-  930 if(ior > 0) then
-    write(iow,3003) ct
-    call plstop()
+930 if(ior > 0) then
+     write(iow,3003) ct
+     call plstop()
   endif
   write(*,3003) ct
   return
 
-  940 if(ior > 0) then
-    write(iow,3004)
-    call plstop()
+940 if(ior > 0) then
+     write(iow,3004)
+     call plstop()
   endif
   write(*,3004)
 
   !     Formats
 
-  2001 format('   File name for a read has been set to ',a)
+2001 format('   File name for a read has been set to ',a)
 
-  2002 format('   File name ',a,' closed.')
+2002 format('   File name ',a,' closed.')
 
-  3000 format(' *ERROR* File ',a,' does not exist')
+3000 format(' *ERROR* File ',a,' does not exist')
 
-  3001 format(' *ERROR* READ requested ',a4,' but found ',a4)
+3001 format(' *ERROR* READ requested ',a4,' but found ',a4)
 
-  3002 format(' *ERROR* End of file on a read command for ',a4)
+3002 format(' *ERROR* End of file on a read command for ',a4)
 
-  3003 format(' *ERROR* on a read command for ',a4)
+3003 format(' *ERROR* on a read command for ',a4)
 
-  3004 format(' *ERROR* No read file is open.')
+3004 format(' *ERROR* No read file is open.')
 
-  3005 format(' *ERROR* File ',a,' is open.  Close before new', &
-    ' file specified.')
+3005 format(' *ERROR* File ',a,' is open.  Close before new', &
+       ' file specified.')
 
 end subroutine reader

@@ -1,6 +1,6 @@
 ! Id:$
 subroutine compro(numnp, nen, nen1, ndf, ix, id, &
-    ic, ielc, ir, jc, kp, lir, bycol, wdiag, all)
+     ic, ielc, ir, jc, kp, lir, bycol, wdiag, all)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -48,9 +48,9 @@ subroutine compro(numnp, nen, nen1, ndf, ix, id, &
 
   neq = 0
   do i = 1, numnp
-  do j = 1,ndf
-  neq = max(neq,id(j,i))
-  end do ! j
+     do j = 1,ndf
+        neq = max(neq,id(j,i))
+     end do ! j
   end do ! i
 
   !     Check all equations
@@ -58,32 +58,32 @@ subroutine compro(numnp, nen, nen1, ndf, ix, id, &
   kp  = 0
   nep = 1
   do i = 1, neq
-  ne    = ic(i)
-  jc(i) = kp
-  kpo   = kp + 1
-  do k = nep, ne
-  nn = ielc(k)
+     ne    = ic(i)
+     jc(i) = kp
+     kpo   = kp + 1
+     do k = nep, ne
+        nn = ielc(k)
 
-  !         Check element type(>0: FE)
+        !         Check element type(>0: FE)
 
-  if(nn > 0) then
-    call comelm(id,ix(1,nn), ir, ndf,nen, kpo,kp,i,lir, &
-      bycol,wdiag,all)
-  else
-    write(*,*) ' **ERROR** Incorrect COMPRO type'
-  endif
+        if(nn > 0) then
+           call comelm(id,ix(1,nn), ir, ndf,nen, kpo,kp,i,lir, &
+                bycol,wdiag,all)
+        else
+           write(*,*) ' **ERROR** Incorrect COMPRO type'
+        endif
 
-  !         End element tests
+        !         End element tests
 
-  end do ! k
-  jc(i) = kp
-  nep   = ne + 1
+     end do ! k
+     jc(i) = kp
+     nep   = ne + 1
   end do ! i
 
 end subroutine compro
 
 subroutine comelm(id,ix, ir, ndf,nen, kpo,kp,neq,lir, &
-    bycol,wdiag,all)
+     bycol,wdiag,all)
 
   implicit  none
 
@@ -97,57 +97,57 @@ subroutine comelm(id,ix, ir, ndf,nen, kpo,kp,neq,lir, &
   save
 
   do l = 1,nen
-  kk = ix(l)
-  if(kk > 0) then
-    do m = 1, ndf
-    neqj = id(m,kk)
+     kk = ix(l)
+     if(kk > 0) then
+        do m = 1, ndf
+           neqj = id(m,kk)
 
-    !           Check if equation to be added
+           !           Check if equation to be added
 
-    if(all) then                           ! all terms
-      addeq   = neqj > 0
-    elseif(bycol) then                     ! by columns
-      if(wdiag) then
-        addeq = neqj <= neq .and. neqj > 0  ! diagonal in
-      else
-        addeq = neqj < neq .and. neqj > 0  ! diagonal out
-      endif
-    else                                   ! by rows
-      if(wdiag) then
-        addeq = neqj >= neq                ! diagonal in
-      else
-        addeq = neqj > neq                ! diagonal out
-      endif
-    endif
+           if(all) then                           ! all terms
+              addeq   = neqj > 0
+           elseif(bycol) then                     ! by columns
+              if(wdiag) then
+                 addeq = neqj <= neq .and. neqj > 0  ! diagonal in
+              else
+                 addeq = neqj < neq .and. neqj > 0  ! diagonal out
+              endif
+           else                                   ! by rows
+              if(wdiag) then
+                 addeq = neqj >= neq                ! diagonal in
+              else
+                 addeq = neqj > neq                ! diagonal out
+              endif
+           endif
 
-    !           Add equation to list
+           !           Add equation to list
 
-    if(addeq) then
+           if(addeq) then
 
-      !             Check if equation already in list.
+              !             Check if equation already in list.
 
-      do i = kpo, kp
-      if(ir(i) == neqj) go to 200
-      end do ! i
+              do i = kpo, kp
+                 if(ir(i) == neqj) go to 200
+              end do ! i
 
-      !             New equation, add to list
+              !             New equation, add to list
 
-      kp = kp + 1
-      if(kp <= lir) then
-        ir(kp) = neqj
-      else
-        write(iow,2000)
-        if(ior < 0) write(*,2000)
-        call plstop()
-      endif
-      200 continue
-    endif
-    end do ! m
-  endif
+              kp = kp + 1
+              if(kp <= lir) then
+                 ir(kp) = neqj
+              else
+                 write(iow,2000)
+                 if(ior < 0) write(*,2000)
+                 call plstop()
+              endif
+200           continue
+           endif
+        end do ! m
+     endif
   end do ! l
 
   !     Format
 
-  2000 format('   *ERROR* Insufficient memory for compressed storage')
+2000 format('   *ERROR* Insufficient memory for compressed storage')
 
 end subroutine comelm

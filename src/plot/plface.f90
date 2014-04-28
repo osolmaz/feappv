@@ -39,25 +39,25 @@ subroutine plface(ix,ip,x,ndm,nen1,numnp,numel,iln,ct)
 
   nface = 0
   do n = 1,numel
-  if(ix(nen1,n) > 0) then
-    ip(n) = n
-    call pfacev(ix(1,n),x,ndm,iln,ct,ip(n),nface)
-  else
-    ip(n) = 0
-  endif
+     if(ix(nen1,n) > 0) then
+        ip(n) = n
+        call pfacev(ix(1,n),x,ndm,iln,ct,ip(n),nface)
+     else
+        ip(n) = 0
+     endif
   end do
 
   !     Pack ip array
 
   nface = 0
   do n = 1,numel
-  if(ip(n) > 0 .and. ix(nen1,n) > 0) then
-    nface = nface + 1
-    ip(nface) = ip(n)
-    if(n > nface) then
-      ip(n) = 0
-    endif
-  endif
+     if(ip(n) > 0 .and. ix(nen1,n) > 0) then
+        nface = nface + 1
+        ip(nface) = ip(n)
+        if(n > nface) then
+           ip(n) = 0
+        endif
+     endif
   end do
   nfac = nface
 

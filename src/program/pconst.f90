@@ -30,27 +30,27 @@ subroutine pconst(prt)
   !     Input record from file "ior" or keyboard "*"
 
   if(prt) then
-    write(iow,2000)
+     write(iow,2000)
   endif
   inquire(unit=iwd, opened = lopn)
   if(lopn) write(iwd,'(a)') 'Parameters'
 
-  1 redo = .false. 
+1 redo = .false. 
   record = ' '
   if(ior > 0) then
-    read (ior,1000,err=901,end=902) record
-    irecrd(isf) = irecrd(isf) + 1
+     read (ior,1000,err=901,end=902) record
+     irecrd(isf) = irecrd(isf) + 1
   else
-    write(*,3000)
-    read (  *,1000,err=901,end=902) record
+     write(*,3000)
+     read (  *,1000,err=901,end=902) record
   endif
 
   if(lopn) then
-    do i = 256,1,-1
-    if(record(i:i) /= ' ') go to 100
-    end do ! i
-    i = 1
-    100 write(iwd,'(a)') record(1:i)
+     do i = 256,1,-1
+        if(record(i:i) /= ' ') go to 100
+     end do ! i
+     i = 1
+100  write(iwd,'(a)') record(1:i)
   endif
 
   redo = pconset(prt)
@@ -59,22 +59,22 @@ subroutine pconst(prt)
 
   !     Error on read
 
-  901 call  errclr ('PCONST')
+901 call  errclr ('PCONST')
   if (ior < 0)  goto 1
   return
 
   !     EOF encountered
 
-  902 return
+902 return
 
   !     Formats
 
-  1000 format(a)
+1000 format(a)
 
-  2000 format(/'  C o n s t a n t    V a l u e s'/1x)
+2000 format(/'  C o n s t a n t    V a l u e s'/1x)
 
-  3000 format(' Use "list" to give current values - <CR> to exit'/ &
-    ' Input: letter=expression (no blanks)'/'  -->',$)
+3000 format(' Use "list" to give current values - <CR> to exit'/ &
+       ' Input: letter=expression (no blanks)'/'  -->',$)
 
 end subroutine pconst
 
@@ -126,10 +126,10 @@ logical function pconset(prt)
   y = ' '
   n = 0
   do i = 1,256
-  if(x(i:i) /= ' ') then
-    n      = n + 1
-    y(n:n) = x(i:i)
-  endif
+     if(x(i:i) /= ' ') then
+        n      = n + 1
+        y(n:n) = x(i:i)
+     endif
   end do ! i
 
   let = ' '
@@ -140,62 +140,62 @@ logical function pconset(prt)
   i = 0
   n = 0
   do while (wflag .and. i < 256)
-  i = i + 1
+     i = i + 1
 
-  if(ichar(y(i:i)) == 9) y(i:i) = ' '  ! Strip horizontal tab
+     if(ichar(y(i:i)) == 9) y(i:i) = ' '  ! Strip horizontal tab
 
-  j   = ichar(y(i:i))
-  if(y(i:i) == ' ') then
-    wflag = .false. 
-  elseif(y(i:i) /= ' ') then
-    if(rflag) then
+     j   = ichar(y(i:i))
+     if(y(i:i) == ' ') then
+        wflag = .false. 
+     elseif(y(i:i) /= ' ') then
+        if(rflag) then
 
-      if(j == iq) then
-        if(ior < 0) then
-          write(  *,3000) record(1:77)
-          return
+           if(j == iq) then
+              if(ior < 0) then
+                 write(  *,3000) record(1:77)
+                 return
+              else
+                 write(iow,3000) record(1:77)
+                 call plstop()
+              endif
+           else
+              n      = n + 1
+              x(n:n) = y(i:i)
+           endif
+        elseif(j == iq) then
+           eql   = y(i:i)
+           rflag = .true. 
+           n     = 0
         else
-          write(iow,3000) record(1:77)
-          call plstop()
+           if(j >= iau .and. j <= izu) then  ! First character of name
+              let(1:1) = char(j+id)
+           else
+              let(1:1) = y(i:i)
+           endif
+           j   = ichar(y(i+1:i+1))           ! Second character of name
+           if(j >= iau .and. j <= izu) then
+              let(2:2) = char(j+id)
+              i        = i + 1
+           elseif(j >= ial .and. j <= izl) then
+              let(2:2) = char(j)
+              i        = i + 1
+           elseif(j >= i0 .and. j <= i9) then
+              let(2:2) = char(j)
+              i        = i + 1
+           else
+              let(2:2) = ' '
+           endif
         endif
-      else
-        n      = n + 1
-        x(n:n) = y(i:i)
-      endif
-    elseif(j == iq) then
-      eql   = y(i:i)
-      rflag = .true. 
-      n     = 0
-    else
-      if(j >= iau .and. j <= izu) then  ! First character of name
-        let(1:1) = char(j+id)
-      else
-        let(1:1) = y(i:i)
-      endif
-      j   = ichar(y(i+1:i+1))           ! Second character of name
-      if(j >= iau .and. j <= izu) then
-        let(2:2) = char(j+id)
-        i        = i + 1
-      elseif(j >= ial .and. j <= izl) then
-        let(2:2) = char(j)
-        i        = i + 1
-      elseif(j >= i0 .and. j <= i9) then
-        let(2:2) = char(j)
-        i        = i + 1
-      else
-        let(2:2) = ' '
-      endif
-    endif
-  endif
+     endif
   end do ! while
 
   !     Converts all characters to lower case
 
   do i = 1,n
-  n = ichar(x(i:i))
-  if(n >= iau .and. n <= izu) then
-    x(i:i) = char(n+id)
-  endif
+     n = ichar(x(i:i))
+     if(n >= iau .and. n <= izu) then
+        x(i:i) = char(n+id)
+     endif
   end do ! i
 
   !     Save the command
@@ -205,34 +205,34 @@ logical function pconset(prt)
   !     Check for blank character or null character = blank line
 
   if(let(1:1) == ' ' .or. ichar(let(1:1)) == 0) then
-    x       = ' '
-    let     = ' '
-    pconset = .false. 
-    return
+     x       = ' '
+     let     = ' '
+     pconset = .false. 
+     return
   endif
 
   !     Compare 'x' for match to li'st' = list values to screen
 
   if(pcomp(y,'list',4)) then
-    if(ior < 0) then
-      do i = 1,26
-      if(vvv(i,0) /= 0.0d0) then
-        write(*,2000) char(i+96),' ',vvv(i,0)
-      endif
-      do j = 1,26
-      if(vvv(i,j) /= 0.0d0) then
-        write(*,2000) char(i+96),char(j+96),vvv(i,j)
-      endif
-      end do ! j
-      do j = 27,36
-      if(vvv(i,j) /= 0.0d0) then
-        write(*,2000) char(i+96),char(j+i0-27),vvv(i,j)
-      endif
-      end do ! j
-      end do ! i
-    endif
-    pconset = .true. 
-    return
+     if(ior < 0) then
+        do i = 1,26
+           if(vvv(i,0) /= 0.0d0) then
+              write(*,2000) char(i+96),' ',vvv(i,0)
+           endif
+           do j = 1,26
+              if(vvv(i,j) /= 0.0d0) then
+                 write(*,2000) char(i+96),char(j+96),vvv(i,j)
+              endif
+           end do ! j
+           do j = 27,36
+              if(vvv(i,j) /= 0.0d0) then
+                 write(*,2000) char(i+96),char(j+i0-27),vvv(i,j)
+              endif
+           end do ! j
+        end do ! i
+     endif
+     pconset = .true. 
+     return
   endif
 
   !     Check upper/lower case - convert to lower case if necessary
@@ -245,39 +245,39 @@ logical function pconset(prt)
   !     Locate correct location for the addition
 
   if(let(2:2) == ' ') then
-    j        = 0
+     j        = 0
   else
-    j = ichar( let(2:2) )
-    if(j >= ial .and. j <= izl) then
-      j = j - ial + 1
-    elseif(j >= i0 .and. j <= i9) then
-      j = j - i0 + 27
-    endif
+     j = ichar( let(2:2) )
+     if(j >= ial .and. j <= izl) then
+        j = j - ial + 1
+     elseif(j >= i0 .and. j <= i9) then
+        j = j - i0 + 27
+     endif
   endif
   vvv(n,j) = val
 
   if(prt) then
-    write(iow,2000) let(1:1),let(2:2),vvv(n,j)
-    if(ior < 0) then
-      write(*,2000) let(1:1),let(2:2),vvv(n,j)
-    endif
+     write(iow,2000) let(1:1),let(2:2),vvv(n,j)
+     if(ior < 0) then
+        write(*,2000) let(1:1),let(2:2),vvv(n,j)
+     endif
   endif
   pconset = .true. 
   return
 
   !     Error on read
 
-  901 call  errclr ('PCONST')
+901 call  errclr ('PCONST')
   if (ior < 0)  pconset = .true. 
   return
 
   !     Formats
 
-  1000 format(a2,75a1)
+1000 format(a2,75a1)
 
-  2000 format(5x,'Constant ',a1,a1,' = ',e15.8)
+2000 format(5x,'Constant ',a1,a1,' = ',e15.8)
 
-  3000 format(/'  *ERROR* PCONST: Parameter input error: More than', &
-    ' one equal in expression'/2x,a/1x)
+3000 format(/'  *ERROR* PCONST: Parameter input error: More than', &
+       ' one equal in expression'/2x,a/1x)
 
 end function pconset

@@ -1,6 +1,6 @@
 ! Id:$
 subroutine formfe(pnu,pnb,pna,pnl,aufl,bfl,dfl, &
-    isw,nl1,nl2,nl3)
+     isw,nl1,nl2,nl3)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -48,11 +48,11 @@ subroutine formfe(pnu,pnb,pna,pnl,aufl,bfl,dfl, &
   !     Form appropriate finite element arrays
 
   call pform(hr(np(41)),hr(np(44)),hr(np(39)),mr(np(34)),hr(np(35)), &
-    hr(np(36)),mr(np(32)),hr(np(25)),mr(np(31)),hr(np(43)), &
-    mr(np(33)),hr(np(30)),hr(np(38)), &
-    mr(np(21)),hr(pnu),hr(np(42)),hr(pnb),hr(pna), &
-    hr(pnl),ndd,nie,ndf,ndm,nen1,nst,aufl,bfl,dfl, &
-    isw,nl1,nl2,nl3)
+       hr(np(36)),mr(np(32)),hr(np(25)),mr(np(31)),hr(np(43)), &
+       mr(np(33)),hr(np(30)),hr(np(38)), &
+       mr(np(21)),hr(pnu),hr(np(42)),hr(pnb),hr(pna), &
+       hr(pnl),ndd,nie,ndf,ndm,nen1,nst,aufl,bfl,dfl, &
+       isw,nl1,nl2,nl3)
 
   !     Reset update flag for history variables
 

@@ -32,8 +32,8 @@ subroutine paddv(vk,ve,nneq,tau,id)
   venorm = sqrt(dot(ve,ve,nneq))
   xsi = vknorm / (venorm * tau)
   do i = 1,nneq
-  j = id(i)
-  if (j > 0) vk(i) = vk(i) + xsi * ve(j)
+     j = id(i)
+     if (j > 0) vk(i) = vk(i) + xsi * ve(j)
   end do
 
   write(iow,2000) vknorm,venorm,xsi
@@ -41,8 +41,8 @@ subroutine paddv(vk,ve,nneq,tau,id)
 
   !     Format
 
-  2000 format(/,3x,'Norm displ. vector  = ',g12.5,/, &
-    &          3x,'Norm eigenvector    = ',g12.5,/, &
-    &          3x,'Scaling factor      = ',g12.5,/)
+2000 format(/,3x,'Norm displ. vector  = ',g12.5,/, &
+       &          3x,'Norm eigenvector    = ',g12.5,/, &
+       &          3x,'Scaling factor      = ',g12.5,/)
 
 end subroutine paddv

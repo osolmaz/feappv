@@ -102,20 +102,20 @@ subroutine shp3d(ss,xsj,shp,xl,ndm)
   !     Compute jacobian transformation
 
   do j = 1,3
-  xs(j,1) = (xl(j,2) - xl(j,1))*shp(1,2) &
-    + (xl(j,3) - xl(j,4))*shp(1,3) &
-    + (xl(j,6) - xl(j,5))*shp(1,6) &
-    + (xl(j,7) - xl(j,8))*shp(1,7)
+     xs(j,1) = (xl(j,2) - xl(j,1))*shp(1,2) &
+          + (xl(j,3) - xl(j,4))*shp(1,3) &
+          + (xl(j,6) - xl(j,5))*shp(1,6) &
+          + (xl(j,7) - xl(j,8))*shp(1,7)
 
-  xs(j,2) = (xl(j,3) - xl(j,2))*shp(2,3) &
-    + (xl(j,4) - xl(j,1))*shp(2,4) &
-    + (xl(j,7) - xl(j,6))*shp(2,7) &
-    + (xl(j,8) - xl(j,5))*shp(2,8)
+     xs(j,2) = (xl(j,3) - xl(j,2))*shp(2,3) &
+          + (xl(j,4) - xl(j,1))*shp(2,4) &
+          + (xl(j,7) - xl(j,6))*shp(2,7) &
+          + (xl(j,8) - xl(j,5))*shp(2,8)
 
-  xs(j,3) = (xl(j,5) - xl(j,1))*shp(3,5) &
-    + (xl(j,6) - xl(j,2))*shp(3,6) &
-    + (xl(j,7) - xl(j,3))*shp(3,7) &
-    + (xl(j,8) - xl(j,4))*shp(3,8)
+     xs(j,3) = (xl(j,5) - xl(j,1))*shp(3,5) &
+          + (xl(j,6) - xl(j,2))*shp(3,6) &
+          + (xl(j,7) - xl(j,3))*shp(3,7) &
+          + (xl(j,8) - xl(j,4))*shp(3,8)
   end do
 
   !     Compute adjoint to jacobian
@@ -140,22 +140,22 @@ subroutine shp3d(ss,xsj,shp,xl,ndm)
   !     Compute jacobian inverse
 
   do j = 1,3
-  do i = 1,3
-  xs(i,j) = ad(i,j)*rxsj
-  end do
+     do i = 1,3
+        xs(i,j) = ad(i,j)*rxsj
+     end do
   end do
 
   !     Compute derivatives with repect to global coords.
 
   do k = 1,8
 
-  c1 = shp(1,k)*xs(1,1) + shp(2,k)*xs(2,1) + shp(3,k)*xs(3,1)
-  c2 = shp(1,k)*xs(1,2) + shp(2,k)*xs(2,2) + shp(3,k)*xs(3,2)
-  c3 = shp(1,k)*xs(1,3) + shp(2,k)*xs(2,3) + shp(3,k)*xs(3,3)
+     c1 = shp(1,k)*xs(1,1) + shp(2,k)*xs(2,1) + shp(3,k)*xs(3,1)
+     c2 = shp(1,k)*xs(1,2) + shp(2,k)*xs(2,2) + shp(3,k)*xs(3,2)
+     c3 = shp(1,k)*xs(1,3) + shp(2,k)*xs(2,3) + shp(3,k)*xs(3,3)
 
-  shp(1,k) = c1
-  shp(2,k) = c2
-  shp(3,k) = c3
+     shp(1,k) = c1
+     shp(2,k) = c2
+     shp(3,k) = c3
 
   end do
 

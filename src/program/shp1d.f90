@@ -37,52 +37,52 @@ subroutine shp1d(s,xl,shp,ndm,nel,xjac)
   !     Computation of length of element
 
   do i = 1,3
-  xx(i) = 0.0d0
+     xx(i) = 0.0d0
   end do
   do i = 1,ndm
-  xx(i) = xl(i,nel) - xl(i,1)
+     xx(i) = xl(i,nel) - xl(i,1)
   end do
   h  = sqrt(xx(1)**2 + xx(2)**2 + xx(3)**2)
   if(h == 0.d0) then
-    write(iow,3000) h
-    call plstop()
+     write(iow,3000) h
+     call plstop()
   endif
 
   !     Linear element
 
   if(nel == 2) then
 
-    shp(2,1) = (1.d0 - s)*0.5d0
-    shp(2,2) = (1.d0 + s)*0.5d0
-    xjac     =  h*0.5d0
-    shp(1,1) = -1.d0/h
-    shp(1,2) =  1.d0/h
+     shp(2,1) = (1.d0 - s)*0.5d0
+     shp(2,2) = (1.d0 + s)*0.5d0
+     xjac     =  h*0.5d0
+     shp(1,1) = -1.d0/h
+     shp(1,2) =  1.d0/h
 
-    !     Quadratic element
+     !     Quadratic element
 
   elseif(nel == 3) then
 
-    do i = 1,ndm
-    xx(i) = xl(i,nel) - xl(i,nel-1)
-    end do
-    h2 = sqrt(xx(1)**2 + xx(2)**2 + xx(3)**2)
-    if(h2 == 0.d0) then
-      write(iow,3001) h2
-      call plstop()
-    endif
-    shp(2,1) =  s*(s - 1.d0)*0.5d0
-    shp(2,2) =  1.d0 - s*s
-    shp(2,3) =  s*(s + 1.d0)*0.5d0
-    xjac     =  h*0.5d0 + s*(2.d0*h2-h)
-    shp(1,1) = (s - 0.5d0)/xjac
-    shp(1,2) = -2.d0*s/xjac
-    shp(1,3) = (s + 0.5d0)/xjac
+     do i = 1,ndm
+        xx(i) = xl(i,nel) - xl(i,nel-1)
+     end do
+     h2 = sqrt(xx(1)**2 + xx(2)**2 + xx(3)**2)
+     if(h2 == 0.d0) then
+        write(iow,3001) h2
+        call plstop()
+     endif
+     shp(2,1) =  s*(s - 1.d0)*0.5d0
+     shp(2,2) =  1.d0 - s*s
+     shp(2,3) =  s*(s + 1.d0)*0.5d0
+     xjac     =  h*0.5d0 + s*(2.d0*h2-h)
+     shp(1,1) = (s - 0.5d0)/xjac
+     shp(1,2) = -2.d0*s/xjac
+     shp(1,3) = (s + 0.5d0)/xjac
   endif
 
-  3000 format(/5x,'Error in SHP1D: h =',d12.5,/,5x, &
-    'linear element with zero length')
+3000 format(/5x,'Error in SHP1D: h =',d12.5,/,5x, &
+       'linear element with zero length')
 
-  3001 format(/5x,'Error in SHP1D: h2=',d12.5,/,5x, &
-    'quadratic element with zero length')
+3001 format(/5x,'Error in SHP1D: h2=',d12.5,/,5x, &
+       'quadratic element with zero length')
 
 end subroutine shp1d

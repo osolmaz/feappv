@@ -42,12 +42,12 @@ subroutine genint(nd,ix,nix,num,cname,carg,prt,prth,err,type)
   mct = 0
   n   = 0
   ng  = 0
-  100 l   = n
+100 l   = n
   lg  = ng
 
   !     Call input routine - values returned in td and then moved
 
-  101 if(ior < 0) write(*,2010)
+101 if(ior < 0) write(*,2010)
   errck = pinput(td,2+nd)
   if(errck) go to 101
   n   = nint(td(1))
@@ -56,77 +56,77 @@ subroutine genint(nd,ix,nix,num,cname,carg,prt,prth,err,type)
   if(n <= 0 .or. n > num) go to 105
   ng  = nint(td(2))
   do i = 1,nd
-  ixl(i)  = nint(td(i+2))
-  ix(i,n) = ixl(i)
+     ixl(i)  = nint(td(i+2))
+     ix(i,n) = ixl(i)
   end do
   if(lg) 102,100,102
-  102 lg = sign(lg,n-l)
-  103 l = l + lg
+102 lg = sign(lg,n-l)
+103 l = l + lg
   if((n-l)*lg <= 0) go to 100
   if(l <= 0 .or. l > num) go to 104
   do i = 1,nd
-  ix(i,l) = ix(i,l-lg)
+     ix(i,l) = ix(i,l-lg)
   end do
   go to 103
-  104 write(iow,3000) l,cname
+104 write(iow,3000) l,cname
   if(ior < 0) write(  *,3000) l,cname
   err = .true. 
   go to 100
 
-  105 if( .not. prt) return
+105 if( .not. prt) return
 
   do j = 1,num
 
-  !       Output if non-zero
+     !       Output if non-zero
 
-  oflg = .false. 
-  do l = 1,nd
-  if(ix(l,j) /= 0) oflg = .true. 
-  enddo
+     oflg = .false. 
+     do l = 1,nd
+        if(ix(l,j) /= 0) oflg = .true. 
+     enddo
 
-  if(oflg) then
+     if(oflg) then
 
-    !         Output header
+        !         Output header
 
-    mct = mct - 1
-    if(mct <= 0) then
-      mct = 50
-      call prtitl(prth)
-      if(type == 1) then
-        write(iow,2001) cname,(l,cd,l=1,nd)
-        if(ior < 0) then
-          write(*,2001) cname,(l,cd,l=1,nd)
+        mct = mct - 1
+        if(mct <= 0) then
+           mct = 50
+           call prtitl(prth)
+           if(type == 1) then
+              write(iow,2001) cname,(l,cd,l=1,nd)
+              if(ior < 0) then
+                 write(*,2001) cname,(l,cd,l=1,nd)
+              endif
+           else
+              write(iow,2002) cname,(l,cd,l=1,nd)
+              if(ior < 0) then
+                 write(*,2002) cname,(l,cd,l=1,nd)
+              endif
+           endif
         endif
-      else
-        write(iow,2002) cname,(l,cd,l=1,nd)
+
+        !         Output values
+
+        write(iow,2009) j,(ix(l,j),l=1,nd)
         if(ior < 0) then
-          write(*,2002) cname,(l,cd,l=1,nd)
+           write(*,2009) j,(ix(l,j),l=1,nd)
         endif
-      endif
-    endif
-
-    !         Output values
-
-    write(iow,2009) j,(ix(l,j),l=1,nd)
-    if(ior < 0) then
-      write(*,2009) j,(ix(l,j),l=1,nd)
-    endif
-  endif
+     endif
 
   end do
 
   !     Formats
 
-  2001 format(5x,a//'      Node',6(i5,a6):/(10x,6(i5,a6):))
-  2002 format(5x,a//'   Element',6(i5,a6):/(10x,6(i5,a6):))
+2001 format(5x,a//'      Node',6(i5,a6):/(10x,6(i5,a6):))
+2002 format(5x,a//'   Element',6(i5,a6):/(10x,6(i5,a6):))
 
-  2009 format(i10,6i11:/(10x,6i11):)
+2009 format(i10,6i11:/(10x,6i11):)
 
-  2010 format(' Input: item#, inc., values'/3x,'>',$)
+2010 format(' Input: item#, inc., values'/3x,'>',$)
 
-  3000 format(' *ERROR* Attempt to generate item',i5,' in ',a)
+3000 format(' *ERROR* Attempt to generate item',i5,' in ',a)
 
-  3001 format(' *ERROR* Attempt to input item',i5,', terminate', &
-    ' input in ',a)
+3001 format(' *ERROR* Attempt to input item',i5,', terminate', &
+       ' input in ',a)
 
 end subroutine genint

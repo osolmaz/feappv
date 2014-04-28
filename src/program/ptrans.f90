@@ -45,53 +45,53 @@ subroutine ptrans(ia,angl,ul,p,s,nel,ndf,nst,isw)
   !     Transform displacement quantities to element coordinates
 
   if(isw == 1) then
-    do i = 1,nel
-    if(angl(i) /= 0.0d0) then
-      call pdegree(angl(i), sn,cs)
-      do j = 1,6
-      tm        = cs*ul(ij1,j) - sn*ul(ij2,j)
-      ul(ij2,j) = sn*ul(ij1,j) + cs*ul(ij2,j)
-      ul(ij1,j) = tm
-      end do
-    endif
-    ij1 = ij1 + ndf
-    ij2 = ij2 + ndf
-    end do
+     do i = 1,nel
+        if(angl(i) /= 0.0d0) then
+           call pdegree(angl(i), sn,cs)
+           do j = 1,6
+              tm        = cs*ul(ij1,j) - sn*ul(ij2,j)
+              ul(ij2,j) = sn*ul(ij1,j) + cs*ul(ij2,j)
+              ul(ij1,j) = tm
+           end do
+        endif
+        ij1 = ij1 + ndf
+        ij2 = ij2 + ndf
+     end do
 
-    !     Transform element arrays to global coordinates
+     !     Transform element arrays to global coordinates
 
   else
-    i1 = 0
-    do i = 1,nel
-    if(angl(i) /= 0.0d0) then
-      call pdegree(angl(i), sn,cs)
+     i1 = 0
+     do i = 1,nel
+        if(angl(i) /= 0.0d0) then
+           call pdegree(angl(i), sn,cs)
 
-      !           Transform load vector
+           !           Transform load vector
 
-      tm       = cs*p(ij1,i) + sn*p(ij2,i)
-      p(ij2,i) =-sn*p(ij1,i) + cs*p(ij2,i)
-      p(ij1,i) = tm
-      if(isw == 2) then
+           tm       = cs*p(ij1,i) + sn*p(ij2,i)
+           p(ij2,i) =-sn*p(ij1,i) + cs*p(ij2,i)
+           p(ij1,i) = tm
+           if(isw == 2) then
 
-        !             Postmultiply s by transformation
+              !             Postmultiply s by transformation
 
-        do j = 1,nst
-        tm         = s(j,i1+ij1)*cs + s(j,i1+ij2)*sn
-        s(j,i1+ij2)=-s(j,i1+ij1)*sn + s(j,i1+ij2)*cs
-        s(j,i1+ij1)= tm
-        end do
+              do j = 1,nst
+                 tm         = s(j,i1+ij1)*cs + s(j,i1+ij2)*sn
+                 s(j,i1+ij2)=-s(j,i1+ij1)*sn + s(j,i1+ij2)*cs
+                 s(j,i1+ij1)= tm
+              end do
 
-        !             Premultiply s by transformation
+              !             Premultiply s by transformation
 
-        do j = 1,nst
-        tm         = cs*s(i1+ij1,j) + sn*s(i1+ij2,j)
-        s(i1+ij2,j)=-sn*s(i1+ij1,j) + cs*s(i1+ij2,j)
-        s(i1+ij1,j)= tm
-        end do
-      endif
-    endif
-    i1 = i1 + ndf
-    end do
+              do j = 1,nst
+                 tm         = cs*s(i1+ij1,j) + sn*s(i1+ij2,j)
+                 s(i1+ij2,j)=-sn*s(i1+ij1,j) + cs*s(i1+ij2,j)
+                 s(i1+ij1,j)= tm
+              end do
+           endif
+        endif
+        i1 = i1 + ndf
+     end do
   endif
 
 end subroutine ptrans

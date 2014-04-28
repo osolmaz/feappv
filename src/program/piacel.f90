@@ -29,11 +29,11 @@ subroutine piacel(ml,dr,a,neq)
   !     Compute starting acceleration
 
   do n = 1,neq
-  if(ml(n) /= 0.0d0) then
-    a(n) = dr(n)/ml(n)
-  else
-    a(n) = 0.0d0
-  endif
+     if(ml(n) /= 0.0d0) then
+        a(n) = dr(n)/ml(n)
+     else
+        a(n) = 0.0d0
+     endif
   end do
 
 end subroutine piacel

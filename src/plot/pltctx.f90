@@ -38,8 +38,8 @@ subroutine pltctx(vc,ic,iv,nc,mc)
   save
 
   data strs/' S T R E S S ',' DISPLACEMENT','  VELOCITY', &
-    ' ACCELERATION',' PRIN. STRESS','  STREAMLINE ', &
-    ' CONTACT VAR.'/
+       ' ACCELERATION',' PRIN. STRESS','  STREAMLINE ', &
+       ' CONTACT VAR.'/
 
   data slab/'  1 ','  2 ','  3 ',' Ang',' I_1',' J_2',' J_3'/
 
@@ -56,9 +56,9 @@ subroutine pltctx(vc,ic,iv,nc,mc)
   !     X11 and DOS devices
 
   if(mc == 5) then
-    write(yy,'(a13,a4)' ) strs(mc),slab(min(7,ic))
+     write(yy,'(a13,a4)' ) strs(mc),slab(min(7,ic))
   else
-    write(yy,'(a13,i2)' ) strs(mc),ic
+     write(yy,'(a13,i2)' ) strs(mc),ic
   endif
 
   xph    = 1.0/1.28
@@ -70,18 +70,18 @@ subroutine pltctx(vc,ic,iv,nc,mc)
   call tplot(xhead,ycor,yy,17,1)
 
   do i = 1,nc
-  ivi = iv + i
-  call pppcol(ivi,1)
-  call dplot(1.02d0,ycor - (ivi)/xdv,3)
-  write(yy, '(i3,1p1e11.3)' ) ivi,vc(i)
+     ivi = iv + i
+     call pppcol(ivi,1)
+     call dplot(1.02d0,ycor - (ivi)/xdv,3)
+     write(yy, '(i3,1p1e11.3)' ) ivi,vc(i)
 
-  !       PHIGS or X11 devices
+     !       PHIGS or X11 devices
 
-  xhead  = 1.00d0
-  ycoi   = ycor - (ivi)/xdv
-  xph = 1.02/1.28
-  yph = real(ycoi/1.28d0)
-  call tplot(xhead,ycoi,yy,14,1)
+     xhead  = 1.00d0
+     ycoi   = ycor - (ivi)/xdv
+     xph = 1.02/1.28
+     yph = real(ycoi/1.28d0)
+     call tplot(xhead,ycoi,yy,14,1)
 
   end do
 

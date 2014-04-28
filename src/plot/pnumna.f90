@@ -18,12 +18,12 @@ subroutine pnumna(ix,nen1,nen,numel, ip)
   !     Tag active nodes
 
   do nn = 1,numel
-  if(ix(nen1-1,nn) >= 0 .and. &
-    (maplt == 0 .or. ix(nen1,nn) == maplt)) then
-  do i = 1,nen
-  if(ix(i,nn) > 0) ip(ix(i,nn)) = 1
+     if(ix(nen1-1,nn) >= 0 .and. &
+          (maplt == 0 .or. ix(nen1,nn) == maplt)) then
+        do i = 1,nen
+           if(ix(i,nn) > 0) ip(ix(i,nn)) = 1
+        end do
+     endif
   end do
-endif
-end do
 
-    end subroutine pnumna
+end subroutine pnumna

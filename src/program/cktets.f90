@@ -38,52 +38,52 @@ subroutine cktets ( n, ix, xl, ndm, nel, shp )
   save
 
   data      rst/ 1.d0, 0.d0, 0.d0,   0.d0, 1.d0, 0.d0, &
-    &                0.d0, 0.d0, 1.d0,   0.d0, 0.d0, 0.d0, &
-    .5d0, .5d0, .0d0,   .0d0, .5d0, .5d0, &
-    .0d0, .0d0, .5d0,   .5d0, .0d0, .0d0, &
-    .0d0, .5d0, .0d0,   .5d0, .0d0, .5d0, &
-    .25d0,.25d0,.25d0/
+       &                0.d0, 0.d0, 1.d0,   0.d0, 0.d0, 0.d0, &
+       .5d0, .5d0, .0d0,   .0d0, .5d0, .5d0, &
+       .0d0, .0d0, .5d0,   .5d0, .0d0, .0d0, &
+       .0d0, .5d0, .0d0,   .5d0, .0d0, .5d0, &
+       .25d0,.25d0,.25d0/
 
   !     Check element for input errors
 
   ineg = 0
   do l = 1,nel
-  if(ix(l) > 0) then
-    if(mr(np(49)-1+ix(l)) < 0) then
-      ic(ineg+1) = l
-      ic(ineg+2) = abs(ix(l))
-      ineg = ineg + 2
-    endif
-  endif
+     if(ix(l) > 0) then
+        if(mr(np(49)-1+ix(l)) < 0) then
+           ic(ineg+1) = l
+           ic(ineg+2) = abs(ix(l))
+           ineg = ineg + 2
+        endif
+     endif
   end do
 
   !     Node numbering errors
 
   if(ineg > 0) then
-    write(iow,2000) n,(ic(i),i=1,ineg)
-    if(ior < 0) write(*,2000) n,(ic(i),i=1,ineg)
+     write(iow,2000) n,(ic(i),i=1,ineg)
+     if(ior < 0) write(*,2000) n,(ic(i),i=1,ineg)
 
-    !     Compute jacobian at each corner of element
+     !     Compute jacobian at each corner of element
 
   else
-    do l = 1,nel
-    call tjac3d ( rst(1,l) , xl, ndm, nel, shp, detj )
-    if(detj <= 0.0d0) then
-      ic(ineg+1) = l
-      ic(ineg+2) = abs(ix(l))
-      ineg = ineg + 2
-    endif
-    end do
-    if(ineg > 0) then
-      write(iow,2001) n,(ic(i),i=1,ineg)
-      if(ior < 0) write(*,2001) n,(ic(i),i=1,ineg)
-    endif
+     do l = 1,nel
+        call tjac3d ( rst(1,l) , xl, ndm, nel, shp, detj )
+        if(detj <= 0.0d0) then
+           ic(ineg+1) = l
+           ic(ineg+2) = abs(ix(l))
+           ineg = ineg + 2
+        endif
+     end do
+     if(ineg > 0) then
+        write(iow,2001) n,(ic(i),i=1,ineg)
+        if(ior < 0) write(*,2001) n,(ic(i),i=1,ineg)
+     endif
   endif
 
-  2000 format(' >Element',i4,' coordinates not input for nodes:'/ &
-    ('                Local =',i3,' Global =',i4))
+2000 format(' >Element',i4,' coordinates not input for nodes:'/ &
+       ('                Local =',i3,' Global =',i4))
 
-  2001 format(' >Element',i4,' has negative jacobian at nodes:'/ &
-    ('                Local =',i3,' Global =',i4))
+2001 format(' >Element',i4,' has negative jacobian at nodes:'/ &
+       ('                Local =',i3,' Global =',i4))
 
 end subroutine cktets

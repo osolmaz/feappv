@@ -26,7 +26,7 @@ function dotid(a,b,id,nn)
 
   dotid = 0.d0
   do i = 1,nn
-  if(id(i) > 0) dotid = dotid + a(i)*b(id(i))
+     if(id(i) > 0) dotid = dotid + a(i)*b(id(i))
   end do
 
 end function dotid

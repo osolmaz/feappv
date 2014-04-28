@@ -24,7 +24,7 @@ subroutine pzero(v,nn)
   save
 
   do n = 1,nn
-  v(n) = 0.0d0
+     v(n) = 0.0d0
   end do
 
 end subroutine pzero

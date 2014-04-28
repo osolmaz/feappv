@@ -47,29 +47,29 @@ subroutine setmac(yyy,wd,nwd,ll,jct,lct,lzz)
   xxx = ' '
   j = 0
   do i = 1,47
-  if(temp(i:i) /= ' ') then
-    j = j + 1
-    xxx(j:j) = temp(i:i)
-  end if
+     if(temp(i:i) /= ' ') then
+        j = j + 1
+        xxx(j:j) = temp(i:i)
+     end if
   end do ! i
 
   !     Insert data into command list
 
   do i = 1,nwd
-  if(pcomp(clab1,wd(i),4)) then
-    ll      = ll + 1
-    jct(ll) = i
-    lct(ll) = clab2
-    lzz(ll) = xxx
-    return
-  end if
+     if(pcomp(clab1,wd(i),4)) then
+        ll      = ll + 1
+        jct(ll) = i
+        lct(ll) = clab2
+        lzz(ll) = xxx
+        return
+     end if
   end do
   write(*,3000) clab1
 
   !     Formats
 
-  1000 format(a4,11x,a15,a)
+1000 format(a4,11x,a15,a)
 
-  3000 format(' *WARNING* Illegal command ',a4,' in procedure.')
+3000 format(' *WARNING* Illegal command ',a4,' in procedure.')
 
 end subroutine setmac

@@ -30,35 +30,35 @@ subroutine pltet4(iel)
 
   if(iel > 0) then
 
-    inord(iel)    = 9
+     inord(iel)    = 9
 
-    !       Set plot sequence
+     !       Set plot sequence
 
-    ipord( 1,iel) = 1
-    ipord( 2,iel) = 2
-    ipord( 3,iel) = 3
-    ipord( 4,iel) = 1
-    ipord( 5,iel) = 4
-    ipord( 6,iel) = 2
-    ipord( 7,iel) = 3
-    ipord( 8,iel) = 4
-    ipord( 9,iel) = 1
+     ipord( 1,iel) = 1
+     ipord( 2,iel) = 2
+     ipord( 3,iel) = 3
+     ipord( 4,iel) = 1
+     ipord( 5,iel) = 4
+     ipord( 6,iel) = 2
+     ipord( 7,iel) = 3
+     ipord( 8,iel) = 4
+     ipord( 9,iel) = 1
 
   elseif(iel < 0) then
 
-    exord(-iel)    = 9
+     exord(-iel)    = 9
 
-    !       Set plot sequence
+     !       Set plot sequence
 
-    epord( 1,-iel) = 1
-    epord( 2,-iel) = 2
-    epord( 3,-iel) = 3
-    epord( 4,-iel) = 1
-    epord( 5,-iel) = 4
-    epord( 6,-iel) = 2
-    epord( 7,-iel) = 3
-    epord( 8,-iel) = 4
-    epord( 9,-iel) = 1
+     epord( 1,-iel) = 1
+     epord( 2,-iel) = 2
+     epord( 3,-iel) = 3
+     epord( 4,-iel) = 1
+     epord( 5,-iel) = 4
+     epord( 6,-iel) = 2
+     epord( 7,-iel) = 3
+     epord( 8,-iel) = 4
+     epord( 9,-iel) = 1
 
   endif
 

@@ -42,45 +42,45 @@ subroutine rprint(dr,ndf,nfl)
   rmx = dr(1,1)
   rmn = dr(1,1)
   do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0) then
-    rmx = max(rmx,dr(1,n))
-    rmn = min(rmn,dr(1,n))
-  endif
+     if(mr(np(49)-1+n) >= 0) then
+        rmx = max(rmx,dr(1,n))
+        rmn = min(rmn,dr(1,n))
+     endif
   end do
 
   !     Check range for contour outputs
 
   if(abs(rmx-rmn) > 1.d-5*max(abs(rmx),abs(rmn))) then
-    do n = 1,numnp
-    if(mr(np(49)-1+n) >= 0) then
-      rs = (dr(1,n) - rmn)/(rmx - rmn)
-      do i = 1,9
-      if(rs >= 0.1d0*i) pr(i) = pr(i) + drv
-      end do
-    endif
-    end do
+     do n = 1,numnp
+        if(mr(np(49)-1+n) >= 0) then
+           rs = (dr(1,n) - rmn)/(rmx - rmn)
+           do i = 1,9
+              if(rs >= 0.1d0*i) pr(i) = pr(i) + drv
+           end do
+        endif
+     end do
   else
-    if(max(abs(rmx),abs(rmn)) > 1.d-8) then
-      rmn = rmn - 0.1*max(abs(rmx),abs(rmn))
-      rmx = rmx + 0.1*max(abs(rmx),abs(rmn))
-    else
-      rmn = -1.0d-08
-      rmx =  1.0d-08
-      nfl = -abs(nfl)
-    endif
+     if(max(abs(rmx),abs(rmn)) > 1.d-8) then
+        rmn = rmn - 0.1*max(abs(rmx),abs(rmn))
+        rmx = rmx + 0.1*max(abs(rmx),abs(rmn))
+     else
+        rmn = -1.0d-08
+        rmx =  1.0d-08
+        nfl = -abs(nfl)
+     endif
   endif
 
   !     Output range for min/max
 
   if(prompt) then
-    if(pfr) write(iow,2000) rmn,rmx
-    if(ior < 0 .and. .not. defalt) then
-      write(*,2000) rmn,rmx
-    endif
+     if(pfr) write(iow,2000) rmn,rmx
+     if(ior < 0 .and. .not. defalt) then
+        write(*,2000) rmn,rmx
+     endif
   endif
 
-  2000 format('    Minimum is ',1p,e10.2,' Maximum is ',1p,e10.2:/ &
-    &   22x,'10%   20%   30%   40%   50%   60%   70%   80%   90%'/ &
-    '    Profile above is:',9f6.1)
+2000 format('    Minimum is ',1p,e10.2,' Maximum is ',1p,e10.2:/ &
+       &   22x,'10%   20%   30%   40%   50%   60%   70%   80%   90%'/ &
+       '    Profile above is:',9f6.1)
 
 end subroutine rprint

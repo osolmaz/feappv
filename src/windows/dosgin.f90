@@ -42,13 +42,13 @@ subroutine dosgin(ix,iy,butn)
   result = waitonmouseevent(mevent,key,x,y)
 
   if(key == shftl .or. key == shftr) then
-    butn = 'm'
+     butn = 'm'
   elseif(key == mouse$ks_lbutton) then
-    butn = 'l'
+     butn = 'l'
   elseif(key == mouse$ks_rbutton) then
-    butn = 'r'
+     butn = 'r'
   else
-    butn = 'e'
+     butn = 'e'
   endif
 
   !     Return coordinates
@@ -56,4 +56,4 @@ subroutine dosgin(ix,iy,butn)
   ix  = x*idxl
   iy  = 22000 - y*idyl
 
-  end
+end subroutine dosgin

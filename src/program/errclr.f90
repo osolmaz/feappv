@@ -24,17 +24,17 @@ subroutine errclr (subnam)
   character subnam*(*)
 
   if (ior > 0)  then
-    write(iow,2000) subnam,fincld(isf),irecrd(isf),record
-    call pdelfl()
-    call plstop()
+     write(iow,2000) subnam,fincld(isf),irecrd(isf),record
+     call pdelfl()
+     call plstop()
   endif
 
   !     Format
 
-  2000 format (/'  Inconsistency occurred from ',a,' in data file ',a,/ &
-    '  at or near record number',i6,'.  Input record is:', &
-    //2x,a78//, &
-    '  If this record is correct error may result from'/ &
-    '  missing blank record before new command type.')
+2000 format (/'  Inconsistency occurred from ',a,' in data file ',a,/ &
+       '  at or near record number',i6,'.  Input record is:', &
+       //2x,a78//, &
+       '  If this record is correct error may result from'/ &
+       '  missing blank record before new command type.')
 
 end subroutine errclr

@@ -29,14 +29,14 @@ subroutine pltcor(nel,ic,v,vc,nc)
   save
 
   do i = 1,nel
-  ic(i) = 1
+     ic(i) = 1
   end do
   do n = 1,nc
-  do i = 1,nel
-  if(v(i) >= vc(n)) then
-    ic(i) = n + 1
-  endif
-  end do
+     do i = 1,nel
+        if(v(i) >= vc(n)) then
+           ic(i) = n + 1
+        endif
+     end do
   end do
 
 end subroutine pltcor

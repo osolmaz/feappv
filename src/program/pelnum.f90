@@ -43,25 +43,25 @@ subroutine pelnum(tx,iel,errck)
   !     Register program element type names
 
   if    (pcomp(tx,'soli',4)) then
-    iel = -1
+     iel = -1
   elseif(pcomp(tx,'trus',4)) then
-    iel = -2
+     iel = -2
   elseif(pcomp(tx,'fram',4)) then
-    iel = -3
+     iel = -3
   elseif(pcomp(tx,'plat',4)) then
-    iel = -4
+     iel = -4
   elseif(pcomp(tx,'shel',4)) then
-    iel = -5
+     iel = -5
   elseif(pcomp(tx,'memb',4)) then
-    iel = -6
+     iel = -6
   elseif(pcomp(tx,'ther',4)) then
-    iel = -7
+     iel = -7
   elseif(pcomp(tx,'conv',4)) then
-    iel = -8
+     iel = -8
   elseif(pcomp(tx,'poin',4)) then
-    iel = -9
+     iel = -9
   else
-    errck = .true. 
+     errck = .true. 
   endif
 
 end subroutine pelnum

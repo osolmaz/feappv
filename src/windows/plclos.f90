@@ -30,4 +30,4 @@ subroutine plclos()
 
   status = vtxwin()
 
-  end
+end subroutine plclos

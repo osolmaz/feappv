@@ -29,23 +29,23 @@ subroutine pltln2(iel)
 
   if(iel > 0) then
 
-    inord(iel)    = 3
+     inord(iel)    = 3
 
-    !       Set plot sequence
+     !       Set plot sequence
 
-    ipord( 1,iel) = 1
-    ipord( 2,iel) = 2
-    ipord( 3,iel) = 1
+     ipord( 1,iel) = 1
+     ipord( 2,iel) = 2
+     ipord( 3,iel) = 1
 
   elseif(iel < 0) then
 
-    exord(-iel)    = 3
+     exord(-iel)    = 3
 
-    !       Set plot sequence
+     !       Set plot sequence
 
-    epord( 1,-iel) = 1
-    epord( 2,-iel) = 2
-    epord( 3,-iel) = 1
+     epord( 1,-iel) = 1
+     epord( 2,-iel) = 2
+     epord( 3,-iel) = 1
 
   endif
 

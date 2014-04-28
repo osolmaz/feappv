@@ -44,53 +44,53 @@ subroutine pblendm(isd,blend,ndm,nen1,prt,prth,eflag,nflag)
 
   do n = 1,numbd
 
-  !       Pointer to transformtion and surface type
+     !       Pointer to transformtion and surface type
 
-  fp(1) = np(66) + blend*(n-1) - 1
+     fp(1) = np(66) + blend*(n-1) - 1
 
-  !       Surface generations
+     !       Surface generations
 
-  do n1 = 1,blend
-  tblend(n1) = mr(fp(1)+n1)
-  end do
+     do n1 = 1,blend
+        tblend(n1) = mr(fp(1)+n1)
+     end do
 
-  !       Surface generations
+     !       Surface generations
 
-  if(tblend(19) == 1) then
+     if(tblend(19) == 1) then
 
-    if(np(64) == 0) then
-      setvar = palloc( 64,'BSIDE',2,1)
-    endif
-    call pblend2a(tblend,iside,isd)
-    fp(1) = np(68) + mxilr*(n-1)
-    fp(2) = np(65) +    12*(n-1)
-    call pblend2b(n,hr(np(63)),mr(np(64)),hr(fp(2)),tblend, &
-      mr(fp(1)),hr(np(43)),mr(np(33)), &
-      iside,isd,ndm,nen1,prt,prth,eflag,nflag)
+        if(np(64) == 0) then
+           setvar = palloc( 64,'BSIDE',2,1)
+        endif
+        call pblend2a(tblend,iside,isd)
+        fp(1) = np(68) + mxilr*(n-1)
+        fp(2) = np(65) +    12*(n-1)
+        call pblend2b(n,hr(np(63)),mr(np(64)),hr(fp(2)),tblend, &
+             mr(fp(1)),hr(np(43)),mr(np(33)), &
+             iside,isd,ndm,nen1,prt,prth,eflag,nflag)
 
-    !       Solid generations
+        !       Solid generations
 
-  elseif(tblend(19) == 2) then
+     elseif(tblend(19) == 2) then
 
-    fp(1) = np(68) + mxilr*(n-1)
-    fp(2) = np(65) +    12*(n-1)
-    call pblend3(n,hr(fp(2)),tblend,mr(fp(1)),isd,ndm,nen1, &
-      prt,prth,eflag,nflag)
+        fp(1) = np(68) + mxilr*(n-1)
+        fp(2) = np(65) +    12*(n-1)
+        call pblend3(n,hr(fp(2)),tblend,mr(fp(1)),isd,ndm,nen1, &
+             prt,prth,eflag,nflag)
 
-    !       Line generations
+        !       Line generations
 
-  elseif(tblend(19) == 3) then
+     elseif(tblend(19) == 3) then
 
-    if(np(64) == 0) then
-      setvar = palloc(64,'BSIDE',2,1)
-    endif
-    call pblend1a(mr(np(64)),tblend,iside,isd)
-    fp(1) = np(68) + mxilr*(n-1)
-    fp(2) = np(65) +    12*(n-1)
-    call pblend1b(hr(np(63)),mr(np(64)),hr(fp(2)),tblend, &
-      mr(fp(1)),hr(np(43)),mr(np(33)), &
-      iside(1),isd,ndm,nen1,prt,prth,eflag,nflag)
-  endif
+        if(np(64) == 0) then
+           setvar = palloc(64,'BSIDE',2,1)
+        endif
+        call pblend1a(mr(np(64)),tblend,iside,isd)
+        fp(1) = np(68) + mxilr*(n-1)
+        fp(2) = np(65) +    12*(n-1)
+        call pblend1b(hr(np(63)),mr(np(64)),hr(fp(2)),tblend, &
+             mr(fp(1)),hr(np(43)),mr(np(33)), &
+             iside(1),isd,ndm,nen1,prt,prth,eflag,nflag)
+     endif
 
   end do ! n
 

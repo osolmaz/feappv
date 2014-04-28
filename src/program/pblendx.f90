@@ -1,6 +1,6 @@
 ! Id:$
 subroutine pblendx(nn,nr,ns,ni,ntyp,ndm, fxim,fetp,fxip,fetm, &
-    nty,x,nflag,prt,prth)
+     nty,x,nflag,prt,prth)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -56,50 +56,50 @@ subroutine pblendx(nn,nr,ns,ni,ntyp,ndm, fxim,fetp,fxip,fetm, &
   nn  = ni - 1
 
   if(prt) then
-    call prtitl(prth)
-    write(iow,2000) (i,i=1,ndm)
+     call prtitl(prth)
+     write(iow,2000) (i,i=1,ndm)
   endif
   do j = 0,ns
 
-  n2j = dble(j)*rns
-  n1j = 1.d0 - n2j
-  if(ntyp == 8 .and. mod(j,2) == 1) then
-    ninc = 2
-  else
-    ninc = 1
-  endif
+     n2j = dble(j)*rns
+     n1j = 1.d0 - n2j
+     if(ntyp == 8 .and. mod(j,2) == 1) then
+        ninc = 2
+     else
+        ninc = 1
+     endif
 
-  do i = 0,nr,ninc
+     do i = 0,nr,ninc
 
-  nn = nn + 1
+        nn = nn + 1
 
-  if(nflag .or. nty(nn) >= 0) then
-    n2i = dble(i)*rnr
-    n1i = 1.d0 - n2i
+        if(nflag .or. nty(nn) >= 0) then
+           n2i = dble(i)*rnr
+           n1i = 1.d0 - n2i
 
-    nty(nn) = 0
-    do k = 1,ndm
-    x(k,nn) = n1i*fetm(k,j)       + n2i*fetp(k,j) &
-      + n1j*fxim(k,i)       + n2j*fxip(k,i) &
-      - n1i*(n1j*fxim(k, 0) + n2j*fxip(k, 0)) &
-      - n2i*(n1j*fxim(k,nr) + n2j*fxip(k,nr))
-    end do ! k
+           nty(nn) = 0
+           do k = 1,ndm
+              x(k,nn) = n1i*fetm(k,j)       + n2i*fetp(k,j) &
+                   + n1j*fxim(k,i)       + n2j*fxip(k,i) &
+                   - n1i*(n1j*fxim(k, 0) + n2j*fxip(k, 0)) &
+                   - n2i*(n1j*fxim(k,nr) + n2j*fxip(k,nr))
+           end do ! k
 
-    if(prt) then
-      write(iow,2001) nn,(x(k,nn),k=1,ndm)
-    endif
+           if(prt) then
+              write(iow,2001) nn,(x(k,nn),k=1,ndm)
+           endif
 
-  endif
+        endif
 
-  end do
+     end do
 
   end do
 
   !     Formats
 
-  2000 format('   B l e n d e d   C o o r d i n a t e s'// &
-    '     Node',4(i5,'-Coordinate':))
+2000 format('   B l e n d e d   C o o r d i n a t e s'// &
+       '     Node',4(i5,'-Coordinate':))
 
-  2001 format(i8,1p,4e15.5)
+2001 format(i8,1p,4e15.5)
 
 end subroutine pblendx

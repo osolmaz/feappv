@@ -31,37 +31,37 @@ subroutine shp1dn(s,shp,nel)
 
   if(nel == 2) then
 
-    shp(1,1) = -0.5d0
-    shp(1,2) =  0.5d0
+     shp(1,1) = -0.5d0
+     shp(1,2) =  0.5d0
 
-    shp(2,1) =  0.5d0 - 0.5d0*s
-    shp(2,2) =  0.5d0 + 0.5d0*s
+     shp(2,1) =  0.5d0 - 0.5d0*s
+     shp(2,2) =  0.5d0 + 0.5d0*s
 
-    !     Quadratic element
+     !     Quadratic element
 
   elseif(nel == 3) then
 
-    shp(1,1) =  s - 0.5d0
-    shp(1,2) =  s + 0.5d0
-    shp(1,3) = -2.d0*s
+     shp(1,1) =  s - 0.5d0
+     shp(1,2) =  s + 0.5d0
+     shp(1,3) = -2.d0*s
 
-    shp(2,1) =  s*(s - 1.d0)*0.5d0
-    shp(2,2) =  s*(s + 1.d0)*0.5d0
-    shp(2,3) =  1.d0 - s*s
+     shp(2,1) =  s*(s - 1.d0)*0.5d0
+     shp(2,2) =  s*(s + 1.d0)*0.5d0
+     shp(2,3) =  1.d0 - s*s
 
-    !     Cubic element
+     !     Cubic element
 
   elseif(nel == 4) then
 
-    shp(1,1) = 0.0625d0*( 1.d0 + 18.d0*s - 27.d0*s*s)
-    shp(1,2) = 0.0625d0*(-1.d0 + 18.d0*s + 27.d0*s*s)
-    shp(1,3) = 0.5625d0*(-3.d0 - 2.d0*s + 9.d0*s*s)
-    shp(1,4) = 0.5625d0*( 3.d0 - 2.d0*s - 9.d0*s*s)
+     shp(1,1) = 0.0625d0*( 1.d0 + 18.d0*s - 27.d0*s*s)
+     shp(1,2) = 0.0625d0*(-1.d0 + 18.d0*s + 27.d0*s*s)
+     shp(1,3) = 0.5625d0*(-3.d0 - 2.d0*s + 9.d0*s*s)
+     shp(1,4) = 0.5625d0*( 3.d0 - 2.d0*s - 9.d0*s*s)
 
-    shp(2,1) = 0.0625d0*(9.d0*s*s - 1.d0)*(1.d0 - 3.d0*s)
-    shp(2,2) = 0.0625d0*(9.d0*s*s - 1.d0)*(1.d0 + 3.d0*s)
-    shp(2,3) = 0.5625d0*(1.d0 - s*s)*(1.d0 - 3.d0*s)
-    shp(2,4) = 0.5625d0*(1.d0 - s*s)*(1.d0 + 3.d0*s)
+     shp(2,1) = 0.0625d0*(9.d0*s*s - 1.d0)*(1.d0 - 3.d0*s)
+     shp(2,2) = 0.0625d0*(9.d0*s*s - 1.d0)*(1.d0 + 3.d0*s)
+     shp(2,3) = 0.5625d0*(1.d0 - s*s)*(1.d0 - 3.d0*s)
+     shp(2,4) = 0.5625d0*(1.d0 - s*s)*(1.d0 + 3.d0*s)
 
   endif
 

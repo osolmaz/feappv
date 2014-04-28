@@ -35,55 +35,55 @@ subroutine plot9(iel,ix,x,ndm,nel,isp)
   !     Set for fill panel or line
 
   if(nel > 2) then
-    is = abs(isp)
+     is = abs(isp)
   else
-    is      = 3
-    iplt(1) = 1
-    iplt(2) = 2
-    iu      = 2
+     is      = 3
+     iplt(1) = 1
+     iplt(2) = 2
+     iu      = 2
   endif
 
   v = 0.0d0
   if(ndm == 3) v = x(3,iplt(1))
   call plotl(x(1,iplt(1)),x(2,iplt(1)),v,is)
   do i = 2,iu
-  j = iplt(i)
-  if((j <= nel) .and. (j /= 0) .and. (ix(j) /= 0)) then
-    if(ndm == 3) v = x(3,j)
-    call plotl(x(1,j),x(2,j),v,2)
-  endif
+     j = iplt(i)
+     if((j <= nel) .and. (j /= 0) .and. (ix(j) /= 0)) then
+        if(ndm == 3) v = x(3,j)
+        call plotl(x(1,j),x(2,j),v,2)
+     endif
   end do
 
   !     Fill in corners for a clip and close panel
 
   if(is == 1) then
 
-    call clpan
+     call clpan
 
-    !       Outline part in black or white
+     !       Outline part in black or white
 
-    if(isp > 0) then
-      is = icolr
+     if(isp > 0) then
+        is = icolr
 
-      if(icolr /= 0 .and. icolr /= 7 ) then
-        call pppcol(0,1)
-      else
-        call pppcol(1,1)
-      endif
+        if(icolr /= 0 .and. icolr /= 7 ) then
+           call pppcol(0,1)
+        else
+           call pppcol(1,1)
+        endif
 
-      v = 0.0d0
-      if(ndm == 3) v = x(3,iplt(1))
-      call plotl(x(1,iplt(1)),x(2,iplt(1)),v,3)
-      do i = 2,iu
-      j = iplt(i)
-      if((j <= nel) .and. (j /= 0) .and. (ix(j) /= 0)) then
-        if(ndm == 3) v = x(3,j)
-        call plotl(x(1,j),x(2,j),v,2)
-      endif
-      end do
-      icolr = is
-    endif
+        v = 0.0d0
+        if(ndm == 3) v = x(3,iplt(1))
+        call plotl(x(1,iplt(1)),x(2,iplt(1)),v,3)
+        do i = 2,iu
+           j = iplt(i)
+           if((j <= nel) .and. (j /= 0) .and. (ix(j) /= 0)) then
+              if(ndm == 3) v = x(3,j)
+              call plotl(x(1,j),x(2,j),v,2)
+           endif
+        end do
+        icolr = is
+     endif
 
   endif
 
-  end
+end subroutine plot9

@@ -40,57 +40,57 @@ subroutine ckbrk8 ( n, ix, xl, ndm, nel, shp )
   save
 
   data      rst/-1.d0,-1.d0,-1.d0,   1.d0,-1.d0,-1.d0, &
-    &                1.d0, 1.d0,-1.d0,  -1.d0, 1.d0,-1.d0, &
-    -1.d0,-1.d0, 1.d0,   1.d0,-1.d0, 1.d0, &
-    &                1.d0, 1.d0, 1.d0,  -1.d0, 1.d0, 1.d0/
+       &                1.d0, 1.d0,-1.d0,  -1.d0, 1.d0,-1.d0, &
+       -1.d0,-1.d0, 1.d0,   1.d0,-1.d0, 1.d0, &
+       &                1.d0, 1.d0, 1.d0,  -1.d0, 1.d0, 1.d0/
 
   !     Check element for input errors
 
   ineg = 0
   do l = 1,nel
-  if(ix(l) > 0) then
-    if(mr(np(49)-1+ix(l)) < 0) then
-      ic(ineg+1) = l
-      ic(ineg+2) = abs(ix(l))
-      ineg = ineg + 2
-    endif
-  endif
+     if(ix(l) > 0) then
+        if(mr(np(49)-1+ix(l)) < 0) then
+           ic(ineg+1) = l
+           ic(ineg+2) = abs(ix(l))
+           ineg = ineg + 2
+        endif
+     endif
   end do
 
   !     Node numbering errors
 
   if(ineg > 0) then
-    write(iow,2000) n,(ic(i),i=1,ineg)
-    if(ior < 0) write(*,2000) n,(ic(i),i=1,ineg)
+     write(iow,2000) n,(ic(i),i=1,ineg)
+     if(ior < 0) write(*,2000) n,(ic(i),i=1,ineg)
 
-    !     Compute jacobian at each corner of element
+     !     Compute jacobian at each corner of element
 
   else
-    do l = 1,nel
-    call bjac3d ( rst(1,l) , xl, ndm, shp, detj )
-    if(detj <= 0.0d0) then
-      ic(ineg+1) = l
-      ic(ineg+2) = abs(ix(l))
-      ineg = ineg + 2
-    endif
-    end do
-    if(ineg > 0 .and. pfr) then
-      write(iow,2001) n,(ic(i),i=1,ineg)
-      if(ior < 0) write(*,2001) n,(ic(i),i=1,ineg)
-    endif
-    if(nel == 8 .and. ineg == 2*nel) then
-      do l = 1,4
-      ineg    = ix(l)
-      ix(l  ) = ix(l+4)
-      ix(l+4) = ineg
-      end do
-    end if
+     do l = 1,nel
+        call bjac3d ( rst(1,l) , xl, ndm, shp, detj )
+        if(detj <= 0.0d0) then
+           ic(ineg+1) = l
+           ic(ineg+2) = abs(ix(l))
+           ineg = ineg + 2
+        endif
+     end do
+     if(ineg > 0 .and. pfr) then
+        write(iow,2001) n,(ic(i),i=1,ineg)
+        if(ior < 0) write(*,2001) n,(ic(i),i=1,ineg)
+     endif
+     if(nel == 8 .and. ineg == 2*nel) then
+        do l = 1,4
+           ineg    = ix(l)
+           ix(l  ) = ix(l+4)
+           ix(l+4) = ineg
+        end do
+     end if
   endif
 
-  2000 format(' >Element',i4,' coordinates not input for nodes:'/ &
-    ('                Local =',i3,' Global =',i4))
+2000 format(' >Element',i4,' coordinates not input for nodes:'/ &
+       ('                Local =',i3,' Global =',i4))
 
-  2001 format(' >Element',i4,' has negative jacobian at nodes:'/ &
-    ('                Local =',i3,' Global =',i4))
+2001 format(' >Element',i4,' has negative jacobian at nodes:'/ &
+       ('                Local =',i3,' Global =',i4))
 
 end subroutine ckbrk8

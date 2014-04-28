@@ -31,22 +31,22 @@ subroutine wprojm(a,nn,ah)
   i = 0
   write(iow,2000) ah
   do n = 1,nn
-  write(iow,2001) (a(i+k),k=1,n)
-  i = i + n
+     write(iow,2001) (a(i+k),k=1,n)
+     i = i + n
   end do
   if(ior < 0) then
-    i = 0
-    write(  *,2000) ah
-    do n = 1,nn
-    write(  *,2001) (a(i+k),k=1,n)
-    i = i + n
-    end do
+     i = 0
+     write(  *,2000) ah
+     do n = 1,nn
+        write(  *,2001) (a(i+k),k=1,n)
+        i = i + n
+     end do
   endif
 
   !     Formats
 
-  2000 format(' ',a,'-Matrix ')
+2000 format(' ',a,'-Matrix ')
 
-  2001 format(1p,8d10.2)
+2001 format(1p,8d10.2)
 
 end subroutine wprojm

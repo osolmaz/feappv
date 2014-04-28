@@ -47,15 +47,15 @@ logical function ualloc(num,name,length,precis)
   !     Define and store names
 
   data   (names(i),i=1,list)/ &
+       
+       'DUMMY'/
 
-    'DUMMY'/
+  !     Short description of variables
 
-    !     Short description of variables
+  !              'DUMMY',     !     1: Start here with user defined names
 
-    !              'DUMMY',     !     1: Start here with user defined names
+  !     Do memory management operations
 
-    !     Do memory management operations
+  ualloc = usetmem(list,names,num,name,length,precis)
 
-    ualloc = usetmem(list,names,num,name,length,precis)
-
-  end function ualloc
+end function ualloc

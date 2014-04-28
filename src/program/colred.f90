@@ -24,7 +24,7 @@ subroutine colred(au,xj,nn, b)
   real*8 ::    xj, au(*),b(*)
 
   do n = 1,nn
-  b(n) = b(n) - au(n)*xj
+     b(n) = b(n) - au(n)*xj
   end do
 
 end subroutine colred

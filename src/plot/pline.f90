@@ -1,6 +1,6 @@
 ! Id:$
 subroutine pline(x,ie,ix,id,ip,numnp,numel,ndm, &
-    nen1,nen,nie,ct,isw)
+     nen1,nen,nie,ct,isw)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -49,7 +49,7 @@ subroutine pline(x,ie,ix,id,ip,numnp,numel,ndm, &
   !     Draw mesh
 
   call xpline(x,ie,ix,id,mr(np(82)),ip,numnp,numel,ndm, &
-    nen1,nen,nie,ct(1),isw)
+       nen1,nen,nie,ct(1),isw)
 
   !     Delete storage for mesh lines
 

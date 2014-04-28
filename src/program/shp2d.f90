@@ -45,70 +45,70 @@ subroutine shp2d(ss,xl,shp,xsj,ndm,nel,ix,flg)
   !     Form 4-node quadrilateral shape functions
 
   if(nel == 4 .and. .not. flg) then
-    call shapef(ss(1),ss(2),xl,shp,xsj,ndm,flg)
+     call shapef(ss(1),ss(2),xl,shp,xsj,ndm,flg)
   else
-    do i = 1,4
-    shp(3,i) = (0.5d0+s(i)*ss(1))*(0.5d0+t(i)*ss(2))
-    shp(1,i) = s(i)*(0.5d0+t(i)*ss(2))
-    shp(2,i) = t(i)*(0.5d0+s(i)*ss(1))
-    end do
+     do i = 1,4
+        shp(3,i) = (0.5d0+s(i)*ss(1))*(0.5d0+t(i)*ss(2))
+        shp(1,i) = s(i)*(0.5d0+t(i)*ss(2))
+        shp(2,i) = t(i)*(0.5d0+s(i)*ss(1))
+     end do
 
-    !       Form triangle by adding third and fourth together
+     !       Form triangle by adding third and fourth together
 
-    if(nel == 3) then
-      do i = 1,3
-      shp(i,3) = shp(i,3)+shp(i,4)
-      end do
-    end if
+     if(nel == 3) then
+        do i = 1,3
+           shp(i,3) = shp(i,3)+shp(i,4)
+        end do
+     end if
 
-    !       Add quadratic terms if necessary
+     !       Add quadratic terms if necessary
 
-    if(nel > 4) call shap2(ss(1),ss(2),shp,ix,nel)
+     if(nel > 4) call shap2(ss(1),ss(2),shp,ix,nel)
 
-    !       Construct jacobian and its inverse
+     !       Construct jacobian and its inverse
 
-    do i = 1,max(3,ndm)
-    do j = 1,2
-    xs(i,j) = 0.0d0
-    do k = 1,nel
-    xs(i,j) = xs(i,j) + xl(i,k)*shp(j,k)
-    end do
-    end do
-    end do
-    if(ndm == 2) then
-      xsj = xs(1,1)*xs(2,2)-xs(1,2)*xs(2,1)
-    elseif(ndm == 3) then
-      xsj = sqrt((xs(2,1)*xs(3,2)-xs(2,2)*xs(3,1))**2 &
-        + (xs(3,1)*xs(1,2)-xs(3,2)*xs(1,1))**2 &
-        + (xs(1,1)*xs(2,2)-xs(1,2)*xs(2,1))**2)
-    endif
-    if( .not. flg) then
-      if(xsj == 0.0d0) then
-        temp = 1.0d0
-      else
-        temp = 1.d0/xsj
-      endif
-      sx(1,1) = xs(2,2)*temp
-      sx(2,2) = xs(1,1)*temp
-      sx(1,2) =-xs(1,2)*temp
-      sx(2,1) =-xs(2,1)*temp
+     do i = 1,max(3,ndm)
+        do j = 1,2
+           xs(i,j) = 0.0d0
+           do k = 1,nel
+              xs(i,j) = xs(i,j) + xl(i,k)*shp(j,k)
+           end do
+        end do
+     end do
+     if(ndm == 2) then
+        xsj = xs(1,1)*xs(2,2)-xs(1,2)*xs(2,1)
+     elseif(ndm == 3) then
+        xsj = sqrt((xs(2,1)*xs(3,2)-xs(2,2)*xs(3,1))**2 &
+             + (xs(3,1)*xs(1,2)-xs(3,2)*xs(1,1))**2 &
+             + (xs(1,1)*xs(2,2)-xs(1,2)*xs(2,1))**2)
+     endif
+     if( .not. flg) then
+        if(xsj == 0.0d0) then
+           temp = 1.0d0
+        else
+           temp = 1.d0/xsj
+        endif
+        sx(1,1) = xs(2,2)*temp
+        sx(2,2) = xs(1,1)*temp
+        sx(1,2) =-xs(1,2)*temp
+        sx(2,1) =-xs(2,1)*temp
 
-      !         Form global derivatives
+        !         Form global derivatives
 
-      do i = 1,nel
-      temp     = shp(1,i)*sx(1,1)+shp(2,i)*sx(2,1)
-      shp(2,i) = shp(1,i)*sx(1,2)+shp(2,i)*sx(2,2)
-      shp(1,i) = temp
-      end do
+        do i = 1,nel
+           temp     = shp(1,i)*sx(1,1)+shp(2,i)*sx(2,1)
+           shp(2,i) = shp(1,i)*sx(1,2)+shp(2,i)*sx(2,2)
+           shp(1,i) = temp
+        end do
 
-      !         Return center node in hierarchical form for 8-nodes
+        !         Return center node in hierarchical form for 8-nodes
 
-      if(nel == 8) then
-        temp     = shp(1,9)*sx(1,1)+shp(2,9)*sx(2,1)
-        shp(2,9) = shp(1,9)*sx(1,2)+shp(2,9)*sx(2,2)
-        shp(1,9) = temp
-      endif
-    endif
+        if(nel == 8) then
+           temp     = shp(1,9)*sx(1,1)+shp(2,9)*sx(2,1)
+           shp(2,9) = shp(1,9)*sx(1,2)+shp(2,9)*sx(2,2)
+           shp(1,9) = temp
+        endif
+     endif
   endif
 
 end subroutine shp2d

@@ -25,15 +25,15 @@ subroutine upltlib(i,ct)
   save
 
   if(i == 1) then
-    call uplot1(ct)
+     call uplot1(ct)
   elseif(i == 2) then
-    call uplot2(ct)
+     call uplot2(ct)
   elseif(i == 3) then
-    call uplot3(ct)
+     call uplot3(ct)
   elseif(i == 4) then
-    call uplot4(ct)
+     call uplot4(ct)
   elseif(i == 5) then
-    call uplot5(ct)
+     call uplot5(ct)
   endif
 
 end subroutine upltlib

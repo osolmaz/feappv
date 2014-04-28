@@ -35,16 +35,16 @@ subroutine maxcor(x,ndm,numnp)
 
   ii  = min(ndm,3)
   do i = 1,ii
-  vmin(i) = x(i,1)
-  do n = 1,numnp
-  vmin(i) = max(vmin(i),x(i,n))
-  end do
-  vmax(i) = vmin(i)
-  do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0) then
-    vmin(i) = min(vmin(i),x(i,n))
-  endif
-  end do
+     vmin(i) = x(i,1)
+     do n = 1,numnp
+        vmin(i) = max(vmin(i),x(i,n))
+     end do
+     vmax(i) = vmin(i)
+     do n = 1,numnp
+        if(mr(np(49)-1+n) >= 0) then
+           vmin(i) = min(vmin(i),x(i,n))
+        endif
+     end do
   end do
 
 end subroutine maxcor

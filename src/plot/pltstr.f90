@@ -44,66 +44,66 @@ subroutine pltstr(dt,sp,st,numnp,ndm)
 
   do ii = 1,numnp
 
-  dh = dt(ii)
-  if(dh /= 0.0d0) then
+     dh = dt(ii)
+     if(dh /= 0.0d0) then
 
-    !         Error estimator
+        !         Error estimator
 
-    hr(ner+ii-1) = hr(ner+ii-1)/dh
+        hr(ner+ii-1) = hr(ner+ii-1)/dh
 
-    !         Stress projections
+        !         Stress projections
 
-    do i = 1,npstr-1
-    st(ii,i) = st(ii,i)/dh
-    end do
+        do i = 1,npstr-1
+           st(ii,i) = st(ii,i)/dh
+        end do
 
-    if(istv > 0) then
+        if(istv > 0) then
 
-      !           Two-dimensional
+           !           Two-dimensional
 
-      if(ndm == 2) then
-        sig(1)   = st(ii,1)
-        sig(2)   = st(ii,2)
-        sig(3)   = st(ii,3)
-        sig(4)   = st(ii,4)
-        call pstr2d(sig,sig(7))
-        sp(ii,1) = sig(7)
-        sp(ii,2) = sig(8)
-        sp(ii,3) = sig(3)
-        sp(ii,4) = sig(9)
+           if(ndm == 2) then
+              sig(1)   = st(ii,1)
+              sig(2)   = st(ii,2)
+              sig(3)   = st(ii,3)
+              sig(4)   = st(ii,4)
+              call pstr2d(sig,sig(7))
+              sp(ii,1) = sig(7)
+              sp(ii,2) = sig(8)
+              sp(ii,3) = sig(3)
+              sp(ii,4) = sig(9)
 
-        !           Three-dimensional
+              !           Three-dimensional
 
-      elseif(ndm == 3) then
-        sig(1)   = st(ii,1)
-        sig(2)   = st(ii,2)
-        sig(3)   = st(ii,3)
-        sig(4)   = st(ii,4)
-        sig(5)   = st(ii,5)
-        sig(6)   = st(ii,6)
-        call pstr3d(sig,sig(7))
-        sp(ii,1) = sig(7)
-        sp(ii,2) = sig(8)
-        sp(ii,3) = sig(9)
-      endif
+           elseif(ndm == 3) then
+              sig(1)   = st(ii,1)
+              sig(2)   = st(ii,2)
+              sig(3)   = st(ii,3)
+              sig(4)   = st(ii,4)
+              sig(5)   = st(ii,5)
+              sig(6)   = st(ii,6)
+              call pstr3d(sig,sig(7))
+              sp(ii,1) = sig(7)
+              sp(ii,2) = sig(8)
+              sp(ii,3) = sig(9)
+           endif
 
-      !           Compute mean stress and mises stress
+           !           Compute mean stress and mises stress
 
-      press    = (sp(ii,1) + sp(ii,2) + sp(ii,3))*third
-      sp(ii,5) = press
-      sp(ii,6) = sqrt(0.5d0*((sp(ii,1) - press)**2 &
-        + (sp(ii,2) - press)**2 &
-        + (sp(ii,3) - press)**2))
-      sp(ii,7) = (third*(sp(ii,1)-press)**3 &
-        *(sp(ii,2)-press)**3 &
-        *(sp(ii,3)-press)**3)
-      if(sp(ii,7) < 0.0d0) then
-        sp(ii,7) = -(abs(sp(ii,7))**third)
-      else
-        sp(ii,7) =  (abs(sp(ii,7))**third)
-      endif
-    endif
-  endif
+           press    = (sp(ii,1) + sp(ii,2) + sp(ii,3))*third
+           sp(ii,5) = press
+           sp(ii,6) = sqrt(0.5d0*((sp(ii,1) - press)**2 &
+                + (sp(ii,2) - press)**2 &
+                + (sp(ii,3) - press)**2))
+           sp(ii,7) = (third*(sp(ii,1)-press)**3 &
+                *(sp(ii,2)-press)**3 &
+                *(sp(ii,3)-press)**3)
+           if(sp(ii,7) < 0.0d0) then
+              sp(ii,7) = -(abs(sp(ii,7))**third)
+           else
+              sp(ii,7) =  (abs(sp(ii,7))**third)
+           endif
+        endif
+     endif
 
   end do
 

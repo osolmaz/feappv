@@ -36,42 +36,42 @@ subroutine iprint(ia,ii,jj,mm,name)
 
   do n = 1,nn
 
-  ja = jb + 1
-  jb = min(jj,ja+icol-1)
+     ja = jb + 1
+     jb = min(jj,ja+icol-1)
 
-  if(n == 1 .or. ii > 1) then
-    write(iow,2000) aname,(j,j=ja,jb)
-  endif
+     if(n == 1 .or. ii > 1) then
+        write(iow,2000) aname,(j,j=ja,jb)
+     endif
 
-  do i=1,ii
-  if(ii == 1) then
-    irow = n
-  else
-    irow = i
-  endif
-  write(iow,2001)irow,(ia(i,j),j=ja,jb)
-  end do
+     do i=1,ii
+        if(ii == 1) then
+           irow = n
+        else
+           irow = i
+        endif
+        write(iow,2001)irow,(ia(i,j),j=ja,jb)
+     end do
 
-  if(ior < 0) then
-    if(n == 1 .or. ii > 1) then
-      write(*,2000) aname,(j,j=ja,jb)
-    endif
-    do i=1,ii
-    if(ii == 1) then
-      irow = n
-    else
-      irow = i
-    endif
-    write(*,2001)irow,(ia(i,j),j=ja,jb)
-    end do
-  endif
+     if(ior < 0) then
+        if(n == 1 .or. ii > 1) then
+           write(*,2000) aname,(j,j=ja,jb)
+        endif
+        do i=1,ii
+           if(ii == 1) then
+              irow = n
+           else
+              irow = i
+           endif
+           write(*,2001)irow,(ia(i,j),j=ja,jb)
+        end do
+     endif
 
   end do
 
   !     Formats
 
-  2000 format(/4x,'Matrix: ',a30/4x,'row/col',6i10)
+2000 format(/4x,'Matrix: ',a30/4x,'row/col',6i10)
 
-  2001 format(1i8,1i13,5i10)
+2001 format(1i8,1i13,5i10)
 
 end subroutine iprint

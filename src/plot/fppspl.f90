@@ -36,14 +36,14 @@ subroutine fppspl(num,xp,yp)
   !     Close out a line
 
   if(lstrk) then
-    call fppsin('s')
-    call fppsdu()
+     call fppsin('s')
+     call fppsdu()
   endif
 
   if(xp(1) == xp(num) .and. yp(1) == yp(num)) then
-    numc = num - 1
+     numc = num - 1
   else
-    numc = num
+     numc = num
   endif
 
   !     Draw a fill area
@@ -61,28 +61,28 @@ subroutine fppspl(num,xp,yp)
 
   do i = 2, numc
 
-  x = nint(5400.0*xp(i) + 360.0)
-  y = nint(5400.0*yp(i) + 360.0)
+     x = nint(5400.0*xp(i) + 360.0)
+     y = nint(5400.0*yp(i) + 360.0)
 
-  xll = min(x,xll)
-  yll = min(y,yll)
-  xur = max(x,xur)
-  yur = max(y,yur)
+     xll = min(x,xll)
+     yll = min(y,yll)
+     xur = max(x,xur)
+     yur = max(y,yur)
 
-  write(coord,'(i4,1x,i4,1x)') x,y
-  call fppsin(coord//'l ')
+     write(coord,'(i4,1x,i4,1x)') x,y
+     call fppsin(coord//'l ')
 
   end do
 
   if( pscolr ) then
 
-    call fppsin( 'c h'//colv//' f ')
-    ocolv = colv
+     call fppsin( 'c h'//colv//' f ')
+     ocolv = colv
 
   else
 
-    call fppsin( 'c'//cvar//'f ')
-    ocvar = cvar
+     call fppsin( 'c'//cvar//'f ')
+     ocvar = cvar
 
   endif
 

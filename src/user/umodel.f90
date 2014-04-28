@@ -1,6 +1,6 @@
 ! Id:$
 subroutine umodel(umat,eps,theta,td,d,ud,hn,h1,nh,ii,istrt, &
-    sig,dd, isw)
+     sig,dd, isw)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -44,39 +44,39 @@ subroutine umodel(umat,eps,theta,td,d,ud,hn,h1,nh,ii,istrt, &
   !     Material Model 1
 
   if(    umat == 1) then
-    call umatl1(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
+     call umatl1(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
 
-    !     Material Model 2
+     !     Material Model 2
 
   elseif(umat == 2) then
-    call umatl2(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
+     call umatl2(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
 
-    !     Material Model 3
+     !     Material Model 3
 
   elseif(umat == 3) then
-    call umatl3(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
+     call umatl3(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
 
-    !     Material Model 4
+     !     Material Model 4
 
   elseif(umat == 4) then
-    call umatl4(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
+     call umatl4(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
 
-    !     Material Model 5
+     !     Material Model 5
 
   elseif(umat == 5) then
-    call umatl5(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
+     call umatl5(eps,theta,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
 
-    !     Error no umat set
+     !     Error no umat set
 
   else
 
-    write(iow,4000)
-    call plstop()
+     write(iow,4000)
+     call plstop()
 
   endif
 
   !     Format
 
-  4000 format(/' *ERROR* User model name incorrectly set.')
+4000 format(/' *ERROR* User model name incorrectly set.')
 
 end subroutine umodel

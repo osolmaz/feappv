@@ -38,7 +38,7 @@ subroutine fptplt(xp,yp,tx,nn,nctr)
   !     Close out a stroke if necessary
 
   if(lstrk) then
-    call fppsin('s')
+     call fppsin('s')
   endif
   call fppsdu()
 
@@ -63,19 +63,19 @@ subroutine fptplt(xp,yp,tx,nn,nctr)
   call fppsdu()
 
   if (nctr == 1) then
-    call fppsin('(')
+     call fppsin('(')
 
-    do j = 1,nn
-    call fppsin(tx(j))
-    end do
+     do j = 1,nn
+        call fppsin(tx(j))
+     end do
 
-    call fppsin(') w')
-    call fppsdu()
+     call fppsin(') w')
+     call fppsdu()
   endif
   call fppsin('(')
 
   do j = 1,nn
-  call fppsin(tx(j))
+     call fppsin(tx(j))
   end do
 
   call fppsin(') '//clin//'show')

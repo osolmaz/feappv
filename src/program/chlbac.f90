@@ -31,14 +31,14 @@ subroutine chlbac(u,s,nn)
   j  = nn
   jd = nn*(nn+1)/2
   do i = 1,nn
-  s(nn,i) = s(nn,i)*u(jd)
+     s(nn,i) = s(nn,i)*u(jd)
   end do
 
   do j = nn,2,-1
-  jd = jd - j
-  do i = 1,nn
-  call colbac(u(jd+1),s(1,i),u(jd),j-1)
-  end do
+     jd = jd - j
+     do i = 1,nn
+        call colbac(u(jd+1),s(1,i),u(jd),j-1)
+     end do
   end do
 
 end subroutine chlbac

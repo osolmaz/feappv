@@ -22,10 +22,10 @@ logical function cknon0(v, nn )
   real*8 ::    v(*)
 
   do n = 1,nn
-  if(v(n) /= 0.0d0) then
-    cknon0 = .true. 
-    return
-  endif
+     if(v(n) /= 0.0d0) then
+        cknon0 = .true. 
+        return
+     endif
   end do ! n
 
   !     Set false to indicate vector is zero

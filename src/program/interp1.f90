@@ -32,24 +32,24 @@ subroutine interp1(nr,xs,side,is,ns,ndm,shp, x)
   !     Set order of using nodes on side
 
   if(side > 0) then
-    m1 = 1
-    m2 = 2
-    n1 = 3
-    n2 = ns
-    n3 = 1
+     m1 = 1
+     m2 = 2
+     n1 = 3
+     n2 = ns
+     n3 = 1
   elseif(side < 0) then
-    m1 = 2
-    m2 = 1
-    n1 = ns
-    n2 = 3
-    n3 = -1
+     m1 = 2
+     m2 = 1
+     n1 = ns
+     n2 = 3
+     n3 = -1
   endif
 
   !     Left and right ends
 
   do j = 1,ndm
-  x(j,   1) = xs(j,is(m1))
-  x(j,nr+1) = xs(j,is(m2))
+     x(j,   1) = xs(j,is(m1))
+     x(j,nr+1) = xs(j,is(m2))
   end do ! j
 
   xid = 1.0d0/dble(nr)
@@ -59,61 +59,61 @@ subroutine interp1(nr,xs,side,is,ns,ndm,shp, x)
 
   do m = 2,nr
 
-  xi = dble(m-1)*xid
+     xi = dble(m-1)*xid
 
-  !       Compute Lagrange interpolation function at point 'xi'
+     !       Compute Lagrange interpolation function at point 'xi'
 
-  !       End nodes
+     !       End nodes
 
-  shp(1) = 1.0d0
-  den    = 1.0d0
-  xii    = 0.0d0
-  do j = 2,ns
-  xij    = dble(j-1)*rn
-  shp(1) = shp(1)*(xi - xij)
-  den    = den * (xii - xij)
-  end do ! j
-  shp(1) = shp(1)/den
+     shp(1) = 1.0d0
+     den    = 1.0d0
+     xii    = 0.0d0
+     do j = 2,ns
+        xij    = dble(j-1)*rn
+        shp(1) = shp(1)*(xi - xij)
+        den    = den * (xii - xij)
+     end do ! j
+     shp(1) = shp(1)/den
 
-  shp(2) = 1.0d0
-  den    = 1.0d0
-  xii    = 1.0d0
-  do j = 1,ns-1
-  xij    = dble(j-1)*rn
-  shp(2) = shp(2)*(xi - xij)
-  den    = den * (xii - xij)
-  end do ! j
-  shp(2) = shp(2)/den
+     shp(2) = 1.0d0
+     den    = 1.0d0
+     xii    = 1.0d0
+     do j = 1,ns-1
+        xij    = dble(j-1)*rn
+        shp(2) = shp(2)*(xi - xij)
+        den    = den * (xii - xij)
+     end do ! j
+     shp(2) = shp(2)/den
 
-  do i = 3,ns
+     do i = 3,ns
 
-  shp(i) = 1.0d0
-  den    = 1.0d0
-  xii    = dble(i-2)*rn
-  do j = 1,ns
-  if(i-1 /= j) then
-    xij    = dble(j-1)*rn
-    shp(i) = shp(i)*(xi - xij)
-    den    = den * (xii - xij)
-  end if
-  end do ! j
-  shp(i) = shp(i)/den
+        shp(i) = 1.0d0
+        den    = 1.0d0
+        xii    = dble(i-2)*rn
+        do j = 1,ns
+           if(i-1 /= j) then
+              xij    = dble(j-1)*rn
+              shp(i) = shp(i)*(xi - xij)
+              den    = den * (xii - xij)
+           end if
+        end do ! j
+        shp(i) = shp(i)/den
 
-  end do ! i
+     end do ! i
 
-  !       Perform interpolation for current shape function
+     !       Perform interpolation for current shape function
 
-  do j = 1,ndm
-  x(j,m) = shp(1)*xs(j,is(m1)) + shp(2)*xs(j,is(m2))
-  end do ! j
+     do j = 1,ndm
+        x(j,m) = shp(1)*xs(j,is(m1)) + shp(2)*xs(j,is(m2))
+     end do ! j
 
-  i1 = 2
-  do i = n1,n2,n3
-  i1 = i1 + 1
-  do j = 1,ndm
-  x(j,m) = x(j,m) + shp(i1)*xs(j,is(i))
-  end do ! j
-  end do ! i
+     i1 = 2
+     do i = n1,n2,n3
+        i1 = i1 + 1
+        do j = 1,ndm
+           x(j,m) = x(j,m) + shp(i1)*xs(j,is(i))
+        end do ! j
+     end do ! i
   end do ! m
 
 end subroutine interp1

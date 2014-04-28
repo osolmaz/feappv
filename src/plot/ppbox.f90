@@ -30,9 +30,9 @@ subroutine ppbox(x,y,dx,dy,is)
   save
 
   if(is > 0) then
-    clchk = .false. 
+     clchk = .false. 
   else
-    clchk = .true. 
+     clchk = .true. 
   endif
 
   call dplot(x   ,y   ,abs(is))

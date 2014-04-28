@@ -31,26 +31,26 @@ logical function lclip( ix, nen, x, ndm )
   save
 
   do i = 1, ndm
-  x0(i) = 0.0d0
-  do n = 1,nen
-  if(ix(n) > 0) x0(i) = x0(i) + x(i,ix(n))
-  end do
-  x0(i) = x0(i)/nen
+     x0(i) = 0.0d0
+     do n = 1,nen
+        if(ix(n) > 0) x0(i) = x0(i) + x(i,ix(n))
+     end do
+     x0(i) = x0(i)/nen
   end do
   if(ndm == 1) then
-    lclip = (x0(1) >= cmin(1)) .and. (x0(1) <= cmax(1))
+     lclip = (x0(1) >= cmin(1)) .and. (x0(1) <= cmax(1))
   elseif(ndm == 2) then
-    lclip = (x0(1) >= cmin(1)) .and. (x0(1) <= cmax(1)) &
-      .and. &
-      (x0(2) >= cmin(2)) .and. (x0(2) <= cmax(2))
+     lclip = (x0(1) >= cmin(1)) .and. (x0(1) <= cmax(1)) &
+          .and. &
+          (x0(2) >= cmin(2)) .and. (x0(2) <= cmax(2))
   elseif(ndm == 3) then
-    lclip = (x0(1) >= cmin(1)) .and. (x0(1) <= cmax(1)) &
-      .and. &
-      (x0(2) >= cmin(2)) .and. (x0(2) <= cmax(2)) &
-      .and. &
-      (x0(3) >= cmin(3)) .and. (x0(3) <= cmax(3))
+     lclip = (x0(1) >= cmin(1)) .and. (x0(1) <= cmax(1)) &
+          .and. &
+          (x0(2) >= cmin(2)) .and. (x0(2) <= cmax(2)) &
+          .and. &
+          (x0(3) >= cmin(3)) .and. (x0(3) <= cmax(3))
   else
-    lclip = .false. 
+     lclip = .false. 
   endif
 
 end function lclip

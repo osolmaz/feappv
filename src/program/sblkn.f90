@@ -1,6 +1,6 @@
 ! Id:$
 subroutine sblkn(nr,ns,xl,ixl,shp,x,dr,ds,ni,n,ndm,nodinc,ntyp, &
-    nm,ctype,prt,prth)
+     nm,ctype,prt,prth)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -69,7 +69,7 @@ subroutine sblkn(nr,ns,xl,ixl,shp,x,dr,ds,ni,n,ndm,nodinc,ntyp, &
   data      xh /' coord'/
 
   do k = 1,3
-  xx(k) = 0.0d0
+     xx(k) = 0.0d0
   end do
 
   drh =  dr*0.5d0
@@ -77,92 +77,92 @@ subroutine sblkn(nr,ns,xl,ixl,shp,x,dr,ds,ni,n,ndm,nodinc,ntyp, &
   n   =  ni
   mct =  0
   if(nm < 4) then
-    nsn = 1
+     nsn = 1
   else
-    nsn = ns
+     nsn = ns
   endif
   ss(2)   = -1.0
   do j = 1,nsn
-  ss(1) = -1.0
-  if(ntyp == 8 .and. mod(j,2) == 0) then
-    inc8 = 2
-  else
-    inc8 = 1
-  endif
-  do i = 1,nr,inc8
-  if (nm > 3) then
-    call shp2d(ss,xl,shp,xsj,3,nm,ixl, .true. )
-    call cfunc(shp,xl,ixl,ndm,xx)
-  else
-    call shap1d(ss(1),nm,shp1)
-    do k = 1,ndm
-    xx(k) = 0.0d0
-    do me = 1,nm
-    xx(k) = xx(k) + shp1(2,me)*xl(k,me)
-    end do
-    end do
-  endif
-  if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
-    call pdegree(xx(2), sn,cn)
-    rr    = xx(1)
-    xx(1) = x0(1) + rr*cn
-    xx(2) = x0(2) + rr*sn
-  endif
-  do k = 1,ndm
-  x(k,n) = xr(k)+tr(k,1)*xx(1)+tr(k,2)*xx(2)+tr(k,3)*xx(3)
-  end do
-  if(prt) then
-    mct = mct + 1
-    if(mod(mct,50) == 1) then
-      call prtitl(prth)
-      write(iow,2003) (k,xh,k=1,ndm)
-      if(ior < 0) then
-        write(*,2003) (k,xh,k=1,ndm)
-      endif
-    endif
-    write(iow,2004) n,(x(k,n),k=1,ndm)
-    if(ior < 0) then
-      write(*,2004) n,(x(k,n),k=1,ndm)
-    endif
-  endif
-  n = n + 1
-  if(nm > 3 .and. ntyp == -1 .and. i < nr .and. j < ns) then
-    tt(1) = ss(1) + drh
-    tt(2) = ss(2) + dsh
-    call shp2d(tt,xl,shp,xsj,3,nm,ixl, .true. )
-    call cfunc(shp,xl,ixl,ndm,x(1,n))
-    if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
-      call pdegree(x(2,n), sn,cn)
-      rr     = x(1,n)
-      x(1,n) = x0(1) + rr*cn
-      x(2,n) = x0(2) + rr*sn
-    endif
-    if(prt) then
-      mct = mct + 1
-      if(mod(mct,50) == 1) then
-        call prtitl(prth)
-        write(iow,2003) (k,xh,k=1,ndm)
-      endif
-      write(iow,2004) n,(x(k,n),k=1,ndm)
-      if(ior < 0) then
-        if(mod(mct,50) == 1) then
-          write(*,2003) (k,xh,k=1,ndm)
+     ss(1) = -1.0
+     if(ntyp == 8 .and. mod(j,2) == 0) then
+        inc8 = 2
+     else
+        inc8 = 1
+     endif
+     do i = 1,nr,inc8
+        if (nm > 3) then
+           call shp2d(ss,xl,shp,xsj,3,nm,ixl, .true. )
+           call cfunc(shp,xl,ixl,ndm,xx)
+        else
+           call shap1d(ss(1),nm,shp1)
+           do k = 1,ndm
+              xx(k) = 0.0d0
+              do me = 1,nm
+                 xx(k) = xx(k) + shp1(2,me)*xl(k,me)
+              end do
+           end do
         endif
-        write(*,2004) n,(x(k,n),k=1,ndm)
-      endif
-    endif
-    n = n + 1
-  endif
-  ss(1) = ss(1) + dr*inc8
-  end do
-  n = n + nodinc
-  ss(2) = ss(2) + ds
+        if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
+           call pdegree(xx(2), sn,cn)
+           rr    = xx(1)
+           xx(1) = x0(1) + rr*cn
+           xx(2) = x0(2) + rr*sn
+        endif
+        do k = 1,ndm
+           x(k,n) = xr(k)+tr(k,1)*xx(1)+tr(k,2)*xx(2)+tr(k,3)*xx(3)
+        end do
+        if(prt) then
+           mct = mct + 1
+           if(mod(mct,50) == 1) then
+              call prtitl(prth)
+              write(iow,2003) (k,xh,k=1,ndm)
+              if(ior < 0) then
+                 write(*,2003) (k,xh,k=1,ndm)
+              endif
+           endif
+           write(iow,2004) n,(x(k,n),k=1,ndm)
+           if(ior < 0) then
+              write(*,2004) n,(x(k,n),k=1,ndm)
+           endif
+        endif
+        n = n + 1
+        if(nm > 3 .and. ntyp == -1 .and. i < nr .and. j < ns) then
+           tt(1) = ss(1) + drh
+           tt(2) = ss(2) + dsh
+           call shp2d(tt,xl,shp,xsj,3,nm,ixl, .true. )
+           call cfunc(shp,xl,ixl,ndm,x(1,n))
+           if(ndm >= 2 .and. pcomp(ctype,'pola',4)) then
+              call pdegree(x(2,n), sn,cn)
+              rr     = x(1,n)
+              x(1,n) = x0(1) + rr*cn
+              x(2,n) = x0(2) + rr*sn
+           endif
+           if(prt) then
+              mct = mct + 1
+              if(mod(mct,50) == 1) then
+                 call prtitl(prth)
+                 write(iow,2003) (k,xh,k=1,ndm)
+              endif
+              write(iow,2004) n,(x(k,n),k=1,ndm)
+              if(ior < 0) then
+                 if(mod(mct,50) == 1) then
+                    write(*,2003) (k,xh,k=1,ndm)
+                 endif
+                 write(*,2004) n,(x(k,n),k=1,ndm)
+              endif
+           endif
+           n = n + 1
+        endif
+        ss(1) = ss(1) + dr*inc8
+     end do
+     n = n + nodinc
+     ss(2) = ss(2) + ds
   end do
 
   !     Formats
 
-  2003 format(/'  N o d a l   C o o r d i n a t e s'//6x,'Node',5(i7,a6))
+2003 format(/'  N o d a l   C o o r d i n a t e s'//6x,'Node',5(i7,a6))
 
-  2004 format(i10,5f13.4)
+2004 format(i10,5f13.4)
 
 end subroutine sblkn

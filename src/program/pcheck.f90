@@ -31,14 +31,14 @@ subroutine pcheck(nc,xs,error)
 
   i = 0
   do j = 1,75
-  x(j) = ' '
-  if(xs(j) /= ' ' .and. xs(j) /= '=' .and. xs(j) /= ',') then
-    i = i + 1
-    x(i)  = xs(j)
-    xs(j) = ' '
-    n = ichar( x(i) )
-    if(n >= 65 .and. n <= 90) x(i) = char(n + 32)
-  endif
+     x(j) = ' '
+     if(xs(j) /= ' ' .and. xs(j) /= '=' .and. xs(j) /= ',') then
+        i = i + 1
+        x(i)  = xs(j)
+        xs(j) = ' '
+        n = ichar( x(i) )
+        if(n >= 65 .and. n <= 90) x(i) = char(n + 32)
+     endif
   end do
 
   !     Move back and check characters for incorrect parenthesis
@@ -46,10 +46,10 @@ subroutine pcheck(nc,xs,error)
   error = .false. 
   n = 0
   do j = 1,i
-  xs(j) = x(j)
-  if(xs(j) == '(') n = n+1
-  if(xs(j) == ')') n = n-1
-  if(n < 0 .or. n > 1 ) error = .true. 
+     xs(j) = x(j)
+     if(xs(j) == '(') n = n+1
+     if(xs(j) == ')') n = n-1
+     if(n < 0 .or. n > 1 ) error = .true. 
   end do
 
   if(n /= 0) error = .true. 
@@ -59,25 +59,25 @@ subroutine pcheck(nc,xs,error)
   !     Check characters for incorrect parameters
 
   if( .not. error) then
-    do j = 2,i
-    n = ichar(xs(j))
-    if( .not. (n >= 97 .and. n <= 122) .and. &
-      .not. (n >= 40 .and. n <= 57) ) then
-    error = .true. 
+     do j = 2,i
+        n = ichar(xs(j))
+        if( .not. (n >= 97 .and. n <= 122) .and. &
+             .not. (n >= 40 .and. n <= 57) ) then
+           error = .true. 
+        endif
+     end do
   endif
-  end do
-endif
 
-if(error) then
-  write(*,2000)
-else
-  write(*,2001) nc,(xs(j),j=1,i)
-endif
+  if(error) then
+     write(*,2000)
+  else
+     write(*,2001) nc,(xs(j),j=1,i)
+  endif
 
-!     Formats
+  !     Formats
 
 2000 format(' Incorrect statement - reinput ')
 
 2001 format('   No.',i3,'>',a1,' = ',74a1)
 
-    end subroutine pcheck
+end subroutine pcheck

@@ -39,13 +39,13 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   errck = tinput(ctype,1,td,9)
 
   if(pcomp(ctype,'surf',4)) then
-    btyp             = 1
+     btyp             = 1
   elseif(pcomp(ctype,'soli',4)) then
-    btyp             = 2
+     btyp             = 2
   elseif(pcomp(ctype,'line',4)) then
-    btyp             = 3
+     btyp             = 3
   else
-    write(iow,4000) ctype
+     write(iow,4000) ctype
   endif
 
   !     Save blend type for block
@@ -53,7 +53,7 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   iblend(19,numbl) = btyp
 
   do i = 1,9
-  iblend(i,numbl) = nint(td(i))
+     iblend(i,numbl) = nint(td(i))
   end do ! i
   iblend(10,numbl) = nreg
 
@@ -64,15 +64,15 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   errck  = tinput (ctype,1,td,7)
   eltype = .false. 
   do while ( .not. eltype)
-  eltype = pblktyp(ctype,td, ntyp,iblend(2,numbl),mab)
-  if(btyp == 2 .and. ntyp /= iblend(7,numbl)) then
-    iblend(7,numbl) = ntyp
-  elseif(btyp /= 2 .and. ntyp /= iblend(6,numbl)) then
-    iblend(6,numbl) = ntyp
-  endif
-  if( .not. eltype) then
-    errck = tinput (ctype,1,td,7)
-  endif
+     eltype = pblktyp(ctype,td, ntyp,iblend(2,numbl),mab)
+     if(btyp == 2 .and. ntyp /= iblend(7,numbl)) then
+        iblend(7,numbl) = ntyp
+     elseif(btyp /= 2 .and. ntyp /= iblend(6,numbl)) then
+        iblend(6,numbl) = ntyp
+     endif
+     if( .not. eltype) then
+        errck = tinput (ctype,1,td,7)
+     endif
   end do ! while
 
   !     Record was vertex nodes of blend block
@@ -80,7 +80,7 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   call setval(ctype,15,tc(1))
   iblend(11,numbl) = nint(tc(1))
   do i = 2,8
-  iblend(i+10,numbl) = nint(td(i-1))
+     iblend(i+10,numbl) = nint(td(i-1))
   end do ! i
 
   !     Determine last element number to be generated
@@ -89,53 +89,53 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   ns = max(1,iblend(2,numbl))
 
   if(btyp == 1) then
-    ni   = iblend(3,numbl)
-    ne   = iblend(4,numbl)
-    ma   = iblend(5,numbl)
-    ntyp = iblend(6,numbl)
-    flag = iblend(12,numbl) == 0
-    if(ma < 0) then
-      dlayer = -ma
-      if(dlayer == 1) then
-        nlay = iblend(1,numbl)
-      elseif(dlayer == 2) then
-        nlay = iblend(2,numbl)
-      endif
-    else
-      dlayer = 0
-    endif
+     ni   = iblend(3,numbl)
+     ne   = iblend(4,numbl)
+     ma   = iblend(5,numbl)
+     ntyp = iblend(6,numbl)
+     flag = iblend(12,numbl) == 0
+     if(ma < 0) then
+        dlayer = -ma
+        if(dlayer == 1) then
+           nlay = iblend(1,numbl)
+        elseif(dlayer == 2) then
+           nlay = iblend(2,numbl)
+        endif
+     else
+        dlayer = 0
+     endif
   elseif(btyp == 2) then
-    nt   = max(1,iblend(3,numbl))
-    ni   = iblend(4,numbl)
-    ne   = iblend(5,numbl)
-    ma   = iblend(6,numbl)
-    ntyp = max(10,iblend(7,numbl))
-    flag = .false. 
-    if(ma < 0) then
-      dlayer = -ma
-      if(dlayer == 1) then
-        nlay = iblend(1,numbl)
-      elseif(dlayer == 2) then
-        nlay = iblend(2,numbl)
-      elseif(dlayer == 3) then
-        nlay = nt
-      endif
-    else
-      dlayer = 0
-    end if ! ma < 0
+     nt   = max(1,iblend(3,numbl))
+     ni   = iblend(4,numbl)
+     ne   = iblend(5,numbl)
+     ma   = iblend(6,numbl)
+     ntyp = max(10,iblend(7,numbl))
+     flag = .false. 
+     if(ma < 0) then
+        dlayer = -ma
+        if(dlayer == 1) then
+           nlay = iblend(1,numbl)
+        elseif(dlayer == 2) then
+           nlay = iblend(2,numbl)
+        elseif(dlayer == 3) then
+           nlay = nt
+        endif
+     else
+        dlayer = 0
+     end if ! ma < 0
   elseif(btyp == 3) then
-    ni   = iblend(3,numbl)
-    ne   = iblend(4,numbl)
-    ma   = iblend(5,numbl)
-    ntyp = iblend(6,numbl) + 30
-    flag = iblend(12,numbl) == 0
-    dlayer = 0
+     ni   = iblend(3,numbl)
+     ne   = iblend(4,numbl)
+     ma   = iblend(5,numbl)
+     ntyp = iblend(6,numbl) + 30
+     flag = iblend(12,numbl) == 0
+     dlayer = 0
   endif
 
   !     Set final material number
 
   if(mab > 0) then
-    ma = mab
+     ma = mab
   endif
 
   !     Reset to default values if necessary
@@ -147,27 +147,27 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   !     Input layer material properties
 
   if(dlayer > 0) then
-    110 errck = tinput(ctype,1,td,15)
-    if(errck) go to 110
+110  errck = tinput(ctype,1,td,15)
+     if(errck) go to 110
 
-    do i = 1,min(15,nlay)
-    ilr(i,numbl) = nint(td(i))
-    end do ! i
-    j = min(16,nlay+1)
-    do while(j <= nlay)
-    120 errck = tinput(ctype,0,td,15)
-    if(errck) go to 120
-    do i = j,min(j+15,nlay)
-    ilr(i,numbl) = nint(td(i-j+1))
-    end do ! i
-    j = j + 16
-    end do ! while
-    if(prt) then
-      write(iow,2005) (j,j=1,min(5,nlay))
-      write(iow,2006) (j,ilr(j,numbl),j=1,nlay)
-    end if ! prt
+     do i = 1,min(15,nlay)
+        ilr(i,numbl) = nint(td(i))
+     end do ! i
+     j = min(16,nlay+1)
+     do while(j <= nlay)
+120     errck = tinput(ctype,0,td,15)
+        if(errck) go to 120
+        do i = j,min(j+15,nlay)
+           ilr(i,numbl) = nint(td(i-j+1))
+        end do ! i
+        j = j + 16
+     end do ! while
+     if(prt) then
+        write(iow,2005) (j,j=1,min(5,nlay))
+        write(iow,2006) (j,ilr(j,numbl),j=1,nlay)
+     end if ! prt
   else
-    ma     = max(ma,1)
+     ma     = max(ma,1)
   endif
 
   nr     = max(nr,1)
@@ -180,30 +180,30 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   !     Set correct values into the iblend array
 
   if(btyp == 1 .or. btyp == 3) then
-    iblend(3,numbl) = ni
-    iblend(4,numbl) = ne
-    iblend(5,numbl) = ma
-    iblend(6,numbl) = ntyp
+     iblend(3,numbl) = ni
+     iblend(4,numbl) = ne
+     iblend(5,numbl) = ma
+     iblend(6,numbl) = ntyp
   elseif(btyp == 2) then
-    iblend(4,numbl) = ni
-    iblend(5,numbl) = ne
-    iblend(6,numbl) = ma
-    iblend(7,numbl) = ntyp
+     iblend(4,numbl) = ni
+     iblend(5,numbl) = ne
+     iblend(6,numbl) = ma
+     iblend(7,numbl) = ntyp
   endif
 
   !     Save transformation data
 
   do j = 1,3
-  do i = 1,3
-  trb(i,j,numbl) = tr(i,j)
-  end do ! i
-  trb(j,4,numbl) = xr(j)
+     do i = 1,3
+        trb(i,j,numbl) = tr(i,j)
+     end do ! i
+     trb(j,4,numbl) = xr(j)
   end do ! j
 
   !     Set old numbers
 
   if(ne > 0) then
-    neo = neo + nf
+     neo = neo + nf
   endif
   nio = nio + ng
   mao = ma
@@ -211,68 +211,68 @@ subroutine pblend(trb,iblend,ilr,numbl,numb,ndm,prt,prth)
   !     Output values
 
   if(prt) then
-    call prtitl(prth)
-    if(btyp == 1) then
-      write(iow,2001) numbl,(iblend(i,numbl),i=1,6), &
-        (iblend(i,numbl),i=11,14)
-      if(ior < 0) then
-        write(*,2001) numbl,(iblend(i,numbl),i=1,6), &
-          (iblend(i,numbl),i=11,14)
-      endif
-    elseif(btyp == 2) then
-      write(iow,2002) numbl,(iblend(i,numbl),i=1,7), &
-        (iblend(i,numbl),i=11,18)
-      if(ior < 0) then
-        write(*,2002) numbl,(iblend(i,numbl),i=1,7), &
-          (iblend(i,numbl),i=11,18)
-      endif
-    elseif(btyp == 3) then
-      write(iow,2003) numbl,iblend(1,numbl), &
-        (iblend(i,numbl),i=3,6), &
-        (iblend(i,numbl),i=11,12)
-      if(ior < 0) then
-        write(*,2003) numbl,iblend(1,numbl), &
-          (iblend(i,numbl),i=3,6), &
-          (iblend(i,numbl),i=11,12)
-      endif
-    endif
+     call prtitl(prth)
+     if(btyp == 1) then
+        write(iow,2001) numbl,(iblend(i,numbl),i=1,6), &
+             (iblend(i,numbl),i=11,14)
+        if(ior < 0) then
+           write(*,2001) numbl,(iblend(i,numbl),i=1,6), &
+                (iblend(i,numbl),i=11,14)
+        endif
+     elseif(btyp == 2) then
+        write(iow,2002) numbl,(iblend(i,numbl),i=1,7), &
+             (iblend(i,numbl),i=11,18)
+        if(ior < 0) then
+           write(*,2002) numbl,(iblend(i,numbl),i=1,7), &
+                (iblend(i,numbl),i=11,18)
+        endif
+     elseif(btyp == 3) then
+        write(iow,2003) numbl,iblend(1,numbl), &
+             (iblend(i,numbl),i=3,6), &
+             (iblend(i,numbl),i=11,12)
+        if(ior < 0) then
+           write(*,2003) numbl,iblend(1,numbl), &
+                (iblend(i,numbl),i=3,6), &
+                (iblend(i,numbl),i=11,12)
+        endif
+     endif
   endif
 
-  2001 format('    B l e n d i n g   F u n c t i o n   N u m b e r',i3// &
-    &        10x,'Number of 1-increments =',i5/ &
-    &        10x,'Number of 2-increments =',i5/ &
-    &        10x,'First node number      =',i5/ &
-    &        10x,'First element number   =',i5/ &
-    &        10x,'Material set number    =',i5/ &
-    &        10x,'Block type             =',i5// &
-    &        10x,'1-SNode 2-SNode 3-SNode 4-SNode'/8x,4i8)
+2001 format('    B l e n d i n g   F u n c t i o n   N u m b e r',i3// &
+       &        10x,'Number of 1-increments =',i5/ &
+       &        10x,'Number of 2-increments =',i5/ &
+       &        10x,'First node number      =',i5/ &
+       &        10x,'First element number   =',i5/ &
+       &        10x,'Material set number    =',i5/ &
+       &        10x,'Block type             =',i5// &
+       &        10x,'1-SNode 2-SNode 3-SNode 4-SNode'/8x,4i8)
 
-  2002 format('    B l e n d i n g   F u n c t i o n   N u m b e r',i3// &
-    &        10x,'Number of 1-increments =',i5/ &
-    &        10x,'Number of 2-increments =',i5/ &
-    &        10x,'Number of 3-increments =',i5/ &
-    &        10x,'First node number      =',i5/ &
-    &        10x,'First element number   =',i5/ &
-    &        10x,'Material set number    =',i5/ &
-    &        10x,'Block type             =',i5// &
-    &        10x,'1-SNode 2-SNode 3-SNode 4-SNode 5-SNode 6-SNode ', &
-    '7-SNode 8-SNode'/8x,8i8)
+2002 format('    B l e n d i n g   F u n c t i o n   N u m b e r',i3// &
+       &        10x,'Number of 1-increments =',i5/ &
+       &        10x,'Number of 2-increments =',i5/ &
+       &        10x,'Number of 3-increments =',i5/ &
+       &        10x,'First node number      =',i5/ &
+       &        10x,'First element number   =',i5/ &
+       &        10x,'Material set number    =',i5/ &
+       &        10x,'Block type             =',i5// &
+       &        10x,'1-SNode 2-SNode 3-SNode 4-SNode 5-SNode 6-SNode ', &
+       '7-SNode 8-SNode'/8x,8i8)
 
-  2003 format('    B l e n d i n g   F u n c t i o n   N u m b e r',i3// &
-    &        10x,'Number of 1-increments =',i5/ &
-    &        10x,'First node number      =',i5/ &
-    &        10x,'First element number   =',i5/ &
-    &        10x,'Material set number    =',i5/ &
-    &        10x,'Block type             =',i5// &
-    &        10x,'1-SNode 2-SNode'/8x,2i8)
+2003 format('    B l e n d i n g   F u n c t i o n   N u m b e r',i3// &
+       &        10x,'Number of 1-increments =',i5/ &
+       &        10x,'First node number      =',i5/ &
+       &        10x,'First element number   =',i5/ &
+       &        10x,'Material set number    =',i5/ &
+       &        10x,'Block type             =',i5// &
+       &        10x,'1-SNode 2-SNode'/8x,2i8)
 
-  2005 format(/5x,'Layered Material Properties'/ &
-    /(7x,4(i2,'-Layer Matl')))
+2005 format(/5x,'Layered Material Properties'/ &
+       /(7x,4(i2,'-Layer Matl')))
 
-  2006 format(7x,4(i8,i5))
+2006 format(7x,4(i8,i5))
 
-  3000 format('  Input: Blending function parameters')
+3000 format('  Input: Blending function parameters')
 
-  4000 format(' *ERROR* PBLEND: Type: ',a,' not available')
+4000 format(' *ERROR* PBLEND: Type: ',a,' not available')
 
 end subroutine pblend

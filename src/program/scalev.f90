@@ -32,24 +32,24 @@ subroutine scalev(v,pdf,ndm,ndf,numnp)
 
   vmax = 0.0d0
   do i = 1,ndm
-  if(pdf(i) >= 1 .and. pdf(i) <= ndf) then
-    do n = 1,numnp
-    vmax = max(vmax,abs(v(pdf(i),n)))
-    end do ! n
-  endif
+     if(pdf(i) >= 1 .and. pdf(i) <= ndf) then
+        do n = 1,numnp
+           vmax = max(vmax,abs(v(pdf(i),n)))
+        end do ! n
+     endif
   end do ! i
 
   !     Perform scaling
 
   if(vmax > 0.0d0) then
-    vmax = 1.d0/vmax
-    do n = 1,numnp
-    do i = 1,ndf
-    v(i,n) = v(i,n)*vmax
-    end do ! i
-    end do ! n
+     vmax = 1.d0/vmax
+     do n = 1,numnp
+        do i = 1,ndf
+           v(i,n) = v(i,n)*vmax
+        end do ! i
+     end do ! n
   else
-    write(*,*) 'Zero length vector in SCALEV'
+     write(*,*) 'Zero length vector in SCALEV'
   endif
 
 end subroutine scalev

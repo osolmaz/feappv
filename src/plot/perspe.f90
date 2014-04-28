@@ -33,93 +33,93 @@ subroutine perspe(flag)
 
   save
 
-  1 if(flag) then
-    if(defalt) then
-      iused = 0
-    else
-      if(ior < 0) write(*,2000)
-      errck = pinput(e,1)
-      iused = nint(e(1))
-    endif
-    if(iused == 0) then
-      if(eold(1)+eold(2)+eold(3) == 0.0d0) then
-        eold(1) = 3.0d0*vmax(1)
-        eold(2) = 2.0d0*vmax(2)
-        if(ndm <= 2) then
-          eold(3) = 1.5d0*max(eold(1),eold(2))
+1 if(flag) then
+     if(defalt) then
+        iused = 0
+     else
+        if(ior < 0) write(*,2000)
+        errck = pinput(e,1)
+        iused = nint(e(1))
+     endif
+     if(iused == 0) then
+        if(eold(1)+eold(2)+eold(3) == 0.0d0) then
+           eold(1) = 3.0d0*vmax(1)
+           eold(2) = 2.0d0*vmax(2)
+           if(ndm <= 2) then
+              eold(3) = 1.5d0*max(eold(1),eold(2))
+           else
+              eold(3) = 1.5d0*vmax(3)
+           endif
+           if(eold(1) == 0.0d0) eold(1) = 0.4d0*max(eold(2),eold(3))
+           if(eold(2) == 0.0d0) eold(2) = 0.4d0*max(eold(3),eold(1))
+           if(eold(3) == 0.0d0) then
+              if(ndm <= 2) then
+                 eold(3) = 1.4d0*max(eold(1),eold(2))
+              else
+                 eold(3) = 0.4d0*max(eold(1),eold(2))
+              endif
+           endif
+        endif
+
+        if(defalt) then
+           call pzero(e,3)
         else
-          eold(3) = 1.5d0*vmax(3)
+           if(ior < 0) write(  *,2001) vmin,vmax,eold
+           errck = pinput(e,3)
         endif
-        if(eold(1) == 0.0d0) eold(1) = 0.4d0*max(eold(2),eold(3))
-        if(eold(2) == 0.0d0) eold(2) = 0.4d0*max(eold(3),eold(1))
-        if(eold(3) == 0.0d0) then
-          if(ndm <= 2) then
-            eold(3) = 1.4d0*max(eold(1),eold(2))
-          else
-            eold(3) = 0.4d0*max(eold(1),eold(2))
-          endif
+
+        if(e(1)+e(2)+e(3) == 0.0d0) then
+           e(1)    = eold(1)
+           e(2)    = eold(2)
+           e(3)    = eold(3)
+        else
+           eold(1) = e(1)
+           eold(2) = e(2)
+           eold(3) = e(3)
         endif
-      endif
 
-      if(defalt) then
-        call pzero(e,3)
-      else
-        if(ior < 0) write(  *,2001) vmin,vmax,eold
-        errck = pinput(e,3)
-      endif
+        write(iow,2002) vmin,vmax,e
 
-      if(e(1)+e(2)+e(3) == 0.0d0) then
-        e(1)    = eold(1)
-        e(2)    = eold(2)
-        e(3)    = eold(3)
-      else
-        eold(1) = e(1)
-        eold(2) = e(2)
-        eold(3) = e(3)
-      endif
+        tg(1)    = 0.5d0*(vmax(1) + vmin(1))
+        tg(2)    = 0.5d0*(vmax(2) + vmin(2))
+        tg(3)    = 0.5d0*(vmax(3) + vmin(3))
+        tgold(1) = tg(1)
+        tgold(2) = tg(2)
+        tgold(3) = tg(3)
 
-      write(iow,2002) vmin,vmax,e
+        if(defalt) then
+           call pzero(v,3)
+        else
+           if(ior < 0) write(  *,2003) vold
+           errck = pinput(v,3)
+        endif
 
-      tg(1)    = 0.5d0*(vmax(1) + vmin(1))
-      tg(2)    = 0.5d0*(vmax(2) + vmin(2))
-      tg(3)    = 0.5d0*(vmax(3) + vmin(3))
-      tgold(1) = tg(1)
-      tgold(2) = tg(2)
-      tgold(3) = tg(3)
+        if(v(1)+v(2)+v(3) == 0.0d0) then
+           v(1)    = vold(1)
+           v(2)    = vold(2)
+           v(3)    = vold(3)
+        else
+           vold(1) = v(1)
+           vold(2) = v(2)
+           vold(3) = v(3)
+        endif
 
-      if(defalt) then
-        call pzero(v,3)
-      else
-        if(ior < 0) write(  *,2003) vold
-        errck = pinput(v,3)
-      endif
+        write(iow,2004) v
 
-      if(v(1)+v(2)+v(3) == 0.0d0) then
-        v(1)    = vold(1)
-        v(2)    = vold(2)
-        v(3)    = vold(3)
-      else
-        vold(1) = v(1)
-        vold(2) = v(2)
-        vold(3) = v(3)
-      endif
-
-      write(iow,2004) v
-
-    endif
+     endif
   endif
 
   if( .not. flag .or. iused /= 0) then
-    e(1)  = eold(1)
-    e(2)  = eold(2)
-    e(3)  = eold(3)
-    tg(1) = tgold(1)
-    tg(2) = tgold(2)
-    tg(3) = tgold(3)
+     e(1)  = eold(1)
+     e(2)  = eold(2)
+     e(3)  = eold(3)
+     tg(1) = tgold(1)
+     tg(2) = tgold(2)
+     tg(3) = tgold(3)
 
-    v(1)  = vold(1)
-    v(2)  = vold(2)
-    v(3)  = vold(3)
+     v(1)  = vold(1)
+     v(2)  = vold(2)
+     v(3)  = vold(3)
   endif
 
   !     Projection matrix t
@@ -134,34 +134,34 @@ subroutine perspe(flag)
 
   hdcpyo = hdcpy
   if ( hdlogo .and. hdcpy) then
-    hdcpy = .false. 
-    ifrfl = 1
+     hdcpy = .false. 
+     ifrfl = 1
   endif
   call plview(q,vmin,vmax)
   if (ifrfl == 1) then
-    hdcpy = hdcpyo
-    ifrfl = 0
+     hdcpy = hdcpyo
+     ifrfl = 0
   endif
 
   do i = 1,3
-  q(i,3) = q(i,1) / enorm
+     q(i,3) = q(i,1) / enorm
   end do
   do i = 1,3
-  do j = 1,3
-  t(i,j) = - q(i,3) * q(j,3)
-  end do
-  t(i,i) = t(i,i) + 1.d0
+     do j = 1,3
+        t(i,j) = - q(i,3) * q(j,3)
+     end do
+     t(i,i) = t(i,i) + 1.d0
   end do
 
   !     Find projection of v
 
   do i = 1,3
-  q(i,2) = t(i,1)*v(1) + t(i,2)*v(2) + t(i,3)*v(3)
+     q(i,2) = t(i,1)*v(1) + t(i,2)*v(2) + t(i,3)*v(3)
   end do
   vnorm = sqrt(q(1,2)*q(1,2)+q(2,2)*q(2,2)+q(3,2)*q(3,2))
   if(vnorm <= 0.0d0) go to 901
   do i = 1,3
-  q(i,2) = q(i,2) / vnorm
+     q(i,2) = q(i,2) / vnorm
   end do
 
   !     Compute normal vector
@@ -171,43 +171,43 @@ subroutine perspe(flag)
   !     Compute rotation matrix
 
   do i = 1,3
-  do j = 1,3
-  xlbda(i,j) = q(1,i)*t(1,j) + q(2,i)*t(2,j) + q(3,i)*t(3,j)
-  end do
+     do j = 1,3
+        xlbda(i,j) = q(1,i)*t(1,j) + q(2,i)*t(2,j) + q(3,i)*t(3,j)
+     end do
   end do
   xlbda(3,1) = xlbda(1,2)*xlbda(2,3) - xlbda(1,3)*xlbda(2,2)
   xlbda(3,2) = xlbda(1,3)*xlbda(2,1) - xlbda(1,1)*xlbda(2,3)
   xlbda(3,3) = xlbda(1,1)*xlbda(2,2) - xlbda(1,2)*xlbda(2,1)
   return
 
-  901 if(ior < 0) write(  *,3000)
+901 if(ior < 0) write(  *,3000)
   if(ior > 0) write(iow,3000)
   call errclr('PERSPE')
   if(flag) goto 1
 
   !     Formats
 
-  2000 format(' Use old parameters? (0 = new or 1 = old) :',$)
+2000 format(' Use old parameters? (0 = new or 1 = old) :',$)
 
-  2001 format(' Body occupies the space with:'/ &
-    '                 X',13x,'Y',13x,'Z'/ &
-    '   Minimum ',1p3e14.5/'   Maximum ',1p3e14.5/ &
-    ' Enter coordinates of view point   (X,Y,Z).'/ &
-    ' Default: X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/ &
-    '  >',$)
+2001 format(' Body occupies the space with:'/ &
+       '                 X',13x,'Y',13x,'Z'/ &
+       '   Minimum ',1p3e14.5/'   Maximum ',1p3e14.5/ &
+       ' Enter coordinates of view point   (X,Y,Z).'/ &
+       ' Default: X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/ &
+       '  >',$)
 
-  2002 format(' Body occupies the space with:'/ &
-    '                 X',13x,'Y',13x,'Z'/ &
-    '   Minimum ',1p3e14.5/'   Maximum ',1p3e14.5/ &
-    '          X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/)
+2002 format(' Body occupies the space with:'/ &
+       '                 X',13x,'Y',13x,'Z'/ &
+       '   Minimum ',1p3e14.5/'   Maximum ',1p3e14.5/ &
+       '          X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/)
 
-  2003 format(' Enter comps. of vertical vector   (X,Y,Z).'/ &
-    ' Default: X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/ &
-    '  >',$)
+2003 format(' Enter comps. of vertical vector   (X,Y,Z).'/ &
+       ' Default: X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/ &
+       '  >',$)
 
-  2004 format('   Components of vertical vector   (X,Y,Z).'/ &
-    '          X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/)
+2004 format('   Components of vertical vector   (X,Y,Z).'/ &
+       '          X=',1p,1e9.2,', Y=',1p,1e9.2,', Z=',1p,1e9.2/)
 
-  3000 format(' *ERROR* Improper view specified')
+3000 format(' *ERROR* Improper view specified')
 
 end subroutine perspe

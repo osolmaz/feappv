@@ -44,8 +44,8 @@ logical function zoom(xl,ndm)
   xm = xl(1)
   ym = xl(2)
   if(kpers /= 1) then
-    xm = xm - (0.5d0 - s0(1))/(scale*2.d0)
-    ym = ym - (0.5d0 - s0(2))/(scale*2.d0)
+     xm = xm - (0.5d0 - s0(1))/(scale*2.d0)
+     ym = ym - (0.5d0 - s0(2))/(scale*2.d0)
   endif
   xx = xm
   yx = ym
@@ -54,21 +54,21 @@ logical function zoom(xl,ndm)
   zx = zm
 
   if(kpers == 1) then
-    xg(1) = xm
-    xg(2) = ym
-    xg(3) = zm
-    call perspj(xg,ntyp,1,errv)
-    xm    = xg(1)
-    ym    = xg(2)
-    xg(1) = xx
-    xg(2) = yx
-    xg(3) = zx
-    call perspj(xg,ntyp,1,errv)
-    xx    = xg(1)
-    yx    = xg(2)
+     xg(1) = xm
+     xg(2) = ym
+     xg(3) = zm
+     call perspj(xg,ntyp,1,errv)
+     xm    = xg(1)
+     ym    = xg(2)
+     xg(1) = xx
+     xg(2) = yx
+     xg(3) = zx
+     call perspj(xg,ntyp,1,errv)
+     xx    = xg(1)
+     yx    = xg(2)
   endif
 
   zoom = ( (xm >= xc-ddx) .and. (xx <= xc+ddx) &
-    .and. (ym >= yc-ddy) .and. (yx <= yc+ddy) )
+       .and. (ym >= yc-ddy) .and. (yx <= yc+ddy) )
 
 end function zoom

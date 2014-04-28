@@ -31,7 +31,7 @@ subroutine udynam(du,u,ud,nneq,isw)
   !     Loop structure for partitions
 
   do n = 1,nneq
-  !       Perform steps here
+     !       Perform steps here
   end do
 
 end subroutine udynam

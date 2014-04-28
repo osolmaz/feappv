@@ -38,12 +38,12 @@ logical function pcomp(a,b,n)
 
   do i = 1,n
 
-  ia = ichar(a(i:i))
-  ib = ichar(b(i:i))
+     ia = ichar(a(i:i))
+     ib = ichar(b(i:i))
 
-  !       Test all permutations of characters for match
+     !       Test all permutations of characters for match
 
-  if(ia /= ib .and. ia+inc /= ib .and. ia /= ib+inc ) return
+     if(ia /= ib .and. ia+inc /= ib .and. ia /= ib+inc ) return
   end do
 
   pcomp = .true. 

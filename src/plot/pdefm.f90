@@ -36,29 +36,29 @@ subroutine pdefm(x,b,c,angl,ndm,ndf,numnp, dr)
   save
 
   do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0) then
-    do i = 1,ndf
-    vv(i) = b(i,n)
-    end do
-    if(ndm > 1 .and. ndf > 1 .and. angl(n) /= 0.0d0) then
-      call pdegree(angl(n), sn,cn)
-      vv(1) = b(1,n)*cn - b(2,n)*sn
-      vv(2) = b(1,n)*sn + b(2,n)*cn
-    endif
-    do i = 1,3
-    if(pdf(i) > 0 .and. pdf(i) <= ndf) then
-      uu(i) = vv(pdf(i))
-    else
-      uu(i) = 0.0d0
-    endif
-    end do
-    do i = 1,ndm
-    dr(i,n) = x(i,n) + c*uu(i)
-    end do
-    do i = ndm+1,3
-    dr(i,n) = c*uu(i)
-    end do
-  endif
+     if(mr(np(49)-1+n) >= 0) then
+        do i = 1,ndf
+           vv(i) = b(i,n)
+        end do
+        if(ndm > 1 .and. ndf > 1 .and. angl(n) /= 0.0d0) then
+           call pdegree(angl(n), sn,cn)
+           vv(1) = b(1,n)*cn - b(2,n)*sn
+           vv(2) = b(1,n)*sn + b(2,n)*cn
+        endif
+        do i = 1,3
+           if(pdf(i) > 0 .and. pdf(i) <= ndf) then
+              uu(i) = vv(pdf(i))
+           else
+              uu(i) = 0.0d0
+           endif
+        end do
+        do i = 1,ndm
+           dr(i,n) = x(i,n) + c*uu(i)
+        end do
+        do i = ndm+1,3
+           dr(i,n) = c*uu(i)
+        end do
+     endif
   end do
 
 end subroutine pdefm

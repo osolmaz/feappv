@@ -23,11 +23,11 @@ subroutine genclr(ndf, v, nty, numnp)
   real*8 ::    v(ndf,numnp)
 
   do n = 1,numnp
-  if(nty(n) < 0) then
-    do i = 1,ndf
-    v(i,n) = 0.0d0
-    end do
-  endif
+     if(nty(n) < 0) then
+        do i = 1,ndf
+           v(i,n) = 0.0d0
+        end do
+     endif
   end do
 
 end subroutine genclr

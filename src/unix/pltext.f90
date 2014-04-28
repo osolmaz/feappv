@@ -34,4 +34,4 @@ subroutine pltext(x,y,il,str)
 
   call tplot(x,y,str,il,0)
 
-  end
+end subroutine pltext

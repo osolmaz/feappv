@@ -22,16 +22,16 @@ subroutine    endclr (subnam,chr)
   character subnam*(*),chr*(*)
 
   if (ior > 0)  then
-    write(iow,2000) subnam
-    call pdelfl()
-    call plstop()
+     write(iow,2000) subnam
+     call pdelfl()
+     call plstop()
   else
-    write(*,2000) subnam
-    chr = ' '
+     write(*,2000) subnam
+     chr = ' '
   endif
 
   !     Format
 
-  2000 format (' *ERROR in ',a,' ** end of file encountered')
+2000 format (' *ERROR in ',a,' ** end of file encountered')
 
-end subroutine 
+end subroutine endclr

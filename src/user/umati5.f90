@@ -29,9 +29,9 @@ subroutine umati5(vtype,vv, d, ud, n1,n3)
   !     Set command name
 
   if(pcomp(vtype,'mat1',4)) then     ! Default  form DO NOT CHANGE
-    !       vtype = 'name'                   ! Specify 'name'
+     !       vtype = 'name'                   ! Specify 'name'
 
-    !     Input user data and save in ud(*) array
+     !     Input user data and save in ud(*) array
 
   else                              ! Perform input for user data
 

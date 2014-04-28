@@ -1,6 +1,6 @@
 ! Id:$
 subroutine cassem(ad, au, al, s, ir, jc, ld, nst, alfl, &
-    bycol,diagin,all)
+     bycol,diagin,all)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -43,104 +43,104 @@ subroutine cassem(ad, au, al, s, ir, jc, ld, nst, alfl, &
   !     Compact assembly of profile matrix
 
   do i = 1,nst
-  n = ld(i)
-  if( n >= 1) then
+     n = ld(i)
+     if( n >= 1) then
 
-    !         Assemble total array
+        !         Assemble total array
 
-    if(all) then
+        if(all) then
 
-      !           Assemble by columns
+           !           Assemble by columns
 
-      if(bycol) then
-        do j = 1,nst
-        k = ld(j)
-        if(k > 0 .and. n > 1) then
-          inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
-          ad(inz) = ad(inz) + s(j,i)
-        elseif(k > 0 .and. n == 1) then
-          inz     = inza(      one, jc(n), ir, k, n)
-          ad(inz) = ad(inz) + s(j,i)
-        endif
-        end do ! j
+           if(bycol) then
+              do j = 1,nst
+                 k = ld(j)
+                 if(k > 0 .and. n > 1) then
+                    inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
+                    ad(inz) = ad(inz) + s(j,i)
+                 elseif(k > 0 .and. n == 1) then
+                    inz     = inza(      one, jc(n), ir, k, n)
+                    ad(inz) = ad(inz) + s(j,i)
+                 endif
+              end do ! j
 
-        !           Assemble by rows (no reordering)
+              !           Assemble by rows (no reordering)
 
-      else
-        do j = 1,nst
-        k = ld(j)
-        if(k > 0 .and. n > 1) then
-          inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
-          ad(inz) = ad(inz) + s(i,j)
-        elseif(k > 0 .and. n == 1) then
-          inz     = inza(      one, jc(n), ir, k, n)
-          ad(inz) = ad(inz) + s(i,j)
-        endif
-        end do ! j
+           else
+              do j = 1,nst
+                 k = ld(j)
+                 if(k > 0 .and. n > 1) then
+                    inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
+                    ad(inz) = ad(inz) + s(i,j)
+                 elseif(k > 0 .and. n == 1) then
+                    inz     = inza(      one, jc(n), ir, k, n)
+                    ad(inz) = ad(inz) + s(i,j)
+                 endif
+              end do ! j
 
-      endif
+           endif
 
-      !         Assemble upper/lower parts by columns
+           !         Assemble upper/lower parts by columns
 
-    elseif(bycol) then
-      do j = 1,nst
-      k = ld(j)
-      !             Assemble including diagonal
-      if(diagin) then
-        if(k > 0 .and. k <= n ) then
-          if(n == 1) then
-            ad(1) = ad(1) + s(j,i)
-            if(alfl) al(1) = al(1) + s(i,j)
-          else
-            inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
-            ad(inz) = ad(inz) + s(j,i)
-            if(alfl) al(inz) = al(inz) + s(i,j)
-          endif
-        endif
-        !             Assemble excluding diagonal
-      else
-        if(k > 0 .and. k < n ) then
-          inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
-          au(inz) = au(inz) + s(j,i)
-          if(alfl) al(inz) = al(inz) + s(i,j)
-        endif
-      endif
-      end do ! j
+        elseif(bycol) then
+           do j = 1,nst
+              k = ld(j)
+              !             Assemble including diagonal
+              if(diagin) then
+                 if(k > 0 .and. k <= n ) then
+                    if(n == 1) then
+                       ad(1) = ad(1) + s(j,i)
+                       if(alfl) al(1) = al(1) + s(i,j)
+                    else
+                       inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
+                       ad(inz) = ad(inz) + s(j,i)
+                       if(alfl) al(inz) = al(inz) + s(i,j)
+                    endif
+                 endif
+                 !             Assemble excluding diagonal
+              else
+                 if(k > 0 .and. k < n ) then
+                    inz     = inza(jc(n-1)+1, jc(n), ir, k, n)
+                    au(inz) = au(inz) + s(j,i)
+                    if(alfl) al(inz) = al(inz) + s(i,j)
+                 endif
+              endif
+           end do ! j
 
-      !         Assemble upper/lower parts by rows
+           !         Assemble upper/lower parts by rows
 
-    else
-      do j = 1,nst
-      k = ld(j)
-      if(k > 0) then
-        !               Assemble including diagonal
-        if(diagin) then
-          if( k >= n ) then
-            inz     = inza(jc(n+neq), jc(n+neq+1)-1, ir, k, n)
-            ad(inz) = ad(inz) + s(j,i)
-            if(alfl) al(inz) = al(inz) + s(i,j)
-          endif
-          !               Assemble excluding diagonal
         else
-          if( k > n ) then
-            inz     = inza(jc(n+neq), jc(n+neq+1)-1, ir, k, n)
-            au(inz) = au(inz) + s(j,i)
-            if(alfl) al(inz) = al(inz) + s(i,j)
-          endif
+           do j = 1,nst
+              k = ld(j)
+              if(k > 0) then
+                 !               Assemble including diagonal
+                 if(diagin) then
+                    if( k >= n ) then
+                       inz     = inza(jc(n+neq), jc(n+neq+1)-1, ir, k, n)
+                       ad(inz) = ad(inz) + s(j,i)
+                       if(alfl) al(inz) = al(inz) + s(i,j)
+                    endif
+                    !               Assemble excluding diagonal
+                 else
+                    if( k > n ) then
+                       inz     = inza(jc(n+neq), jc(n+neq+1)-1, ir, k, n)
+                       au(inz) = au(inz) + s(j,i)
+                       if(alfl) al(inz) = al(inz) + s(i,j)
+                    endif
+                 endif
+              endif
+           end do ! j
         endif
-      endif
-      end do ! j
-    endif
 
-    !         Assemble diagonal for .not.diagin cases
+        !         Assemble diagonal for .not.diagin cases
 
-    if( .not. diagin) then
-      do j = 1,nst
-      if(ld(j) == n) ad(n) = ad(n) + s(i,j)
-      end do ! j
-    endif
+        if( .not. diagin) then
+           do j = 1,nst
+              if(ld(j) == n) ad(n) = ad(n) + s(i,j)
+           end do ! j
+        endif
 
-  endif
+     endif
 
   end do ! i
 

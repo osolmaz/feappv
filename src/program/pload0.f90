@@ -34,23 +34,23 @@ subroutine pload0(f,f0,u,nn,p)
 
   do n = 1,nn
 
-  !       Set force values
+     !       Set force values
 
-  ipro = mr(np(29)+n-1)
-  if(ipro == 0) then
-    f0(n,1) = f(n,1)*p + f0(n,1)
-  else
-    f0(n,1) = f(n,1)*prldv(ipro) + f0(n,1)
-  endif
+     ipro = mr(np(29)+n-1)
+     if(ipro == 0) then
+        f0(n,1) = f(n,1)*p + f0(n,1)
+     else
+        f0(n,1) = f(n,1)*prldv(ipro) + f0(n,1)
+     endif
 
-  !       Set displacement values
+     !       Set displacement values
 
-  f0(n,2) = u(n)
+     f0(n,2) = u(n)
 
-  !       Zero variable loading component
+     !       Zero variable loading component
 
-  f(n,1)  = 0.0d0
-  f(n,2)  = 0.0d0
+     f(n,1)  = 0.0d0
+     f(n,2)  = 0.0d0
   end do
 
 end subroutine pload0

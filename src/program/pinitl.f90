@@ -38,28 +38,28 @@ subroutine pinitl(lct,err)
 
   if(pcomp(lct,'rate',4)) then
 
-    !       Check that memory allocated for rates
+     !       Check that memory allocated for rates
 
-    setvar = palloc( 42,'VEL  ',nneq*5 ,2)
+     setvar = palloc( 42,'VEL  ',nneq*5 ,2)
 
-    call genvec(ndf,ndf,hr(np(42)),' rate ',prt,prth,err, .false. )
-    call genclr(ndf,hr(np(42)), mr(np(49)), numnp)
+     call genvec(ndf,ndf,hr(np(42)),' rate ',prt,prth,err, .false. )
+     call genclr(ndf,hr(np(42)), mr(np(49)), numnp)
 
-    !     Displacement initial conditions
+     !     Displacement initial conditions
 
   else
-    call genvec(ndf,ndf,hr(np(40)),' displ. ',prt,prth,err, .false. )
+     call genvec(ndf,ndf,hr(np(40)),' displ. ',prt,prth,err, .false. )
   endif
 
   !     Check for errors
 
   if(err .and. ior > 0 ) then
-    write(iow,3000)
-    call plstop()
+     write(iow,3000)
+     call plstop()
   endif
 
   !     Format
 
-  3000 format(/'  *ERROR* Bad initial conditions')
+3000 format(/'  *ERROR* Bad initial conditions')
 
 end subroutine pinitl

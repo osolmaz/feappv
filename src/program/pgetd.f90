@@ -42,30 +42,30 @@ subroutine pgetd( name, point, lengt, prec , flag )
 
   do i = 1,ndict
 
-  !       Assign pointer, length, and precision
+     !       Assign pointer, length, and precision
 
-  if( pcomp(dname, dict(i), 5) ) then
-    prec  =  irp(iprec(i),ipr)
-    point = (ipoint(i) + prec - 1)/prec - ipr*(2 - iprec(i))
-    lengt = (ipoint(i+1) - ipoint(i))/prec
-    prec  =  iprec(i)
-    flag  = .true. 
-    return
-  endif
+     if( pcomp(dname, dict(i), 5) ) then
+        prec  =  irp(iprec(i),ipr)
+        point = (ipoint(i) + prec - 1)/prec - ipr*(2 - iprec(i))
+        lengt = (ipoint(i+1) - ipoint(i))/prec
+        prec  =  iprec(i)
+        flag  = .true. 
+        return
+     endif
   end do
 
   !     Output error message if not found
 
   if(debug) then
-    if(ior < 0) write(*,2000) dname(1:5)
-    write(iow,2000) dname(1:5)
-    !       if(ior.gt.0) call plstop()
+     if(ior < 0) write(*,2000) dname(1:5)
+     write(iow,2000) dname(1:5)
+     !       if(ior.gt.0) call plstop()
   end if
   flag = .false. 
 
   !     Format
 
-  2000 format(' *WARNING* Check for ',a5, &
-    ': Array not allocated for this problem.')
+2000 format(' *WARNING* Check for ',a5, &
+       ': Array not allocated for this problem.')
 
 end subroutine pgetd

@@ -13,5 +13,5 @@ subroutine elmt03(d,ul,xl,ix,tl,s,p,ndf,ndm,nst,isw)
   real*8 ::    d(*), ul(*), xl(*), tl(*), s(*), p(*)
 
   if(isw > 0) write(*,2000)
-  2000 format('    Elmt 03: *WARNING* Dummy subroutine called')
+2000 format('    Elmt 03: *WARNING* Dummy subroutine called')
 end subroutine elmt03

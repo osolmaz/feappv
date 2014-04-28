@@ -83,8 +83,8 @@ subroutine plview(q,vmin,vmax)
   absmax  = max(qmax , abs(bmax(1)) , abs(bmax(2)) , abs(bmax(3)) )
   rnorm   = 0.06186d0/absmax
   do i = 1,3
-  view(i) = rnorm*q(i,1)
-  bmax(i) = rnorm*bmax(i)
+     view(i) = rnorm*q(i,1)
+     bmax(i) = rnorm*bmax(i)
   end do
 
   !     Plot box of body limits - 12 -plane

@@ -1,6 +1,6 @@
 ! Id:$
 logical function setmem(list,mlist,rlist, &
-    num,name,length,precis)
+     num,name,length,precis)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -64,207 +64,207 @@ logical function setmem(list,mlist,rlist, &
 
   if(pcomp(dname,rlist(n),5)) then
 
-    !       Set pointer for arrays stored in Blank Common
+     !       Set pointer for arrays stored in Blank Common
 
-    setmem = .true. 
+     setmem = .true. 
 
-    if(mlist(1,n) == 0) then
-      if(length <= 0) then
-        write(  *,*) '  *WARNING* Length allocation for:',dname, &
-          ' Length =',length
-        write(iow,*) '  *WARNING* Length allocation for:',dname, &
-          ' Length =',length
-      endif
-      ip     = abs(precis)
-      ipa    = irp(ip,ipr)
-
-      !         Use Malloc to allocate space for length*ipa bytes
-
-      adr(n) = malloc(length*ipa)
-
-      !         Set pointer for array use
-
-      if(ip == 1) then
-        np(n) = 1 + (adr(n) - loc(mr(1))) / ipa
-      else
-        np(n) = 1 + (adr(n) - loc(hr(1))) / ipa
-      endif
-
-      !         Add new array into dictionary
-
-      ndict      = ndict+1
-      mlist(1,n) = ndict
-      mlist(2,n) = length
-
-      if(ndict <= 200) then
-        dict(ndict)   = dname
-        ipoint(ndict) = length
-        iprec(ndict)  = ip
-        dlist(ndict)  = n
-        if(num <= llist) then
-          ddict(ndict) = num
-        else
-          ddict(ndict) = num-llist
+     if(mlist(1,n) == 0) then
+        if(length <= 0) then
+           write(  *,*) '  *WARNING* Length allocation for:',dname, &
+                ' Length =',length
+           write(iow,*) '  *WARNING* Length allocation for:',dname, &
+                ' Length =',length
         endif
-        pdict(ndict) = num
-      else
-        write(iow,2001) dname
-        if(ior < 0) then
-          write(*,2001) dname
-        endif
-      endif
+        ip     = abs(precis)
+        ipa    = irp(ip,ipr)
 
-      !         Memory allocation available - Initialize to zero
+        !         Use Malloc to allocate space for length*ipa bytes
 
-      if(adr(n) /= 0) then
+        adr(n) = malloc(length*ipa)
+
+        !         Set pointer for array use
+
         if(ip == 1) then
-          call pzeroi(mr(np(n)),length)
+           np(n) = 1 + (adr(n) - loc(mr(1))) / ipa
         else
-          call pzero (hr(np(n)),length)
+           np(n) = 1 + (adr(n) - loc(hr(1))) / ipa
         endif
 
-        !         Sufficient memory does not exist - Write ERROR message and STOP
+        !         Add new array into dictionary
 
-      else
-        write(iow,2000) name,length
-        if(ior < 0) then
-          write(*,2000) name,length
-        endif
-        if(eralloc) then
-          setmem = .false. 
+        ndict      = ndict+1
+        mlist(1,n) = ndict
+        mlist(2,n) = length
+
+        if(ndict <= 200) then
+           dict(ndict)   = dname
+           ipoint(ndict) = length
+           iprec(ndict)  = ip
+           dlist(ndict)  = n
+           if(num <= llist) then
+              ddict(ndict) = num
+           else
+              ddict(ndict) = num-llist
+           endif
+           pdict(ndict) = num
         else
-          call plstop()
+           write(iow,2001) dname
+           if(ior < 0) then
+              write(*,2001) dname
+           endif
         endif
 
-      endif
+        !         Memory allocation available - Initialize to zero
 
-      !       Pointer already exists: Delete if length = 0;
+        if(adr(n) /= 0) then
+           if(ip == 1) then
+              call pzeroi(mr(np(n)),length)
+           else
+              call pzero (hr(np(n)),length)
+           endif
 
-    elseif(length == 0) then
+           !         Sufficient memory does not exist - Write ERROR message and STOP
 
-      dicloc = mlist(1,n)
+        else
+           write(iow,2000) name,length
+           if(ior < 0) then
+              write(*,2000) name,length
+           endif
+           if(eralloc) then
+              setmem = .false. 
+           else
+              call plstop()
+           endif
 
-      call free(adr(n))
+        endif
 
-      np(n)      = 0
-      mlist(1,n) = 0
-      mlist(2,n) = 0
+        !       Pointer already exists: Delete if length = 0;
 
-      do i = dicloc,ndict-1
-      dict(i)           = dict(i+1)
-      ipoint(i)         = ipoint(i+1)
-      iprec(i)          = iprec(i+1)
-      dlist(i)          = dlist(i+1)
-      ddict(i)          = ddict(i+1)
-      pdict(i)          = pdict(i+1)
-      mlist(1,dlist(i)) = mlist(1,dlist(i)) - 1
-      end do ! i
+     elseif(length == 0) then
 
-      !         Set last entry and reduce entries in dictionary
+        dicloc = mlist(1,n)
 
-      dict(ndict)   = '     '
-      ipoint(ndict) = 0
-      dlist(ndict)  = 0
-      ddict(ndict)  = 0
-      pdict(ndict)  = 0
-      iprec(ndict)  = 0
+        call free(adr(n))
 
-      !         Reset dictionary lengths
+        np(n)      = 0
+        mlist(1,n) = 0
+        mlist(2,n) = 0
 
-      ndict = ndict - 1
+        do i = dicloc,ndict-1
+           dict(i)           = dict(i+1)
+           ipoint(i)         = ipoint(i+1)
+           iprec(i)          = iprec(i+1)
+           dlist(i)          = dlist(i+1)
+           ddict(i)          = ddict(i+1)
+           pdict(i)          = pdict(i+1)
+           mlist(1,dlist(i)) = mlist(1,dlist(i)) - 1
+        end do ! i
 
-      !       Pointer already exists: resize in place
+        !         Set last entry and reduce entries in dictionary
 
-    elseif(length /= mlist(2,n)) then
+        dict(ndict)   = '     '
+        ipoint(ndict) = 0
+        dlist(ndict)  = 0
+        ddict(ndict)  = 0
+        pdict(ndict)  = 0
+        iprec(ndict)  = 0
 
-      dicloc  = mlist(1,n)
+        !         Reset dictionary lengths
 
-      !         Expand array if space available
+        ndict = ndict - 1
 
-      ip    =  abs(precis)
-      ipa   =  irp(ip,ipr)
+        !       Pointer already exists: resize in place
 
-      if(length > mlist(2,n)) then
-        lensav = mlist(2,n)
-      else
-        lensav = length
-      endif
+     elseif(length /= mlist(2,n)) then
 
-      !         Save current values
+        dicloc  = mlist(1,n)
 
-      open (unit = iot, file = 'scratch', form = 'unformatted')
-      if(ip == 1) then
-        write(iot) (mr(point),point = np(n),np(n)+lensav-1)
-      else
-        write(iot) (hr(point),point = np(n),np(n)+lensav-1)
-      endif
-      call free(adr(n))
-      adr(n) = malloc(length*ipa)
-      if(adr(n) /= 0) then
-        rewind iot
+        !         Expand array if space available
+
+        ip    =  abs(precis)
+        ipa   =  irp(ip,ipr)
+
+        if(length > mlist(2,n)) then
+           lensav = mlist(2,n)
+        else
+           lensav = length
+        endif
+
+        !         Save current values
+
+        open (unit = iot, file = 'scratch', form = 'unformatted')
         if(ip == 1) then
-          np(n) = 1 + (adr(n) - loc(mr(1))) / ipa
-          read(iot) (mr(point),point = np(n),np(n)+lensav-1)
-          do i = mlist(2,n),length-1
-          mr(np(n)+i) = 0
-          end do ! i
+           write(iot) (mr(point),point = np(n),np(n)+lensav-1)
         else
-          np(n) = 1 + (adr(n) - loc(hr(1))) / ipa
-          read(iot) (hr(point),point = np(n),np(n)+lensav-1)
-          do i = mlist(2,n),length-1
-          hr(np(n)+i) = 0.0d0
-          end do ! i
+           write(iot) (hr(point),point = np(n),np(n)+lensav-1)
         endif
-      endif
-      close(iot,status = 'delete')
-
-      !         Set new pointers
-
-      mlist(2,n)      = length
-      ipoint(dicloc)  = length
-
-      !         Cannot expand array, not enough space available
-
-      if(adr(n) == 0) then
-        write(iow,2000) name,length
-        if(ior < 0) then
-          write(*,2000) name,length
+        call free(adr(n))
+        adr(n) = malloc(length*ipa)
+        if(adr(n) /= 0) then
+           rewind iot
+           if(ip == 1) then
+              np(n) = 1 + (adr(n) - loc(mr(1))) / ipa
+              read(iot) (mr(point),point = np(n),np(n)+lensav-1)
+              do i = mlist(2,n),length-1
+                 mr(np(n)+i) = 0
+              end do ! i
+           else
+              np(n) = 1 + (adr(n) - loc(hr(1))) / ipa
+              read(iot) (hr(point),point = np(n),np(n)+lensav-1)
+              do i = mlist(2,n),length-1
+                 hr(np(n)+i) = 0.0d0
+              end do ! i
+           endif
         endif
-        if(eralloc) then
-          setmem = .false. 
-        else
-          call plstop()
-        endif
-      endif
+        close(iot,status = 'delete')
 
-    endif
+        !         Set new pointers
+
+        mlist(2,n)      = length
+        ipoint(dicloc)  = length
+
+        !         Cannot expand array, not enough space available
+
+        if(adr(n) == 0) then
+           write(iow,2000) name,length
+           if(ior < 0) then
+              write(*,2000) name,length
+           endif
+           if(eralloc) then
+              setmem = .false. 
+           else
+              call plstop()
+           endif
+        endif
+
+     endif
 
   else
 
-    !       Error indicator
+     !       Error indicator
 
-    setmem = .false. 
-    if(num <= llist) then
-      write(  *,3000) num,dname
-      write(iow,3000) num,dname
-    else
-      write(  *,3001) num-llist,dname
-      write(iow,3001) num-llist,dname
-    endif
+     setmem = .false. 
+     if(num <= llist) then
+        write(  *,3000) num,dname
+        write(iow,3000) num,dname
+     else
+        write(  *,3001) num-llist,dname
+        write(iow,3001) num-llist,dname
+     endif
 
   endif
 
   !     Formats
 
-  2000 format(' **ERROR** Insufficient storage to allocate ',a/, &
-    &               11x,'Required size =',i12/, &
-    '           Check data or choose other option.')
+2000 format(' **ERROR** Insufficient storage to allocate ',a/, &
+       &               11x,'Required size =',i12/, &
+       '           Check data or choose other option.')
 
-  2001 format(' *ERROR* No more room in dictionary for ',a5)
+2001 format(' *ERROR* No more room in dictionary for ',a5)
 
-  3000 format(' *ERROR* No allocation for array number',i4,' named: ',a)
+3000 format(' *ERROR* No allocation for array number',i4,' named: ',a)
 
-  3001 format(' *ERROR* No allocation for user array number',i4, &
-    ' named: ',a)
+3001 format(' *ERROR* No allocation for user array number',i4, &
+       ' named: ',a)
 
 end function setmem

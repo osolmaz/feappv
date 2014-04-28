@@ -38,43 +38,43 @@ subroutine rstprf(jp,idl,id,ix,ndf,nen1,nen,neq,numel)
   !     Zero pointer array
 
   do n = 1,neq
-  jp(n) = 0
+     jp(n) = 0
   end do ! n
 
   !     Compute column heights
 
   do n = 1,numel
 
-  !       Test for active element
+     !       Test for active element
 
-  ma  = ix(nen1-1,n)
-  if(ma >= 0) then
-    mm  = 0
-    nad = 0
-    do i = 1,nen
-    ii = ix(i,n)
+     ma  = ix(nen1-1,n)
+     if(ma >= 0) then
+        mm  = 0
+        nad = 0
+        do i = 1,nen
+           ii = ix(i,n)
 
-    !           Set element profile
+           !           Set element profile
 
-    if(ii > 0) then
-      do j = 1,ndf
-      if(id(j,ii) > 0 ) then
-        if(mm == 0) mm = id(j,ii)
-        mm       = min(mm,id(j,ii))
-        nad      = nad + 1
-        idl(nad) = id(j,ii)
-      end if
-      end do
-    endif
-    end do
+           if(ii > 0) then
+              do j = 1,ndf
+                 if(id(j,ii) > 0 ) then
+                    if(mm == 0) mm = id(j,ii)
+                    mm       = min(mm,id(j,ii))
+                    nad      = nad + 1
+                    idl(nad) = id(j,ii)
+                 end if
+              end do
+           endif
+        end do
 
-    !         Compute column heights
+        !         Compute column heights
 
-    do i = 1,nad
-    ii = idl(i)
-    jp(ii) = max(jp(ii),ii-mm)
-    end do
-  end if
+        do i = 1,nad
+           ii = idl(i)
+           jp(ii) = max(jp(ii),ii-mm)
+        end do
+     end if
   end do
 
 end subroutine rstprf

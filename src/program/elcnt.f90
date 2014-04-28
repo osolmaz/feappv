@@ -40,15 +40,15 @@ subroutine elcnt(numnp, numel, nen, neix, ix, ic,  flag)
 
   if(flag) call pzeroi(ic, numnp*ndf)
   do i = 1, numel
-  do j =  1, nen
-  n = ix(j,i)
-  if(n > 0) then
-    do k = 1,ndf
-    nty = mr(np(31) + ndf*n - ndf + k -1)
-    if(nty > 0) ic(nty) = ic(nty) + 1
-    end do ! k
-  end if ! n > 0
-  end do
+     do j =  1, nen
+        n = ix(j,i)
+        if(n > 0) then
+           do k = 1,ndf
+              nty = mr(np(31) + ndf*n - ndf + k -1)
+              if(nty > 0) ic(nty) = ic(nty) + 1
+           end do ! k
+        end if ! n > 0
+     end do
   end do
 
 end subroutine elcnt
@@ -72,7 +72,7 @@ subroutine sumcnt(ic,nneq,kp)
   !     Set up pointers.
 
   do i = 2, nneq
-  ic(i) = ic(i) + ic(i-1)
+     ic(i) = ic(i) + ic(i-1)
   end do
   kp = ic(nneq)
 

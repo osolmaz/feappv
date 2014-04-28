@@ -44,57 +44,57 @@ subroutine ploadc()
   !     Set coordinate angle conditions
 
   if(angfl) then
-    nn       = nn + 1
-    ndft(nn) = 1
-    ityp(nn) = 3
+     nn       = nn + 1
+     ndft(nn) = 1
+     ityp(nn) = 3
   endif
 
   !     Set coordinate boundary codes
 
   if(boufl) then
-    nn       = nn + 1
-    ndft(nn) = ndf
-    ityp(nn) = 2
+     nn       = nn + 1
+     ndft(nn) = ndf
+     ityp(nn) = 2
   endif
 
   !     Set cordinate force values
 
   if(forfl) then
-    nn       = nn + 1
-    ndft(nn) = ndf
-    ityp(nn) = 5
+     nn       = nn + 1
+     ndft(nn) = ndf
+     ityp(nn) = 5
   endif
 
   !     Set cordinate displacement values
 
   if(disfl) then
-    nn       = nn + 1
-    ndft(nn) = ndf
-    ityp(nn) = 4
+     nn       = nn + 1
+     ndft(nn) = ndf
+     ityp(nn) = 4
   endif
 
   !     Set cordinate force proportional load values
 
   if(cprfl) then
-    nn       = nn + 1
-    ndft(nn) = ndf
-    ityp(nn) = 6
+     nn       = nn + 1
+     ndft(nn) = ndf
+     ityp(nn) = 6
   endif
 
   !     Set coordinate surface loads
 
   if(surfl) then
-    nn       = nn + 1
-    ndft(nn) = ndf
-    ityp(nn) = 1
+     nn       = nn + 1
+     ndft(nn) = ndf
+     ityp(nn) = 1
   endif
 
   !     Call routine to do generations
 
   do n = 1,nn
-  call pesurf(mr(np(31)),mr(np(33)),mr(np(81)),mr(np(81)+numnp), &
-    hr(np(82)),hr(np(43)),hr(np(27)),hr(np(45)), &
-    ndft(n),ndm,nen,nen1,numnp,numel,prt,prth,ityp(n))
+     call pesurf(mr(np(31)),mr(np(33)),mr(np(81)),mr(np(81)+numnp), &
+          hr(np(82)),hr(np(43)),hr(np(27)),hr(np(45)), &
+          ndft(n),ndm,nen,nen1,numnp,numel,prt,prth,ityp(n))
   end do ! n
 
   !     Destroy temporary arrays

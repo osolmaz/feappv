@@ -51,18 +51,18 @@ subroutine tplot(x1,y1,tx,mm,nctr)
   y11(1) = yp(2)*xx(3)*1.28
   y11(2) = nctr
   do j = 1,nn
-  jj       = ichar(tx(j))
-  x11(j+1) = jj
+     jj       = ichar(tx(j))
+     x11(j+1) = jj
   end do
   if(screfl) then
-    call gdx11(i,x11,y11)
+     call gdx11(i,x11,y11)
   endif
 
   !     PostScript: Output text
 
   if (hdcpy) then
-    call dplot(x1+dtext,y1,3)
-    call fptplt(xp,yp,tx,nn,nctr)
+     call dplot(x1+dtext,y1,3)
+     call fptplt(xp,yp,tx,nn,nctr)
   endif
 
-  end
+end subroutine tplot

@@ -36,106 +36,106 @@ subroutine dsetci()
 
   if(noi == 0) then
 
-    cc1 = 1.d0
-    cc2 = 1.d0
-    cc3 = 1.d0
+     cc1 = 1.d0
+     cc2 = 1.d0
+     cc3 = 1.d0
 
-    !       Set update parameters for element
+     !       Set update parameters for element
 
-    gtan(1) = 1.d0
-    gtan(2) = 0.d0
-    gtan(3) = 0.d0
+     gtan(1) = 1.d0
+     gtan(2) = 0.d0
+     gtan(3) = 0.d0
 
-    !     GNpj: or Newmark-Beta parameters
+     !     GNpj: or Newmark-Beta parameters
 
   elseif(noi == 1) then
 
-    if(theta(2) == 0.0d0) then
+     if(theta(2) == 0.0d0) then
 
-      !         Set update parameters for dependent variable
+        !         Set update parameters for dependent variable
 
-      c1  = theta(1)*dt
-      cc1 = c1
-      cc2 = c1
-      if(c1 > 0.0d0) then
-        cc3 = 1.d0/c1
-      else
-        cc3 = 0.d0
-      endif
+        c1  = theta(1)*dt
+        cc1 = c1
+        cc2 = c1
+        if(c1 > 0.0d0) then
+           cc3 = 1.d0/c1
+        else
+           cc3 = 0.d0
+        endif
 
-      !         Set update parameters for element
+        !         Set update parameters for element
 
-      gtan(1) = c1
-      gtan(2) = 1.d0
-      gtan(3) = 1.d0
+        gtan(1) = c1
+        gtan(2) = 1.d0
+        gtan(3) = 1.d0
 
-    else
+     else
 
-      !         Set update parameters for dependent variable
+        !         Set update parameters for dependent variable
 
-      c1  = 0.5d0*theta(2)*dt*dt
-      cc1 = c1
-      cc2 = c1
-      if(c1 > 0.0d0) then
-        cc3 = 1.d0/c1
-      else
-        cc3 = 0.d0
-      endif
+        c1  = 0.5d0*theta(2)*dt*dt
+        cc1 = c1
+        cc2 = c1
+        if(c1 > 0.0d0) then
+           cc3 = 1.d0/c1
+        else
+           cc3 = 0.d0
+        endif
 
-      !         Set update parameters for element
+        !         Set update parameters for element
 
-      gtan(1) = c1
-      gtan(2) = theta(1)*dt
-      gtan(3) = 1.d0
+        gtan(1) = c1
+        gtan(2) = theta(1)*dt
+        gtan(3) = 1.d0
 
-    endif
+     endif
 
-    !     SSpj Algorithm
+     !     SSpj Algorithm
 
   elseif(noi == 2) then
 
-    if(theta(2) == 0.0d0) then
+     if(theta(2) == 0.0d0) then
 
-      !         Set update parameters for dependent variable
+        !         Set update parameters for dependent variable
 
-      cc1 = dt
-      cc2 = dt*theta(1)
-      if(cc1 > 0.0d0) then
-        cc3 = 1.d0/cc1
-      else
-        cc3 = 0.d0
-      endif
+        cc1 = dt
+        cc2 = dt*theta(1)
+        if(cc1 > 0.0d0) then
+           cc3 = 1.d0/cc1
+        else
+           cc3 = 0.d0
+        endif
 
-      !         Set update parameters for element
+        !         Set update parameters for element
 
-      gtan(1) = dt*theta(1)
-      gtan(2) = 1.d0
-      gtan(3) = 1.d0
+        gtan(1) = dt*theta(1)
+        gtan(2) = 1.d0
+        gtan(3) = 1.d0
 
-    else
+     else
 
-      !         Set update parameters for dependent variable
+        !         Set update parameters for dependent variable
 
-      c1  = 0.5d0*dt*dt
-      cc1 = c1
-      cc2 = c1*theta(2)
-      if(cc1 > 0.0d0) then
-        cc3 = 1.d0/cc1
-      else
-        cc3 = 0.d0
-      endif
+        c1  = 0.5d0*dt*dt
+        cc1 = c1
+        cc2 = c1*theta(2)
+        if(cc1 > 0.0d0) then
+           cc3 = 1.d0/cc1
+        else
+           cc3 = 0.d0
+        endif
 
-      !         Set update parameters for element
+        !         Set update parameters for element
 
-      gtan(1) = c1*theta(2)
-      gtan(2) = dt*theta(1)
-      gtan(3) = 1.d0
+        gtan(1) = c1*theta(2)
+        gtan(2) = dt*theta(1)
+        gtan(3) = 1.d0
 
-    endif
+     endif
 
   elseif(noi == -1) then
 
-    call usetci(dt,theta,gtan,cc1,cc2,cc3)
+     call usetci(dt,theta,gtan,cc1,cc2,cc3)
 
   endif
 

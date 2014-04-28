@@ -31,20 +31,20 @@ subroutine pwind(x,dr,ndm,ndf,numnp)
   save
 
   do i = 1,ndm
-  xx(i,1) = x(i,1)
-  xx(i,2) = x(i,1)
+     xx(i,1) = x(i,1)
+     xx(i,2) = x(i,1)
   end do
 
   do n = 1,numnp
-  do i = 1,ndm
-  xx(i,1) = min(xx(i,1),x(i,n),dr(i,n))
-  xx(i,2) = max(xx(i,2),x(i,n),dr(i,n))
-  end do
+     do i = 1,ndm
+        xx(i,1) = min(xx(i,1),x(i,n),dr(i,n))
+        xx(i,2) = max(xx(i,2),x(i,n),dr(i,n))
+     end do
   end do
 
   do i = 1,ndm
-  dr(i,1)     = xx(i,1)
-  dr(i,numnp) = xx(i,2)
+     dr(i,1)     = xx(i,1)
+     dr(i,numnp) = xx(i,2)
   end do
 
 end subroutine pwind

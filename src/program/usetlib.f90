@@ -23,15 +23,15 @@ subroutine usetlib(i)
   save
 
   if(i == 1) then
-    call umani1
+     call umani1
   elseif(i == 2) then
-    call umani2
+     call umani2
   elseif(i == 3) then
-    call umani3
+     call umani3
   elseif(i == 4) then
-    call umani4
+     call umani4
   elseif(i == 5) then
-    call umani5
+     call umani5
   endif
 
 end subroutine usetlib

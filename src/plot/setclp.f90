@@ -32,25 +32,25 @@ subroutine setclp(x,ndm,numnp)
 
   flag = .true. 
   do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0) then
+     if(mr(np(49)-1+n) >= 0) then
 
-    !         Set defaults to an existing coordinate
+        !         Set defaults to an existing coordinate
 
-    if( flag ) then
-      do i = 1,ndm
-      cmin(i) = x(i,n)
-      cmax(i) = x(i,n)
-      end do
-      flag = .false. 
-    end if
+        if( flag ) then
+           do i = 1,ndm
+              cmin(i) = x(i,n)
+              cmax(i) = x(i,n)
+           end do
+           flag = .false. 
+        end if
 
-    !         Set min / max for other coordinates
+        !         Set min / max for other coordinates
 
-    do i = 1,ndm
-    cmin(i) = min( cmin(i), x(i,n))
-    cmax(i) = max( cmax(i), x(i,n))
-    end do
-  end if
+        do i = 1,ndm
+           cmin(i) = min( cmin(i), x(i,n))
+           cmax(i) = max( cmax(i), x(i,n))
+        end do
+     end if
   end do
 
 end subroutine setclp

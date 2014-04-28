@@ -1,6 +1,6 @@
 ! Id:$
 subroutine iterat(ad,jp,pu,prsd,oldrsd,d,t, &
-    accrcy,v,w,prt,id,nbfgs,stol, etol)
+     accrcy,v,w,prt,id,nbfgs,stol, etol)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -91,77 +91,77 @@ subroutine iterat(ad,jp,pu,prsd,oldrsd,d,t, &
 
   do i = 1,nbfgs
 
-  if (prt) then
-    rnorm = sqrt ( dot (hr(prsd),hr(prsd),  neq))
-    onorm = sqrt ( dot (oldrsd,oldrsd,  neq))
-    dnorm = sqrt ( dot (     d,     d,  neq))
-    write(iow,2000) i, rnorm, onorm, dnorm
-    if (ior < 0) write(iow,2000) i, rnorm, onorm, dnorm
-  endif
+     if (prt) then
+        rnorm = sqrt ( dot (hr(prsd),hr(prsd),  neq))
+        onorm = sqrt ( dot (oldrsd,oldrsd,  neq))
+        dnorm = sqrt ( dot (     d,     d,  neq))
+        write(iow,2000) i, rnorm, onorm, dnorm
+        if (ior < 0) write(iow,2000) i, rnorm, onorm, dnorm
+     endif
 
-  !       Compute search direction (d) by factorized form (u,w)
-  !                          d : not including time step
+     !       Compute search direction (d) by factorized form (u,w)
+     !                          d : not including time step
 
-  call dfind(ad,jp,d,hr(prsd),oldrsd,nupd,g0,g,s,neq,v,w,nbfgs)
+     call dfind(ad,jp,d,hr(prsd),oldrsd,nupd,g0,g,s,neq,v,w,nbfgs)
 
-  !       Do line search if necessary [new residual in rsd]
+     !       Do line search if necessary [new residual in rsd]
 
-  s  = 1.d0
-  g  = gamma1(id,pu,prsd,d,t,s)
-  g0 = dot(d,oldrsd,neq)
-  if(ior < 0) then
-    write(*,2003) i,g0,g
-  endif
-  write(iow,2003) i,g0,g
+     s  = 1.d0
+     g  = gamma1(id,pu,prsd,d,t,s)
+     g0 = dot(d,oldrsd,neq)
+     if(ior < 0) then
+        write(*,2003) i,g0,g
+     endif
+     write(iow,2003) i,g0,g
 
-  !       Compute step size using scalar line search and update solution
+     !       Compute step size using scalar line search and update solution
 
-  if(abs(g) > stol*abs(g0)) then
-    call serchl(g0,id,prsd,pu,d,stol,t,neq, s)
+     if(abs(g) > stol*abs(g0)) then
+        call serchl(g0,id,prsd,pu,d,stol,t,neq, s)
 
-    !       Call to update histories
+        !       Call to update histories
 
-  else
-    hflgu  = .true. 
-    h3flgu = .false. 
-    g = gamma1(id,pu,prsd,d,t,s)
-  endif
+     else
+        hflgu  = .true. 
+        h3flgu = .false. 
+        g = gamma1(id,pu,prsd,d,t,s)
+     endif
 
-  call update(id,hr(np(30)),hr(pu),hr(np(42)),d,fl(9),2)
+     call update(id,hr(np(30)),hr(pu),hr(np(42)),d,fl(9),2)
 
-  !       Convergence checks: Norm of residual vector and energy incr.
+     !       Convergence checks: Norm of residual vector and energy incr.
 
-  rnorm  = sqrt(dot(hr(prsd),hr(prsd),neq))
-  energy = abs(g0*s)
-  if (rnmax == 0.0d0) then
-    rnmax  = energy
-  endif
+     rnorm  = sqrt(dot(hr(prsd),hr(prsd),neq))
+     energy = abs(g0*s)
+     if (rnmax == 0.0d0) then
+        rnmax  = energy
+     endif
 
-  write(iow,2001) rnorm,energy,rnmax
-  if(ior < 0) write(*,2001) rnorm,energy,rnmax
+     write(iow,2001) rnorm,energy,rnmax
+     if(ior < 0) write(*,2001) rnorm,energy,rnmax
 
-  accrcy = energy <= (etol*rnmax)
+     accrcy = energy <= (etol*rnmax)
 
-  if (accrcy) go to 100
+     if (accrcy) go to 100
 
   end do
 
   i = nbfgs
 
-  100 write(iow,2002) i,iform
+100 write(iow,2002) i,iform
   if(ior < 0) write(*,2002) i,iform
 
   !     Formats
 
-  2000 format(4x,'Start of iteration no. ',i5/ &
-    &        6x,'|Residual|  |Old Residual|   |Search Vect|'/ &
-    &        3d16.5)
+2000 format(4x,'Start of iteration no. ',i5/ &
+       &        6x,'|Residual|  |Old Residual|   |Search Vect|'/ &
+       &        3d16.5)
 
-  2001 format('   | Res | =',g13.5,' | Energy |=',g13.5, &
-    ' | Max Engy |=',g13.5)
+2001 format('   | Res | =',g13.5,' | Energy |=',g13.5, &
+       ' | Max Engy |=',g13.5)
 
-  2002 format(4x,i3,' BFGS iterations with',i3,' RHS forms')
+2002 format(4x,i3,' BFGS iterations with',i3,' RHS forms')
 
-  2003 format(4x,'Iteration',i3,': G0 =',1p,1e15.7,', G =',1p,1e15.7)
+2003 format(4x,'Iteration',i3,': G0 =',1p,1e15.7,', G =',1p,1e15.7)
 
 end subroutine iterat

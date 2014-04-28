@@ -32,25 +32,25 @@ subroutine setval(xi,num, val)
   !     Read value if no constants have been set
 
   if( .not. coflg) then
-    xs(1:15) = ' '
-    nex      = 15 - num
-    do i = 1,num
-    xs(i+nex:i+nex) = xi(i:i)
-    end do ! i
-    errco = .false. 
-    call pinval(xs,val,errco)
-    if(errco) go to 60
-    return
+     xs(1:15) = ' '
+     nex      = 15 - num
+     do i = 1,num
+        xs(i+nex:i+nex) = xi(i:i)
+     end do ! i
+     errco = .false. 
+     call pinval(xs,val,errco)
+     if(errco) go to 60
+     return
   endif
 
   !     Find letter number for this parameter
 
-  60 xs(1:75) = ' '
+60 xs(1:75) = ' '
   xs(1:num) = xi(1:num)
 
   !     Evaluate expression
 
-  1 nex = 0
+1 nex = 0
   errck = .false. 
   call parexp(xs,xt,v,nex,errck)
   if(errck) go to 150
@@ -61,32 +61,32 @@ subroutine setval(xi,num, val)
 
   !     An error has been detected in statement respecify
 
-  150 if(ior < 0) then
-    write(*,2001) xi(1:num)
-    151 read (*,1000,err=152,end=153) xt
-    goto  154
-    152 call  errclr ('SETVAL')
-    goto  151
-    153 call  endclr ('SETVAL',xt)
-    154 write(iow,2002) xt
-    call pcheck(1,xt,errck)
-    xs( 1:74) = xt(1:74)
-    xs(75:75) = ' '
-    errck = .false. 
-    go to 1
+150 if(ior < 0) then
+     write(*,2001) xi(1:num)
+151  read (*,1000,err=152,end=153) xt
+     goto  154
+152  call  errclr ('SETVAL')
+     goto  151
+153  call  endclr ('SETVAL',xt)
+154  write(iow,2002) xt
+     call pcheck(1,xt,errck)
+     xs( 1:74) = xt(1:74)
+     xs(75:75) = ' '
+     errck = .false. 
+     go to 1
 
-    !     Error on a read
+     !     Error on a read
 
   else
-    call  errclr ('SETVAL')
+     call  errclr ('SETVAL')
   endif
 
   !     Formats
 
-  1000 format(75a1)
+1000 format(75a1)
 
-  2001 format(2x,a1,' = ',74a1/'   >',$)
+2001 format(2x,a1,' = ',74a1/'   >',$)
 
-  2002 format('  Correction:>',75a1)
+2002 format('  Correction:>',75a1)
 
 end subroutine setval

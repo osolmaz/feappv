@@ -27,15 +27,15 @@ function nbuck(x,xmd,xmn,ndm,nsize)
   real*8 ::    x(3),xmd(3),xmn(3)
 
   if(nsize(4) > 1) then
-    nn = nint((x(1) - xmn(1))/xmd(1))
-    nn = max(0,min(nsize(1)-1,nn))
-    do i = 2,ndm
-    ni = nint((x(i) - xmn(i))/xmd(i))
-    nn = nsize(i)*nn + max(0,min(nsize(i)-1,ni))
-    end do
-    nbuck = nn + 1
+     nn = nint((x(1) - xmn(1))/xmd(1))
+     nn = max(0,min(nsize(1)-1,nn))
+     do i = 2,ndm
+        ni = nint((x(i) - xmn(i))/xmd(i))
+        nn = nsize(i)*nn + max(0,min(nsize(i)-1,ni))
+     end do
+     nbuck = nn + 1
   else
-    nbuck = 1
+     nbuck = 1
   endif
 
 end function nbuck

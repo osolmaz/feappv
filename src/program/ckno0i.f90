@@ -22,10 +22,10 @@ logical function ckno0i(iv, nn )
 
   ckno0i = .false. 
   do n = 1,nn
-  if(iv(n) /= 0) then
-    ckno0i = .true. 
-    return
-  endif
+     if(iv(n) /= 0) then
+        ckno0i = .true. 
+        return
+     endif
   end do
 
 end function ckno0i

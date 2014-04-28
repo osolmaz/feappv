@@ -31,30 +31,30 @@ function pdiff(x,i,ndm,numnp)
   save
 
   do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0) go to 110
+     if(mr(np(49)-1+n) >= 0) go to 110
   end do ! n
 
   if(ior > 0) then
-    write(iow,3000)
+     write(iow,3000)
   else
-    write(*,3000)
+     write(*,3000)
   endif
   pdiff = 0.0
   return
 
-  110 xmx = x(i,n)
+110 xmx = x(i,n)
   xmn = x(i,n)
   do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0) then
-    xmx = max(xmx,x(i,n))
-    xmn = min(xmn,x(i,n))
-  endif
+     if(mr(np(49)-1+n) >= 0) then
+        xmx = max(xmx,x(i,n))
+        xmn = min(xmn,x(i,n))
+     endif
   end do ! n
 
   pdiff = xmx - xmn
 
   !     Format
 
-  3000 format(' *ERROR* PDIFF: Coodinates are unspecified')
+3000 format(' *ERROR* PDIFF: Coodinates are unspecified')
 
 end function pdiff

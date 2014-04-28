@@ -1,6 +1,6 @@
 ! Id:$
 logical function usetmem(ulist,names, &
-    num,name,length,precis)
+     num,name,length,precis)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -39,18 +39,18 @@ logical function usetmem(ulist,names, &
   !     Merge lists
 
   if(num == -llist) then
-    do i = 1,ulist
-    up(i)          = 0
-    nlist(llist+i) = names(i)
-    end do ! i
-    tlist   = ulist + llist
-    usetmem = .true. 
+     do i = 1,ulist
+        up(i)          = 0
+        nlist(llist+i) = names(i)
+     end do ! i
+     tlist   = ulist + llist
+     usetmem = .true. 
 
-    !     Allocate or deallocate an array
+     !     Allocate or deallocate an array
 
   else
 
-    usetmem = setmem(tlist,ilist,nlist,num+llist,name,length,precis)
+     usetmem = setmem(tlist,ilist,nlist,num+llist,name,length,precis)
 
   endif
 

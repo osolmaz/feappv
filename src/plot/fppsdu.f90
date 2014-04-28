@@ -27,24 +27,24 @@ subroutine fppsdu()
 
   if (nxtchr > 0) then
 
-    !       Write to lun
+     !       Write to lun
 
-    do first = 1,nxtchr
-    if(buffer(first) /= ' ') go to 100
-    end do
-    return
-    100 do last = nxtchr,first,-1
-    if(buffer(last) /= ' ') go to 200
-    end do
+     do first = 1,nxtchr
+        if(buffer(first) /= ' ') go to 100
+     end do
+     return
+100  do last = nxtchr,first,-1
+        if(buffer(last) /= ' ') go to 200
+     end do
 
-    200 write (lun,'(80a1)') (buffer(i), i=first,last)
-    nxtchr = 0
+200  write (lun,'(80a1)') (buffer(i), i=first,last)
+     nxtchr = 0
 
-    !       Clear buffer
+     !       Clear buffer
 
-    do i=1, 80
-    buffer(i) = ' '
-    end do
+     do i=1, 80
+        buffer(i) = ' '
+     end do
 
   end if
 

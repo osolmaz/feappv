@@ -35,30 +35,30 @@ subroutine bjac3d ( rst , xl, ndm, shp, detj )
   !     Compute shape functions and derivatives
 
   do i = 1,8
-  xii      = 0.5d0 +  xi(i)*rst(1)
-  eti      = 0.5d0 + eta(i)*rst(2)
-  zti      = 0.5d0 + zta(i)*rst(3)
-  shp(1,i) = eti*zti*xi(i)
-  shp(2,i) = xii*zti*eta(i)
-  shp(3,i) = xii*eti*zta(i)
-  shp(4,i) = xii*eti*zti
+     xii      = 0.5d0 +  xi(i)*rst(1)
+     eti      = 0.5d0 + eta(i)*rst(2)
+     zti      = 0.5d0 + zta(i)*rst(3)
+     shp(1,i) = eti*zti*xi(i)
+     shp(2,i) = xii*zti*eta(i)
+     shp(3,i) = xii*eti*zta(i)
+     shp(4,i) = xii*eti*zti
   end do
 
   !     Compute jacobian matrix
 
   do i = 1,3
-  do j = 1,3
-  xs(i,j) = 0.0d0
-  do k = 1,8
-  xs(i,j) = xs(i,j) + xl(i,k)*shp(j,k)
-  end do
-  end do
+     do j = 1,3
+        xs(i,j) = 0.0d0
+        do k = 1,8
+           xs(i,j) = xs(i,j) + xl(i,k)*shp(j,k)
+        end do
+     end do
   end do
 
   !     Compute jacobian determinant
 
   detj = xs(1,1)*(xs(2,2)*xs(3,3) - xs(2,3)*xs(3,2)) &
-    + xs(1,2)*(xs(2,3)*xs(3,1) - xs(2,1)*xs(3,3)) &
-    + xs(1,3)*(xs(2,1)*xs(3,2) - xs(2,2)*xs(3,1))
+       + xs(1,2)*(xs(2,3)*xs(3,1) - xs(2,1)*xs(3,3)) &
+       + xs(1,3)*(xs(2,1)*xs(3,2) - xs(2,2)*xs(3,1))
 
 end subroutine bjac3d

@@ -33,22 +33,22 @@ subroutine bjac2d ( rst , xl, ndm, shp, detj )
   !     Compute shape functions and derivatives
 
   do i = 1,4
-  xii      = 0.5d0 +  xi(i)*rst(1)
-  eti      = 0.5d0 + eta(i)*rst(2)
-  shp(1,i) = eti*xi(i)
-  shp(2,i) = xii*eta(i)
-  shp(3,i) = xii*eti
+     xii      = 0.5d0 +  xi(i)*rst(1)
+     eti      = 0.5d0 + eta(i)*rst(2)
+     shp(1,i) = eti*xi(i)
+     shp(2,i) = xii*eta(i)
+     shp(3,i) = xii*eti
   end do
 
   !     Compute jacobian matrix
 
   do i = 1,2
-  do j = 1,2
-  xs(i,j) = 0.0d0
-  do k = 1,4
-  xs(i,j) = xs(i,j) + xl(i,k)*shp(j,k)
-  end do
-  end do
+     do j = 1,2
+        xs(i,j) = 0.0d0
+        do k = 1,4
+           xs(i,j) = xs(i,j) + xl(i,k)*shp(j,k)
+        end do
+     end do
   end do
 
   !     Compute jacobian determinant

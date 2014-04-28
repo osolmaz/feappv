@@ -26,7 +26,7 @@ function dured(al,au,ad,jh)
   !     Scale upper U vector by reciprocal diagonals D
 
   do j = 1,jh
-  au(j) = au(j)*ad(j)
+     au(j) = au(j)*ad(j)
   end do
 
   !     Dot product of L * U
@@ -36,7 +36,7 @@ function dured(al,au,ad,jh)
   !     Scale lower U vector by reciprocal diagonals D
 
   do j = 1,jh
-  al(j) = al(j)*ad(j)
+     al(j) = al(j)*ad(j)
   end do
 
 end function dured

@@ -39,23 +39,23 @@ subroutine plabl(m)
   n = abs(m)
 
   if    (n >= 0   .and. n < 10   ) then
-    write(yyy,'(i1)') n
-    nchar = 1
+     write(yyy,'(i1)') n
+     nchar = 1
   elseif(n >= 10  .and. n < 100  ) then
-    write(yyy,'(i2)') n
-    nchar = 2
+     write(yyy,'(i2)') n
+     nchar = 2
   elseif(n >= 100 .and. n < 1000 ) then
-    write(yyy,'(i3)') n
-    nchar = 3
+     write(yyy,'(i3)') n
+     nchar = 3
   elseif(n >= 1000 .and. n < 10000 ) then
-    write(yyy,'(i4)') n
-    nchar = 4
+     write(yyy,'(i4)') n
+     nchar = 4
   elseif(n >= 10000 .and. n < 100000 ) then
-    write(yyy,'(i5)') n
-    nchar = 5
+     write(yyy,'(i5)') n
+     nchar = 5
   else
-    write(yyy,'(i6)') n
-    nchar = 6
+     write(yyy,'(i6)') n
+     nchar = 6
   endif
 
   !     MicroSoft graphics
@@ -65,4 +65,4 @@ subroutine plabl(m)
   y1    = jy1/22000.d0
   if(screfl) call tplot(x1,y1,yyy,nchar,0)
 
-  end
+end subroutine plabl

@@ -34,31 +34,31 @@ subroutine dcheck(x,vd,nt,error)
   n0 = 15
   nn = 1
   do i = 1,nt
-  if(x(i:i) == ',') nn = nn + 1
+     if(x(i:i) == ',') nn = nn + 1
   end do ! i
   call acheck(x,y,n0,nt,256)
   call pcharr(y,ivd,n0,nn*n0)
   error = .false. 
   read(y,'(17f15.0)',err=200) (vd(i),i=1,nn)
   do i = 1,nn
-  if(ivd(1,i) > 0) then
-    vd(i) = vvv(ivd(1,i),ivd(2,i))
-  elseif(ivd(1,i) < 0) then
-    vd(i) = www(-ivd(1,i))
-  endif
+     if(ivd(1,i) > 0) then
+        vd(i) = vvv(ivd(1,i),ivd(2,i))
+     elseif(ivd(1,i) < 0) then
+        vd(i) = www(-ivd(1,i))
+     endif
   end do ! i
   return
 
   !     Error
 
-  200 write(iow,3000) nn,y(1:nn*15)
+200 write(iow,3000) nn,y(1:nn*15)
   if(ior < 0) then
-    write(  *,3000) nn,y(1:nn*15)
+     write(  *,3000) nn,y(1:nn*15)
   endif
   call errclr('INPUTS')
   error = .true. 
 
-  3000 format(/' *ERROR* DCHECK: Attempt to input',i3,' value(s).', &
-    '  Input is:'/a)
+3000 format(/' *ERROR* DCHECK: Attempt to input',i3,' value(s).', &
+       '  Input is:'/a)
 
 end subroutine dcheck

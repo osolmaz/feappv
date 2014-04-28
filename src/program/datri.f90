@@ -73,7 +73,7 @@ subroutine datri(al,au,ad,jp, neqs, neqt)
   dimx = zero
   dimn = zero
   do j = 1,neqt
-  dimn = max(dimn,abs(ad(j)))
+     dimn = max(dimn,abs(ad(j)))
   end do
 
   !     Loop through columns to perform triangular decomposition
@@ -84,66 +84,66 @@ subroutine datri(al,au,ad,jp, neqs, neqt)
 
   jd  = 1
   do j = 1,neq
-  jr = jd + 1
-  jd = jp(j)
-  jh = jd - jr
-  if(jh > 0) then
-    is = j - jh
-    ie = j - 1
+     jr = jd + 1
+     jd = jp(j)
+     jh = jd - jr
+     if(jh > 0) then
+        is = j - jh
+        ie = j - 1
 
-    !         if diagonal is zero compute a norm for singularity test
+        !         if diagonal is zero compute a norm for singularity test
 
-    if(ad(j) == zero) call datest(au(jr),jh,daval)
+        if(ad(j) == zero) call datest(au(jr),jh,daval)
 
-    do i = is,min(ie,neq)
-    jr = jr + 1
-    id = jp(i)
-    ih = min(id-jp(i-1),i-is+1)
-    if(ih > 0) then
-      jrh = jr - ih
-      idh = id - ih + 1
-      au(jr) = au(jr) - dot( au(jrh), au(idh), ih )
-    endif
-    end do
-  endif
+        do i = is,min(ie,neq)
+           jr = jr + 1
+           id = jp(i)
+           ih = min(id-jp(i-1),i-is+1)
+           if(ih > 0) then
+              jrh = jr - ih
+              idh = id - ih + 1
+              au(jr) = au(jr) - dot( au(jrh), au(idh), ih )
+           endif
+        end do
+     endif
 
-  !       Reduce diagonal
+     !       Reduce diagonal
 
-  dd = ad(j)
-  if(jh >= 0) then
-    jr    = jd - jh
-    jrh   = j - jh - 1
-    ad(j) = ad(j) - dsred(au(jr),ad(jrh),jh+1)
+     dd = ad(j)
+     if(jh >= 0) then
+        jr    = jd - jh
+        jrh   = j - jh - 1
+        ad(j) = ad(j) - dsred(au(jr),ad(jrh),jh+1)
 
-    !         Count errors
+        !         Count errors
 
-    if(abs(ad(j)) < tol*abs(dd))    n0 = n0 + 1
-    if(dd < zero .and. ad(j) > zero) n1 = n1 + 1
-    if(dd > zero .and. ad(j) < zero) n1 = n1 + 1
-    if(ad(j) ==  zero)             n2 = n2 + 1
+        if(abs(ad(j)) < tol*abs(dd))    n0 = n0 + 1
+        if(dd < zero .and. ad(j) > zero) n1 = n1 + 1
+        if(dd > zero .and. ad(j) < zero) n1 = n1 + 1
+        if(ad(j) ==  zero)             n2 = n2 + 1
 
-    !         Complete rank test for a zero diagonal case
+        !         Complete rank test for a zero diagonal case
 
-    if(dd == zero .and. jh > 0) then
-      if(abs(ad(j)) < tol*daval)    n3 = n3 + 1
-    endif
-  endif
+        if(dd == zero .and. jh > 0) then
+           if(abs(ad(j)) < tol*daval)    n3 = n3 + 1
+        endif
+     endif
 
-  !       Store reciprocal of diagonal
+     !       Store reciprocal of diagonal
 
-  if(ad(j) /= zero) then
-    dimx  = max(dimx,abs(ad(j)))
-    dimn  = min(dimn,abs(ad(j)))
-    dfig  = max(dfig,abs(dd/ad(j)))
-    ad(j) = one/ad(j)
-  endif
+     if(ad(j) /= zero) then
+        dimx  = max(dimx,abs(ad(j)))
+        dimn  = min(dimn,abs(ad(j)))
+        dfig  = max(dfig,abs(dd/ad(j)))
+        ad(j) = one/ad(j)
+     endif
 
-  !       Output interactive equation processing
+     !       Output interactive equation processing
 
-  if(ior < 0 .and. mod(j,1000) == 0 .and. prnt) then
-    tt = etime(tary)
-    write(*,3000) j,tary
-  endif
+     if(ior < 0 .and. mod(j,1000) == 0 .and. prnt) then
+        tt = etime(tary)
+        write(*,3000) j,tary
+     endif
   end do
 
   !     Reduce unsymmetric equations
@@ -151,79 +151,79 @@ subroutine datri(al,au,ad,jp, neqs, neqt)
   je  = jp(neq)
   jd  = je
   do j = neq+1,neqt
-  jr = jd + 1
-  jd = jp(j)
-  jh = jd - jr
-  if(jh > 0) then
-    is = j - jh
-    ie = j - 1
+     jr = jd + 1
+     jd = jp(j)
+     jh = jd - jr
+     if(jh > 0) then
+        is = j - jh
+        ie = j - 1
 
-    !         If diagonal is zero compute a norm for singularity test
+        !         If diagonal is zero compute a norm for singularity test
 
-    if(ad(j) == zero) call datest(au(jr),jh,daval)
+        if(ad(j) == zero) call datest(au(jr),jh,daval)
 
-    do i = is,min(ie,neq)
-    jr = jr + 1
-    id = jp(i)
-    ih = min(id-jp(i-1),i-is+1)
-    if(ih > 0) then
-      jrh = jr - ih
-      idh = id - ih + 1
-      au(jr)    = au(jr   ) - dot( au(jrh   ), au(idh), ih )
-      al(jr-je) = al(jr-je) - dot( al(jrh-je), au(idh), ih )
-    endif
-    end do
+        do i = is,min(ie,neq)
+           jr = jr + 1
+           id = jp(i)
+           ih = min(id-jp(i-1),i-is+1)
+           if(ih > 0) then
+              jrh = jr - ih
+              idh = id - ih + 1
+              au(jr)    = au(jr   ) - dot( au(jrh   ), au(idh), ih )
+              al(jr-je) = al(jr-je) - dot( al(jrh-je), au(idh), ih )
+           endif
+        end do
 
-    do i = max(neq+1,is),ie
-    jr = jr + 1
-    id = jp(i)
-    ih = min(id-jp(i-1),i-is+1)
-    if(ih > 0) then
-      jrh = jr - ih
-      idh = id - ih + 1
-      au(jr)    = au(jr)    - dot( au(jrh), al(idh-je), ih )
-      al(jr-je) = al(jr-je) - dot( al(jrh-je), au(idh), ih )
-    endif
-    end do
-  endif
+        do i = max(neq+1,is),ie
+           jr = jr + 1
+           id = jp(i)
+           ih = min(id-jp(i-1),i-is+1)
+           if(ih > 0) then
+              jrh = jr - ih
+              idh = id - ih + 1
+              au(jr)    = au(jr)    - dot( au(jrh), al(idh-je), ih )
+              al(jr-je) = al(jr-je) - dot( al(jrh-je), au(idh), ih )
+           endif
+        end do
+     endif
 
-  !       Reduce diagonal
+     !       Reduce diagonal
 
-  dd = ad(j)
-  if(jh >= 0) then
-    jr    = jd - jh
-    jrh   = j - jh - 1
-    ad(j) = ad(j) - dured(al(jr-je),au(jr),ad(jrh),jh+1)
+     dd = ad(j)
+     if(jh >= 0) then
+        jr    = jd - jh
+        jrh   = j - jh - 1
+        ad(j) = ad(j) - dured(al(jr-je),au(jr),ad(jrh),jh+1)
 
-    !         Count errors
+        !         Count errors
 
-    if(abs(ad(j)) < tol*abs(dd))    n0 = n0 + 1
-    if(dd < zero .and. ad(j) > zero) n1 = n1 + 1
-    if(dd > zero .and. ad(j) < zero) n1 = n1 + 1
-    if(ad(j) ==  zero)             n2 = n2 + 1
+        if(abs(ad(j)) < tol*abs(dd))    n0 = n0 + 1
+        if(dd < zero .and. ad(j) > zero) n1 = n1 + 1
+        if(dd > zero .and. ad(j) < zero) n1 = n1 + 1
+        if(ad(j) ==  zero)             n2 = n2 + 1
 
-    !         Complete rank test for a zero diagonal case
+        !         Complete rank test for a zero diagonal case
 
-    if(dd == zero .and. jh > 0) then
-      if(abs(ad(j)) < tol*daval)    n3 = n3 + 1
-    endif
-  endif
+        if(dd == zero .and. jh > 0) then
+           if(abs(ad(j)) < tol*daval)    n3 = n3 + 1
+        endif
+     endif
 
-  !       Store reciprocal of diagonal
+     !       Store reciprocal of diagonal
 
-  if(ad(j) /= zero) then
-    dimx  = max(dimx,abs(ad(j)))
-    dimn  = min(dimn,abs(ad(j)))
-    dfig  = max(dfig,abs(dd/ad(j)))
-    ad(j) = one/ad(j)
-  endif
+     if(ad(j) /= zero) then
+        dimx  = max(dimx,abs(ad(j)))
+        dimn  = min(dimn,abs(ad(j)))
+        dfig  = max(dfig,abs(dd/ad(j)))
+        ad(j) = one/ad(j)
+     endif
 
-  !       Output interactive equation processing
+     !       Output interactive equation processing
 
-  if(ior < 0 .and. mod(j,1000) == 0 .and. prnt) then
-    tt = etime(tary)
-    write(*,3000) j,tary
-  endif
+     if(ior < 0 .and. mod(j,1000) == 0 .and. prnt) then
+        tt = etime(tary)
+        write(*,3000) j,tary
+     endif
   end do
 
   !     Print error summary and conditioning information
@@ -232,39 +232,39 @@ subroutine datri(al,au,ad,jp, neqs, neqt)
   if(dimn /= zero) dd = dimx/dimn
   ifig = nint(dlog10(dfig) + 0.6d0)
   if(prnt) then
-    if(n0 > 0) write(iow,2000) n0,nstep,niter
-    if(n1 > 0) write(iow,2001) n1,nstep,niter
-    if(n2 > 0) write(iow,2002) n2,nstep,niter
-    if(n3 > 0) write(iow,2003) n3,nstep,niter
-    if(pfr) write(iow,2004) dimx,dimn,dd,ifig
-    if(ior < 0) then
-      if(n0 > 0) write(*,2000) n0,nstep,niter
-      if(n1 > 0) write(*,2001) n1,nstep,niter
-      if(n2 > 0) write(*,2002) n2,nstep,niter
-      if(n3 > 0) write(*,2003) n3,nstep,niter
-      if(pfr) write(*,2004) dimx,dimn,dd,ifig
-    endif
+     if(n0 > 0) write(iow,2000) n0,nstep,niter
+     if(n1 > 0) write(iow,2001) n1,nstep,niter
+     if(n2 > 0) write(iow,2002) n2,nstep,niter
+     if(n3 > 0) write(iow,2003) n3,nstep,niter
+     if(pfr) write(iow,2004) dimx,dimn,dd,ifig
+     if(ior < 0) then
+        if(n0 > 0) write(*,2000) n0,nstep,niter
+        if(n1 > 0) write(*,2001) n1,nstep,niter
+        if(n2 > 0) write(*,2002) n2,nstep,niter
+        if(n3 > 0) write(*,2003) n3,nstep,niter
+        if(pfr) write(*,2004) dimx,dimn,dd,ifig
+     endif
   endif
 
   !     Formats
 
-  2000 format(' *WARNING* Lost at least 7 digits in', &
-    ' reducing diagonals of',i5,' equations.'/ &
-    ' Step:',i7,' Iteration:',i6)
+2000 format(' *WARNING* Lost at least 7 digits in', &
+       ' reducing diagonals of',i5,' equations.'/ &
+       ' Step:',i7,' Iteration:',i6)
 
-  2001 format(' *WARNING* sign of diagonal changed when reducing', &
-    i5,' equations.'/' Step:',i7,' Iteration:',i6)
+2001 format(' *WARNING* sign of diagonal changed when reducing', &
+       i5,' equations.'/' Step:',i7,' Iteration:',i6)
 
-  2002 format(' *WARNING* reduced diagonal is zero in', &
-    i5,' equations.'/' Step:',i7,' Iteration:',i6)
+2002 format(' *WARNING* reduced diagonal is zero in', &
+       i5,' equations.'/' Step:',i7,' Iteration:',i6)
 
-  2003 format(' *WARNING* rank failure for zero unreduced diagonal in', &
-    i5,' equations.'/' Step:',i7,' Iteration:',i6)
+2003 format(' *WARNING* rank failure for zero unreduced diagonal in', &
+       i5,' equations.'/' Step:',i7,' Iteration:',i6)
 
-  2004 format(' Condition check: D-max',e11.4,'; D-min',e11.4, &
-    '; Ratio',e11.4/' Maximum no. diagonal digits lost:',i3)
+2004 format(' Condition check: D-max',e11.4,'; D-min',e11.4, &
+       '; Ratio',e11.4/' Maximum no. diagonal digits lost:',i3)
 
-  3000 format(' ---> Equation = ',i5,' , Time: CPU = ',f12.2, &
-    ' , System = ',f12.2)
+3000 format(' ---> Equation = ',i5,' , Time: CPU = ',f12.2, &
+       ' , System = ',f12.2)
 
 end subroutine datri

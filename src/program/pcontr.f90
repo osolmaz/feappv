@@ -76,8 +76,8 @@ subroutine pcontr()
 
   inquire(file=fout,exist=initf)
   if(initf) then
-    open (unit=iow,file=fout,status='old')
-    close(unit=iow,          status='delete')
+     open (unit=iow,file=fout,status='old')
+     close(unit=iow,          status='delete')
   endif
 
   !     Open files for input and output
@@ -117,8 +117,8 @@ subroutine pcontr()
   !     Flags for user manipulation commands
 
   do j = 1,5
-  usetfl(j) = .false. 
-  usetno(j) = 0
+     usetfl(j) = .false. 
+     usetno(j) = 0
   end do ! j
 
   !     Install user functions
@@ -126,74 +126,74 @@ subroutine pcontr()
   !     Set umesh input names
 
   do j = 1,5
-  write(usub,'(a3,i1)') 'mes',j
-  uct = usub(1:4)
-  call umshlib(j,tx,prt)
-  umshc(j) = uct
+     write(usub,'(a3,i1)') 'mes',j
+     uct = usub(1:4)
+     call umshlib(j,tx,prt)
+     umshc(j) = uct
   end do ! j
 
   !     Set umacro input names
 
   do j = 1,5
-  write(usub,'(a3,i1)') 'mac',j
-  uct   = usub(1:4)
-  fnamp = ' '
-  call umaclib(j,fnamp,td)
-  umacc(j) = uct
+     write(usub,'(a3,i1)') 'mac',j
+     uct   = usub(1:4)
+     fnamp = ' '
+     call umaclib(j,fnamp,td)
+     umacc(j) = uct
   end do ! j
 
   !     Set umati model names
 
   do j = 1,5
-  write(usub,'(a3,i1)') 'mat',j
-  uct = 'mate'
-  call uconst(usub,td,td,td,l1,l2,l3)
+     write(usub,'(a3,i1)') 'mat',j
+     uct = 'mate'
+     call uconst(usub,td,td,td,l1,l2,l3)
   end do ! j
 
   !     Set uplot input names
 
   do j = 1,5
-  write(usub,'(a3,i1)') 'plt',j
-  uct = usub(1:4)
-  call upltlib(j,td)
-  upltc(j) = uct
+     write(usub,'(a3,i1)') 'plt',j
+     uct = usub(1:4)
+     call upltlib(j,td)
+     upltc(j) = uct
   end do ! j
 
   !     Set umanipulation names
 
   do j = 1,5
-  uct     = uset(j)
-  call usetlib(j)
-  uset(j) = uct
+     uct     = uset(j)
+     call usetlib(j)
+     uset(j) = uct
   end do ! j
 
   !     Input with interactive interactive statements
 
-  1 if(intx) then
-    if(cprt) write(*,2009)
-    errck = tinput(dnam,1,td,0)
+1 if(intx) then
+     if(cprt) write(*,2009)
+     errck = tinput(dnam,1,td,0)
 
-    !       Read command interactively
+     !       Read command interactively
 
-    if(pcomp(dnam,'y',1)) then
-      write(*,2010)
-      read (*,1000,err=900,end=910) yyy
-      cprt = .true. 
+     if(pcomp(dnam,'y',1)) then
+        write(*,2010)
+        read (*,1000,err=900,end=910) yyy
+        cprt = .true. 
 
-      !       Read command from current file and turn off intx flag
+        !       Read command from current file and turn off intx flag
 
-    else
-      cprt = .false. 
-      intx = .false. 
-      ior  =  abs(ior)
-      read(ior,1000,err=900,end=910) yyy
-    endif
+     else
+        cprt = .false. 
+        intx = .false. 
+        ior  =  abs(ior)
+        read(ior,1000,err=900,end=910) yyy
+     endif
 
-    !     Input from current file
+     !     Input from current file
 
   else
-    ior = abs(ior)
-    read(ior,1000,err=900,end=910) yyy
+     ior = abs(ior)
+     read(ior,1000,err=900,end=910) yyy
   endif
 
   !     Compare with command list
@@ -205,121 +205,121 @@ subroutine pcontr()
   !     Start solution of new problem
 
   if(pcomp(titl(1:4),'feap',4)) then
-    go to 100
+     go to 100
 
-    !     Set count/nocount mode
+     !     Set count/nocount mode
 
   elseif(pcomp(titl(1:4),'noco',4)) then
-    nocount = .false. 
+     nocount = .false. 
 
   elseif(pcomp(titl(1:4),'coun',4)) then
-    nocount = .true. 
+     nocount = .true. 
 
-    !     User command sets
+     !     User command sets
 
   elseif(pcomp(titl(1:4),uset(1),4)) then
-    usetno(1) = usetno(1) + 1
-    usetfl(1) = .true. 
-    fext  = 'u1a'
-    go to 300
+     usetno(1) = usetno(1) + 1
+     usetfl(1) = .true. 
+     fext  = 'u1a'
+     go to 300
   elseif(pcomp(titl(1:4),uset(2),4)) then
-    usetno(2) = usetno(2) + 1
-    usetfl(2) = .true. 
-    fext  = 'u2a'
-    go to 300
+     usetno(2) = usetno(2) + 1
+     usetfl(2) = .true. 
+     fext  = 'u2a'
+     go to 300
   elseif(pcomp(titl(1:4),uset(3),4)) then
-    usetno(3) = usetno(3) + 1
-    usetfl(3) = .true. 
-    fext  = 'u3a'
-    go to 300
+     usetno(3) = usetno(3) + 1
+     usetfl(3) = .true. 
+     fext  = 'u3a'
+     go to 300
   elseif(pcomp(titl(1:4),uset(4),4)) then
-    usetno(4) = usetno(4) + 1
-    usetfl(4) = .true. 
-    fext  = 'u4a'
-    go to 300
+     usetno(4) = usetno(4) + 1
+     usetfl(4) = .true. 
+     fext  = 'u4a'
+     go to 300
   elseif(pcomp(titl(1:4),uset(5),4)) then
-    usetno(5) = usetno(5) + 1
-    usetfl(5) = .true. 
-    fext  = 'u5a'
-    go to 300
+     usetno(5) = usetno(5) + 1
+     usetfl(5) = .true. 
+     fext  = 'u5a'
+     go to 300
 
-    !     Perform inputs from an include file
+     !     Perform inputs from an include file
 
   elseif(pcomp(titl(1:4),'incl',4)) then
-    call acheck(titl,yyy,15,80,80)
-    read(yyy,1002,err=900,end=900) titl(1:4),dnam
-    if(pcomp(dnam,'end',3)) then
-      call pincld(dnam)
-      if(evint) then
-        write(*,2005) fnamr
-      endif
-      write(iow,2005) fnamr
-    else
-      fnamr =  dnam
-      call pincld(dnam)
-    endif
-    incf = .true. 
-    cprt = .false. 
+     call acheck(titl,yyy,15,80,80)
+     read(yyy,1002,err=900,end=900) titl(1:4),dnam
+     if(pcomp(dnam,'end',3)) then
+        call pincld(dnam)
+        if(evint) then
+           write(*,2005) fnamr
+        endif
+        write(iow,2005) fnamr
+     else
+        fnamr =  dnam
+        call pincld(dnam)
+     endif
+     incf = .true. 
+     cprt = .false. 
 
-    !     Perform inputs for initial conditions
+     !     Perform inputs for initial conditions
 
   elseif(pcomp(titl(1:4),'init',4)) then
-    call acheck(titl,yyy,15,80,80)
-    read(yyy,1001,err=900,end=900) titl(1:4),dnam(1:4)
-    call pinitl(dnam,errs)
-    if(errs) return
+     call acheck(titl,yyy,15,80,80)
+     read(yyy,1001,err=900,end=900) titl(1:4),dnam(1:4)
+     call pinitl(dnam,errs)
+     if(errs) return
 
-    !     Solution mode
+     !     Solution mode
 
   elseif(pcomp(titl(1:4),'inte',4)) then
-    ior   = -abs(ior)
-    evint = .true. 
-    intr  = .true. 
-    intx  = .true. 
-    cprt  = .true. 
-    call pltcur()
-    go to 400
+     ior   = -abs(ior)
+     evint = .true. 
+     intr  = .true. 
+     intx  = .true. 
+     cprt  = .true. 
+     call pltcur()
+     go to 400
 
   elseif(pcomp(titl(1:4),'batc',4)) then
-    intr = .false. 
-    go to 400
+     intr = .false. 
+     go to 400
 
-    !     Manual level set: 0 = basic; 1 = advanced; 2 = expert
+     !     Manual level set: 0 = basic; 1 = advanced; 2 = expert
 
   elseif(pcomp(titl(1:4),'manu',4)) then
-    call acheck(titl,yyy,15,80,80)
-    read(yyy,1003,err=900,end=911) titl(1:4),hlplev
-    hlplev = max(-1,min(3,hlplev))
+     call acheck(titl,yyy,15,80,80)
+     read(yyy,1003,err=900,end=911) titl(1:4),hlplev
+     hlplev = max(-1,min(3,hlplev))
 
-    !     Mesh manipulations: Link and tie
+     !     Mesh manipulations: Link and tie
 
-    !     Reset id list to link dof's on different nodes - set by node #
+     !     Reset id list to link dof's on different nodes - set by node #
 
   elseif(pcomp(titl(1:4),'link',4)) then
-    call plinka('lnk ','set')
-    lkflg = .true. 
+     call plinka('lnk ','set')
+     lkflg = .true. 
 
   elseif(pcomp(titl(1:4),'tie' ,3)) then
-    go to 500
+     go to 500
 
-    !     Parameter sets
+     !     Parameter sets
 
   elseif(pcomp(titl(1:4),'para',4) .or. &
-      pcomp(titl(1:4),'cons',4)) then
-    coflg = .true. 
-    call pconst(prt)
+       pcomp(titl(1:4),'cons',4)) then
+     coflg = .true. 
+     call pconst(prt)
 
-    !     Remarks to output file
+     !     Remarks to output file
 
   elseif(pcomp(titl(1:4),'rema',4)) then
-    write(*,2008) titl(1:78)
+     write(*,2008) titl(1:78)
 
-    !     Stop execution
+     !     Stop execution
 
   elseif(pcomp(titl(1:4),'stop',4)) then
-    call pdelfl()
-    if(evint) write(*,2004) fout
-    if(ior == irdef) return
+     call pdelfl()
+     if(evint) write(*,2004) fout
+     if(ior == irdef) return
 
   endif
 
@@ -329,11 +329,11 @@ subroutine pcontr()
 
   !     Start Problem: Read and print control information
 
-  100 newprob = .true. 
+100 newprob = .true. 
   do i = 1,20
-  l2      = 4*i
-  l1      = l2 - 3
-  head(i) = titl(l1:l2)
+     l2      = 4*i
+     l1      = l2 - 3
+     head(i) = titl(l1:l2)
   end do
   incf   = .false. 
   intr   = .false. 
@@ -365,32 +365,32 @@ subroutine pcontr()
   !     Set filename for plot/tplot outputs
 
   if(idev == 2) then
-    inquire(unit=ior,name=fnamr,exist=errs)
+     inquire(unit=ior,name=fnamr,exist=errs)
 
-    if(errs) then
-      if(fplt(2:12) == finp(2:12) .or. mulprob) then
-        fnamr(1:1) = 'P'
-        fplt       = fnamr
-        mulprob    = .true. 
-      endif
-    endif
+     if(errs) then
+        if(fplt(2:12) == finp(2:12) .or. mulprob) then
+           fnamr(1:1) = 'P'
+           fplt       = fnamr
+           mulprob    = .true. 
+        endif
+     endif
   endif
 
   !     If number of nodes, or elements is zero compute number from data
 
   if(nocount) then
-    ucount      = .true. 
-    call pnums()
-    irecrd(isf) = 2
-    ucount      = .false. 
+     ucount      = .true. 
+     call pnums()
+     irecrd(isf) = 2
+     ucount      = .false. 
   endif
 
   !     Output problem size data
 
   write(iow,2000) head,cdate,versn,fincld(isf), &
-    numnp,numel, ndm,ndf,nen, nummat,npd,nud
+       numnp,numel, ndm,ndf,nen, nummat,npd,nud
   write(iow,2000) head,cdate,fincld(isf), &
-    numnp,numel, ndm,ndf,nen, nummat,npd,nud
+       numnp,numel, ndm,ndf,nen, nummat,npd,nud
 
   !     Set parameters for page eject and rotation dof
 
@@ -414,20 +414,20 @@ subroutine pcontr()
   tief  = .false. 
 
   do i = 1,50
-  ia(1,i) = 1
-  ia(2,i) = 2
-  ir(1,i) = 0
-  ir(2,i) = 0
-  ea(1,i) = 1
-  ea(2,i) = 2
-  er(1,i) = 0
-  er(2,i) = 0
-  inord(i) = 0
-  exord(i) = 0
-  do j = 1,30
-  ipord(j,i) = 0
-  epord(j,i) = 0
-  end do
+     ia(1,i) = 1
+     ia(2,i) = 2
+     ir(1,i) = 0
+     ir(2,i) = 0
+     ea(1,i) = 1
+     ea(2,i) = 2
+     er(1,i) = 0
+     er(2,i) = 0
+     inord(i) = 0
+     exord(i) = 0
+     do j = 1,30
+        ipord(j,i) = 0
+        epord(j,i) = 0
+     end do
   end do
   nprof  = 0
   nsurf  = 0
@@ -446,20 +446,20 @@ subroutine pcontr()
 
   gref   = 0
   do i = 1,3
-  grefx(i) = 0.0d0
-  gtref(i) = 0.0d0
+     grefx(i) = 0.0d0
+     gtref(i) = 0.0d0
   end do ! i
   do i = 1,2
-  gray(i) = 0.0d0
+     gray(i) = 0.0d0
   end do ! i
   do i = 1,14
-  gfac(i) = 0.0d0
+     gfac(i) = 0.0d0
   end do ! i
 
   !     Zero pointer array
 
   do i = 1,num_nps
-  np(i) = 0
+     np(i) = 0
   end do
   setvar = palloc( 0 ,'START', 0 , 0 )
 
@@ -508,8 +508,8 @@ subroutine pcontr()
   !     Set initial numbering in renumber vector and mark nodes as unused.
 
   do i = 0,numnp-1
-  mr(np(47)+i) = i+1
-  mr(np(49)+i) = 0
+     mr(np(47)+i) = i+1
+     mr(np(49)+i) = 0
   end do
 
   !     Input mesh data from file
@@ -520,261 +520,261 @@ subroutine pcontr()
   !     Set edge boundary codes, forces, displacements, and angles
 
   if(eanfl .or. ebcfl .or. edifl .or. efcfl .or. eprfl) then
-    call pedgin()
+     call pedgin()
   endif
 
   !     Set cordinate angles, boundary codes, forces, displacements,
   !         proportional load types and surface loads
 
   if(boufl .or. surfl .or. angfl .or. &
-    disfl .or. cprfl .or. forfl) then
-  call ploadc()
-endif
-
-!     Perform simple check on mesh to ensure basic data was input
-
-setvar = palloc(81,'TEMP1',numnp*ndf, 1)
-call meshck(mr(np(81)),mr(np(32)),mr(np(31)+nneq),mr(np(49)), &
-  mr(np(33)),nie,nen,nen1,ndf,numnp, &
-  numel,nummat,errs)
-setvar = palloc(81,'TEMP1',0, 1)
-if(errs) then
-  call pdelfl()
-  return
-endif
-
-!     Set user mesh manipulation input names
-
-do j = 1,5
-uct = uset(j)
-call usetlib(j)
-uset(j) = uct
-end do
-
-!     Compute boundary nodes (before ties)
-
-if(tiefl) then
-  setvar = palloc( 78,'EXTND',numnp   ,1)
-  call pextnd()
-  tiefl = .false. 
-endif
-
-tfl = .true. 
-go to 1
-
-!     Perform user manipulation commands
-
-300 errs  = .true. 
-j     = 0
-do while(errs .and. j < 26)
-j     = j + 1
-fnamr = fsav
-write(fext(3:3),'(a1)') char(96+j)
-call addext(fnamr,fext,18,4)
-inquire(file = fnamr, exist = errs)
-end do !
-call plinka(fext,'set')
-go to 1
-
-!     Establish profile of resulting equations for stiffness, mass, etc
-!     [batc]h execution
-
-400 if( .not. newprob) then
-  write(*,3001)
-  call plstop()
-elseif(intx .and. .not. intr .and. .not. incf) then
-  write(*,3002)
-  go to 1
-endif
-
-if(tfl) then
-
-  !       If ties have occurred merge boundary conditions, forces & contact
-
-  if(tief) then
-    call tiefor(mr(np(31)+nneq),hr(np(27)),mr(np(48)),ndf,numnp)
+       disfl .or. cprfl .or. forfl) then
+     call ploadc()
   endif
 
-  !       Compute boundary nodes (after ties)
+  !     Perform simple check on mesh to ensure basic data was input
 
-  call pextnd()
+  setvar = palloc(81,'TEMP1',numnp*ndf, 1)
+  call meshck(mr(np(81)),mr(np(32)),mr(np(31)+nneq),mr(np(49)), &
+       mr(np(33)),nie,nen,nen1,ndf,numnp, &
+       numel,nummat,errs)
+  setvar = palloc(81,'TEMP1',0, 1)
+  if(errs) then
+     call pdelfl()
+     return
+  endif
 
-  !       Allocate memory to store all possible equations
-
-  neq = numnp*ndf
-  setvar = palloc( 21, 'JPROF', neq, 1)
-
-  !       Set user commands
+  !     Set user mesh manipulation input names
 
   do j = 1,5
-  fext = 'u1a'
-  write(fext(2:2),'(i1)') j
-  if(usetfl(j)) then
-    do l3 = 1,26
-    write(fext(3:3),'(a1)') char(96+l3)
-    fnamr =  fsav
-    call addext(fnamr,fext,18,4)
-    inquire(file = fnamr, exist = errs)
-    if(errs) then
-      call opnfil(fext,fnamr,-1,ios,prt)
-
-      !               Read data from file
-
-      iorsv = ior
-      ior   = ios
-
-      do l1 = 0,36
-      do l2 = 1,26
-      vvsave(l2,l1) = vvv(l2,l1)
-      end do
-      end do
-      oprt  = prt
-      oprth = prth
-
-      read(ior,1004) vtype,fincld(isf),irecrd(isf),prt,prth
-      read(ior,1005) vvv
-
-      call usetlib(j)
-
-      close(ior,status='delete')
-      ior   = iorsv
-
-      do l1 = 0,36
-      do l2 = 1,26
-      vvv(l2,l1) = vvsave(l2,l1)
-      end do
-      end do
-      prt  = oprt
-      prth = oprth
-
-    endif
-    end do ! l3
-  endif
-  end do ! j
-
-  !       Determine current profile
-
-  do j = 0,nneq-1
-  mr(np(31)+j) = mr(np(31)+j+nneq)
+     uct = uset(j)
+     call usetlib(j)
+     uset(j) = uct
   end do
 
-  mxpro = 0
-  mxneq = 0
+  !     Compute boundary nodes (before ties)
 
-  !       Set current profile
+  if(tiefl) then
+     setvar = palloc( 78,'EXTND',numnp   ,1)
+     call pextnd()
+     tiefl = .false. 
+  endif
 
-  if(ior < 0) write(*,*) ' '
-  call profil(mr(np(21)),mr(np(34)),mr(np(31)), &
-    mr(np(33)),1,prt)
-  call profil(mr(np(21)),mr(np(34)),mr(np(31)), &
-    mr(np(33)),2,prt)
-  mxpro = max(mxpro,(mr(np(21)+neq-1)))
-  mxneq = max(mxneq,neq)
+  tfl = .true. 
+  go to 1
 
-  !       Set up stress history addresses
+  !     Perform user manipulation commands
 
-  call sethis(mr(np(32)),mr(np(33)),nie,nen,nen1,numel,nummat,prt)
+300 errs  = .true. 
+  j     = 0
+  do while(errs .and. j < 26)
+     j     = j + 1
+     fnamr = fsav
+     write(fext(3:3),'(a1)') char(96+j)
+     call addext(fnamr,fext,18,4)
+     inquire(file = fnamr, exist = errs)
+  end do !
+  call plinka(fext,'set')
+  go to 1
 
-  tfl = .false. 
+  !     Establish profile of resulting equations for stiffness, mass, etc
+  !     [batc]h execution
 
-endif
+400 if( .not. newprob) then
+     write(*,3001)
+     call plstop()
+  elseif(intx .and. .not. intr .and. .not. incf) then
+     write(*,3002)
+     go to 1
+  endif
 
-!     Macro module for establishing solution algorithm
+  if(tfl) then
 
-call pmacr(initf)
-go to 1
+     !       If ties have occurred merge boundary conditions, forces & contact
 
-!     Tie nodes within tolerance of one another
-!     [tie ] - merge regions with common coordinates
+     if(tief) then
+        call tiefor(mr(np(31)+nneq),hr(np(27)),mr(np(48)),ndf,numnp)
+     endif
+
+     !       Compute boundary nodes (after ties)
+
+     call pextnd()
+
+     !       Allocate memory to store all possible equations
+
+     neq = numnp*ndf
+     setvar = palloc( 21, 'JPROF', neq, 1)
+
+     !       Set user commands
+
+     do j = 1,5
+        fext = 'u1a'
+        write(fext(2:2),'(i1)') j
+        if(usetfl(j)) then
+           do l3 = 1,26
+              write(fext(3:3),'(a1)') char(96+l3)
+              fnamr =  fsav
+              call addext(fnamr,fext,18,4)
+              inquire(file = fnamr, exist = errs)
+              if(errs) then
+                 call opnfil(fext,fnamr,-1,ios,prt)
+
+                 !               Read data from file
+
+                 iorsv = ior
+                 ior   = ios
+
+                 do l1 = 0,36
+                    do l2 = 1,26
+                       vvsave(l2,l1) = vvv(l2,l1)
+                    end do
+                 end do
+                 oprt  = prt
+                 oprth = prth
+
+                 read(ior,1004) vtype,fincld(isf),irecrd(isf),prt,prth
+                 read(ior,1005) vvv
+
+                 call usetlib(j)
+
+                 close(ior,status='delete')
+                 ior   = iorsv
+
+                 do l1 = 0,36
+                    do l2 = 1,26
+                       vvv(l2,l1) = vvsave(l2,l1)
+                    end do
+                 end do
+                 prt  = oprt
+                 prth = oprth
+
+              endif
+           end do ! l3
+        endif
+     end do ! j
+
+     !       Determine current profile
+
+     do j = 0,nneq-1
+        mr(np(31)+j) = mr(np(31)+j+nneq)
+     end do
+
+     mxpro = 0
+     mxneq = 0
+
+     !       Set current profile
+
+     if(ior < 0) write(*,*) ' '
+     call profil(mr(np(21)),mr(np(34)),mr(np(31)), &
+          mr(np(33)),1,prt)
+     call profil(mr(np(21)),mr(np(34)),mr(np(31)), &
+          mr(np(33)),2,prt)
+     mxpro = max(mxpro,(mr(np(21)+neq-1)))
+     mxneq = max(mxneq,neq)
+
+     !       Set up stress history addresses
+
+     call sethis(mr(np(32)),mr(np(33)),nie,nen,nen1,numel,nummat,prt)
+
+     tfl = .false. 
+
+  endif
+
+  !     Macro module for establishing solution algorithm
+
+  call pmacr(initf)
+  go to 1
+
+  !     Tie nodes within tolerance of one another
+  !     [tie ] - merge regions with common coordinates
 
 500 call acheck(titl,yyy,15,80,80)
-read(yyy,1001,err=900,end=911) titl(1:4),titl(16:19),(td(j),j=1,3)
+  read(yyy,1001,err=900,end=911) titl(1:4),titl(16:19),(td(j),j=1,3)
 
-!     Retrieve current boundary connection status
+  !     Retrieve current boundary connection status
 
-if( .not. tief) then
-  setvar = palloc( 48,'IPOS ',numnp,  1)
-  call pseqn(mr(np(48)),numnp)
-  tief = .true. 
-endif
+  if( .not. tief) then
+     setvar = palloc( 48,'IPOS ',numnp,  1)
+     call pseqn(mr(np(48)),numnp)
+     tief = .true. 
+  endif
 
-!     Tie line elements to regions
+  !     Tie line elements to regions
 
-if(pcomp(titl(16:19),'line',4)) then
-  l2 = max(    1,min(nummat,int(td(1))))
-  call ptiend(mr(np(32)),mr(np(33)),mr(np(78)),mr(np(48)), &
-    hr(np(43)),l2,nie,nen,nen1,ndm,numel)
-else
-
-  if(pcomp(titl(16:19),'node',4)) then
-    l1 = max(    1,int(td(1)))
-    l2 = min(numnp,int(td(2)))
-    j     = 0
-    td(2) = 0.0d0
-    write(iow,2011) l1,l2
-  elseif(pcomp(titl(16:19),'regi',4)) then
-    l1 = 1
-    l2 = numnp
-    l3 = max(    0,int(td(1)))
-    l4 = min(mxreg,int(td(2)))
-    j     = -1
-    write(iow,2012) l3,l4
-  elseif(pcomp(titl(16:19),'mate',4)) then
-    l1 = 1
-    l2 = numnp
-    l3 = max(     1,int(td(1)))
-    l4 = min(nummat,max(1,int(td(2))))
-    j     = -2
-    write(iow,2013) l3,l4
+  if(pcomp(titl(16:19),'line',4)) then
+     l2 = max(    1,min(nummat,int(td(1))))
+     call ptiend(mr(np(32)),mr(np(33)),mr(np(78)),mr(np(48)), &
+          hr(np(43)),l2,nie,nen,nen1,ndm,numel)
   else
-    j  = nint(td(1))
-    l1 = 1
-    l2 = numnp
-    l3 = 0
-    l4 = 0
-    if(j > 0) then
-      write(iow,2014) j,td(2)
-    else
-      write(iow,2015)
-    endif
+
+     if(pcomp(titl(16:19),'node',4)) then
+        l1 = max(    1,int(td(1)))
+        l2 = min(numnp,int(td(2)))
+        j     = 0
+        td(2) = 0.0d0
+        write(iow,2011) l1,l2
+     elseif(pcomp(titl(16:19),'regi',4)) then
+        l1 = 1
+        l2 = numnp
+        l3 = max(    0,int(td(1)))
+        l4 = min(mxreg,int(td(2)))
+        j     = -1
+        write(iow,2012) l3,l4
+     elseif(pcomp(titl(16:19),'mate',4)) then
+        l1 = 1
+        l2 = numnp
+        l3 = max(     1,int(td(1)))
+        l4 = min(nummat,max(1,int(td(2))))
+        j     = -2
+        write(iow,2013) l3,l4
+     else
+        j  = nint(td(1))
+        l1 = 1
+        l2 = numnp
+        l3 = 0
+        l4 = 0
+        if(j > 0) then
+           write(iow,2014) j,td(2)
+        else
+           write(iow,2015)
+        endif
+     endif
+     setvar = palloc(81,'TEMP1',numnp, 1)
+     setvar = palloc(82,'TEMP2',numnp, 1)
+
+     call tienod(mr(np(33)),hr(np(43)),mr(np(48)),mr(np(81)), &
+          mr(np(82)),mr(np(78)),ndm,nen,nen1, &
+          numnp,numel,l1,l2,l3,l4,j,td(2))
+
+     setvar = palloc(82,'TEMP2',0, 1)
+     setvar = palloc(81,'TEMP1',0, 1)
   endif
   setvar = palloc(81,'TEMP1',numnp, 1)
-  setvar = palloc(82,'TEMP2',numnp, 1)
-
-  call tienod(mr(np(33)),hr(np(43)),mr(np(48)),mr(np(81)), &
-    mr(np(82)),mr(np(78)),ndm,nen,nen1, &
-    numnp,numel,l1,l2,l3,l4,j,td(2))
-
-  setvar = palloc(82,'TEMP2',0, 1)
+  call poutie(mr(np(81)),mr(np(33)),mr(np(49)),nen,nen1, &
+       numnp,numel,prt)
   setvar = palloc(81,'TEMP1',0, 1)
-endif
-setvar = palloc(81,'TEMP1',numnp, 1)
-call poutie(mr(np(81)),mr(np(33)),mr(np(49)),nen,nen1, &
-  numnp,numel,prt)
-setvar = palloc(81,'TEMP1',0, 1)
 
-tfl = .true. 
-go to 1
+  tfl = .true. 
+  go to 1
 
-!     Error treatments
+  !     Error treatments
 
 900 call  errclr ('PCONTR')
-call pdelfl()
-return
+  call pdelfl()
+  return
 
 910 if(ior == icf) then
-  call pincld('end')
-  incf = .false. 
-  intx = evint
-  cprt = evint
-  go to 1
-endif
+     call pincld('end')
+     incf = .false. 
+     intx = evint
+     cprt = evint
+     go to 1
+  endif
 
 911 call  endclr ('PCONTR',titl)
-call pdelfl()
-return
+  call pdelfl()
+  return
 
-!     Input formats
+  !     Input formats
 
 1000 format(a)
 1001 format(2(a4,11x),3f15.0)
@@ -783,25 +783,25 @@ return
 1004 format(a4,2x,a12,i8,2l5)
 1005 format(4f20.0)
 
-!     Output formats
+  !     Output formats
 
 2000 format(1x,19a4,a3//5x,'Solution date: ',a//14x,a/14x,a/ &
-  /5x,'Input Data Filename: ',a40/ &
-  /5x,'Number of Nodal Points  - - - - - - :',i9 &
-  /5x,'Number of Elements  - - - - - - - - :',i9/ &
-  /5x,'Spatial Dimension of Mesh - - - - - :',i9 &
-  /5x,'Degrees-of-Freedom/Node (Maximum) - :',i9 &
-  /5x,'Number Element Nodes    (Maximum) - :',i9/ &
-  /5x,'Number of Material Sets - - - - - - :',i9 &
-  /5x,'Number Parameters/Set   (Program) - :',i9 &
-  /5x,'Number Parameters/Set   (Users  ) - :',i9)
+       /5x,'Input Data Filename: ',a40/ &
+       /5x,'Number of Nodal Points  - - - - - - :',i9 &
+       /5x,'Number of Elements  - - - - - - - - :',i9/ &
+       /5x,'Spatial Dimension of Mesh - - - - - :',i9 &
+       /5x,'Degrees-of-Freedom/Node (Maximum) - :',i9 &
+       /5x,'Number Element Nodes    (Maximum) - :',i9/ &
+       /5x,'Number of Material Sets - - - - - - :',i9 &
+       /5x,'Number Parameters/Set   (Program) - :',i9 &
+       /5x,'Number Parameters/Set   (Users  ) - :',i9)
 
 
 2004 format(/' *End of <FEAPpv> solution,  File: ',a/1x)
 2005 format(/' *End of INCLUDE solution, File: ',a/1x)
 2008 format(/' ',a/)
 2009 format(/1x,'Continue with interactive input options for control?', &
-  '  <y or n> :',$)
+       '  <y or n> :',$)
 2010 format(1x,'Specify command (INTEractive, INCLude, etc.)'/' > ',$)
 2011 format(/5x,'Tie nodes from',i8,' to ',i8/1x)
 2012 format(/5x,'Tie from region',i4,' to region',i4/1x)
@@ -809,11 +809,11 @@ return
 2014 format(/5x,'Tie: direction =',i3,' X =',1p,1e12.5/1x)
 2015 format(/5x,'Tie all nodes with common coordinates'/1x)
 
-!     Error Messages
+  !     Error Messages
 
 3001 format(/' *ERROR* Attempt to solve problem before mesh input.'/ &
-  '         Check for error on FEAPpv record.'/1x)
+       '         Check for error on FEAPpv record.'/1x)
 3002 format(/' *ERROR* Can not do BATCH execution from this mode.'/ &
-  '         Do INTERACTIVE or put in INCLUDE file.'/1x)
+       '         Do INTERACTIVE or put in INCLUDE file.'/1x)
 
-    end subroutine pcontr
+end subroutine pcontr

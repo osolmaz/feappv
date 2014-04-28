@@ -52,63 +52,63 @@ subroutine trishp(el,xl,ndm,iord, xsj,shp)
 
   if(abs(iord) > 1) then
 
-    fel1 = 4.d0*el(1)
-    fel2 = 4.d0*el(2)
-    fel3 = 4.d0*el(3)
+     fel1 = 4.d0*el(1)
+     fel2 = 4.d0*el(2)
+     fel3 = 4.d0*el(3)
 
-    x4   = xl(1,4)
-    x5   = xl(1,5)
-    x6   = xl(1,6)
+     x4   = xl(1,4)
+     x5   = xl(1,5)
+     x6   = xl(1,6)
 
-    y4   = xl(2,4)
-    y5   = xl(2,5)
-    y6   = xl(2,6)
+     y4   = xl(2,4)
+     y5   = xl(2,5)
+     y6   = xl(2,6)
 
-    !       Form shape functions in total coordinates
+     !       Form shape functions in total coordinates
 
-    if(iord > 0) then
+     if(iord > 0) then
 
-      x4 = x4 - 0.5d0*(x1 + x2)
-      x5 = x5 - 0.5d0*(x2 + x3)
-      x6 = x6 - 0.5d0*(x3 + x1)
-      x7 = one3*(x1 + x2 + x3) + four9*(x4 + x5 + x6)
+        x4 = x4 - 0.5d0*(x1 + x2)
+        x5 = x5 - 0.5d0*(x2 + x3)
+        x6 = x6 - 0.5d0*(x3 + x1)
+        x7 = one3*(x1 + x2 + x3) + four9*(x4 + x5 + x6)
 
-      y4 = y4 - 0.5d0*(y1 + y2)
-      y5 = y5 - 0.5d0*(y2 + y3)
-      y6 = y6 - 0.5d0*(y3 + y1)
-      y7 = one3*(y1 + y2 + y3) + four9*(y4 + y5 + y6)
+        y4 = y4 - 0.5d0*(y1 + y2)
+        y5 = y5 - 0.5d0*(y2 + y3)
+        y6 = y6 - 0.5d0*(y3 + y1)
+        y7 = one3*(y1 + y2 + y3) + four9*(y4 + y5 + y6)
 
-    endif
+     endif
 
-    x1   = x1 + x4*fel2 + x6*fel3
-    x2   = x2 + x5*fel3 + x4*fel1
-    x3   = x3 + x6*fel1 + x5*fel2
+     x1   = x1 + x4*fel2 + x6*fel3
+     x2   = x2 + x5*fel3 + x4*fel1
+     x3   = x3 + x6*fel1 + x5*fel2
 
-    y1   = y1 + y4*fel2 + y6*fel3
-    y2   = y2 + y5*fel3 + y4*fel1
-    y3   = y3 + y6*fel1 + y5*fel2
+     y1   = y1 + y4*fel2 + y6*fel3
+     y2   = y2 + y5*fel3 + y4*fel1
+     y3   = y3 + y6*fel1 + y5*fel2
 
-    fel12 = el(1)*el(2)
-    fel23 = el(2)*el(3)
-    fel31 = el(3)*el(1)
+     fel12 = el(1)*el(2)
+     fel23 = el(2)*el(3)
+     fel31 = el(3)*el(1)
 
-    if(iord == 3) then
+     if(iord == 3) then
 
-      fel12 = 27.d0*fel12
-      fel23 = 27.d0*fel23
-      fel31 = 27.d0*fel31
+        fel12 = 27.d0*fel12
+        fel23 = 27.d0*fel23
+        fel31 = 27.d0*fel31
 
-      x7    = xl(1,7) - x7
-      x1    = x1 + x7*fel23
-      x2    = x2 + x7*fel31
-      x3    = x3 + x7*fel12
+        x7    = xl(1,7) - x7
+        x1    = x1 + x7*fel23
+        x2    = x2 + x7*fel31
+        x3    = x3 + x7*fel12
 
-      y7    = xl(2,7) - y7
-      y1    = y1 + y7*fel23
-      y2    = y2 + y7*fel31
-      y3    = y3 + y7*fel12
+        y7    = xl(2,7) - y7
+        y1    = y1 + y7*fel23
+        y2    = y2 + y7*fel31
+        y3    = y3 + y7*fel12
 
-    endif
+     endif
   endif
 
   xsj  = x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)
@@ -134,76 +134,76 @@ subroutine trishp(el,xl,ndm,iord, xsj,shp)
 
   if(abs(iord) > 1) then
 
-    shp(1,4) = shp(1,1)*fel2 + shp(1,2)*fel1
-    shp(2,4) = shp(2,1)*fel2 + shp(2,2)*fel1
-    shp(3,4) = el(1)*fel2
+     shp(1,4) = shp(1,1)*fel2 + shp(1,2)*fel1
+     shp(2,4) = shp(2,1)*fel2 + shp(2,2)*fel1
+     shp(3,4) = el(1)*fel2
 
-    shp(1,5) = shp(1,2)*fel3 + shp(1,3)*fel2
-    shp(2,5) = shp(2,2)*fel3 + shp(2,3)*fel2
-    shp(3,5) = el(2)*fel3
+     shp(1,5) = shp(1,2)*fel3 + shp(1,3)*fel2
+     shp(2,5) = shp(2,2)*fel3 + shp(2,3)*fel2
+     shp(3,5) = el(2)*fel3
 
-    shp(1,6) = shp(1,3)*fel1 + shp(1,1)*fel3
-    shp(2,6) = shp(2,3)*fel1 + shp(2,1)*fel3
-    shp(3,6) = el(3)*fel1
+     shp(1,6) = shp(1,3)*fel1 + shp(1,1)*fel3
+     shp(2,6) = shp(2,3)*fel1 + shp(2,1)*fel3
+     shp(3,6) = el(3)*fel1
 
-    !       Bubble at baricenter
+     !       Bubble at baricenter
 
-    if(abs(iord) == 3) then
-      shp(1,7) = shp(1,1)*fel23 + shp(1,2)*fel31 + shp(1,3)*fel12
-      shp(2,7) = shp(2,1)*fel23 + shp(2,2)*fel31 + shp(2,3)*fel12
-      shp(3,7) = fel12*el(3)
-    elseif(abs(iord) == 4) then
-      shp(1,7) = (shp(1,1)*fel23*2.d0 &
-        + shp(1,2)*fel31 &
-        + shp(1,3)*fel12)*el(1)
-      shp(2,7) = (shp(2,1)*fel23*2.d0 &
-        + shp(2,2)*fel31 &
-        + shp(2,3)*fel12)*el(1)
-      shp(3,7) = fel12*fel31
+     if(abs(iord) == 3) then
+        shp(1,7) = shp(1,1)*fel23 + shp(1,2)*fel31 + shp(1,3)*fel12
+        shp(2,7) = shp(2,1)*fel23 + shp(2,2)*fel31 + shp(2,3)*fel12
+        shp(3,7) = fel12*el(3)
+     elseif(abs(iord) == 4) then
+        shp(1,7) = (shp(1,1)*fel23*2.d0 &
+             + shp(1,2)*fel31 &
+             + shp(1,3)*fel12)*el(1)
+        shp(2,7) = (shp(2,1)*fel23*2.d0 &
+             + shp(2,2)*fel31 &
+             + shp(2,3)*fel12)*el(1)
+        shp(3,7) = fel12*fel31
 
-      shp(1,8) = (shp(1,1)*fel23 &
-        + shp(1,2)*fel31*2.d0 &
-        + shp(1,3)*fel12)*el(2)
-      shp(2,8) = (shp(2,1)*fel23 &
-        + shp(2,2)*fel31*2.d0 &
-        + shp(2,3)*fel12)*el(2)
-      shp(3,8) = fel12*fel23
+        shp(1,8) = (shp(1,1)*fel23 &
+             + shp(1,2)*fel31*2.d0 &
+             + shp(1,3)*fel12)*el(2)
+        shp(2,8) = (shp(2,1)*fel23 &
+             + shp(2,2)*fel31*2.d0 &
+             + shp(2,3)*fel12)*el(2)
+        shp(3,8) = fel12*fel23
 
-      shp(1,9) = (shp(1,1)*fel23 &
-        + shp(1,2)*fel31 &
-        + shp(1,3)*fel12*2.d0)*el(3)
-      shp(2,9) = (shp(2,1)*fel23 &
-        + shp(2,2)*fel31 &
-        + shp(2,3)*fel12*2.d0)*el(3)
-      shp(3,9) = fel31*fel23
-    endif
+        shp(1,9) = (shp(1,1)*fel23 &
+             + shp(1,2)*fel31 &
+             + shp(1,3)*fel12*2.d0)*el(3)
+        shp(2,9) = (shp(2,1)*fel23 &
+             + shp(2,2)*fel31 &
+             + shp(2,3)*fel12*2.d0)*el(3)
+        shp(3,9) = fel31*fel23
+     endif
 
-    !       Modify shape functions for mid-side and interior values
+     !       Modify shape functions for mid-side and interior values
 
-    if(iord > 1) then
+     if(iord > 1) then
 
-      !         Modify vertex and mid-side values for bubble
+        !         Modify vertex and mid-side values for bubble
 
-      if(iord == 3) then
+        if(iord == 3) then
+           do i = 1,3
+              shp(i,1) = shp(i,1) -  one3*shp(i,7)
+              shp(i,2) = shp(i,2) -  one3*shp(i,7)
+              shp(i,3) = shp(i,3) -  one3*shp(i,7)
+              shp(i,4) = shp(i,4) - four9*shp(i,7)
+              shp(i,5) = shp(i,5) - four9*shp(i,7)
+              shp(i,6) = shp(i,6) - four9*shp(i,7)
+           end do
+        endif
+
+        !         Modify vertex shape functions for mid-side values
+
         do i = 1,3
-        shp(i,1) = shp(i,1) -  one3*shp(i,7)
-        shp(i,2) = shp(i,2) -  one3*shp(i,7)
-        shp(i,3) = shp(i,3) -  one3*shp(i,7)
-        shp(i,4) = shp(i,4) - four9*shp(i,7)
-        shp(i,5) = shp(i,5) - four9*shp(i,7)
-        shp(i,6) = shp(i,6) - four9*shp(i,7)
+           shp(i,1) = shp(i,1) - 0.5d0*(shp(i,4) + shp(i,6))
+           shp(i,2) = shp(i,2) - 0.5d0*(shp(i,5) + shp(i,4))
+           shp(i,3) = shp(i,3) - 0.5d0*(shp(i,6) + shp(i,5))
         end do
-      endif
 
-      !         Modify vertex shape functions for mid-side values
-
-      do i = 1,3
-      shp(i,1) = shp(i,1) - 0.5d0*(shp(i,4) + shp(i,6))
-      shp(i,2) = shp(i,2) - 0.5d0*(shp(i,5) + shp(i,4))
-      shp(i,3) = shp(i,3) - 0.5d0*(shp(i,6) + shp(i,5))
-      end do
-
-    endif
+     endif
   endif
 
 end subroutine trishp

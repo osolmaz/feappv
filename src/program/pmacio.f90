@@ -46,8 +46,8 @@ subroutine pmacio (jct,lct,ct,wd,ed,nwd,nlp,ll,prth)
   !     Initiate read of command statements
 
   if(ior > 0) then
-    call prtitl(prth)
-    write(iow,2001)
+     call prtitl(prth)
+     write(iow,2001)
   endif
 
   !     Read command records
@@ -59,45 +59,45 @@ subroutine pmacio (jct,lct,ct,wd,ed,nwd,nlp,ll,prth)
   ct(1,1) = 1.0
   ct(2,1) = 0.0
   flg = .true. 
-  100 if(ior < 0 .and. flg .and. pfr) then
-    write(*,2002)
-    write(*,2003)
+100 if(ior < 0 .and. flg .and. pfr) then
+     write(*,2002)
+     write(*,2003)
   endif
   if(nn > 199) nn = 0
   if(ll > 195 .and. ior < 0) write(*,3001)
   ll = ll + 1
   if(ll > 200) then
-    write (*,3002)
-    ll = -1
-    return
+     write (*,3002)
+     ll = -1
+     return
   endif
 
   !     Input command
 
   clab(1) = ' '
   do while( pcomp(clab(1),' ',1) )
-  if(ior < 0) write(*,2004) nn+1,ll-1
-  errck = tinput(clab,2,ct(1,ll),3)
+     if(ior < 0) write(*,2004) nn+1,ll-1
+     errck = tinput(clab,2,ct(1,ll),3)
   end do ! while
   lzz(ll) = zzz
   pflg    = ior > 0
   if(ior < 0) then
 
-    !       Help: Show active command set
+     !       Help: Show active command set
 
-    if(pcomp(clab(1),'help',4)) then
-      call phelp(clab(2),wd,ed,nwd,'MACR')
-      ll = ll - 1
-      go to 100
+     if(pcomp(clab(1),'help',4)) then
+        call phelp(clab(2),wd,ed,nwd,'MACR')
+        ll = ll - 1
+        go to 100
 
-      !       Repeat previous or match command
+        !       Repeat previous or match command
 
-    elseif(pcomp(clab(1),'!',1)) then
-      call histex(wd,clab(1),jct,lct,ct,nwd,nlp,nnx,ll,is)
-      if(is == 0) go to 130
-      ll = ll - 1
-      go to 100
-    endif
+     elseif(pcomp(clab(1),'!',1)) then
+        call histex(wd,clab(1),jct,lct,ct,nwd,nlp,nnx,ll,is)
+        if(is == 0) go to 130
+        ll = ll - 1
+        go to 100
+     endif
   endif
 
   !     Hist: Perform set of commands from history or show/edit
@@ -106,25 +106,25 @@ subroutine pmacio (jct,lct,ct,wd,ed,nwd,nlp,ll,prth)
 
   if(pcomp(clab(1),'hist',4)) then
 
-    call phist(wd,clab(2),jct,lct,ct,ll,is)
-    nnn = nn
-    if(is == 0) then
-      go to 140
-    else
-      ll = ll - 1
-      go to 100
-    endif
+     call phist(wd,clab(2),jct,lct,ct,ll,is)
+     nnn = nn
+     if(is == 0) then
+        go to 140
+     else
+        ll = ll - 1
+        go to 100
+     endif
 
-    !     Proc: Enter or execute procedure
+     !     Proc: Enter or execute procedure
 
   elseif(pcomp(clab(1),'proc',4)) then
 
-    vv(1) = yyy(31:45)
-    vv(2) = yyy(46:60)
-    vv(3) = yyy(61:75)
-    call proced(clab(2),vv,wd,nwd,ll,jct,lct,ct,lzz,flg,1)
-    ll = ll - 1
-    go to 100
+     vv(1) = yyy(31:45)
+     vv(2) = yyy(46:60)
+     vv(3) = yyy(61:75)
+     call proced(clab(2),vv,wd,nwd,ll,jct,lct,ct,lzz,flg,1)
+     ll = ll - 1
+     go to 100
 
   endif
 
@@ -132,22 +132,22 @@ subroutine pmacio (jct,lct,ct,wd,ed,nwd,nlp,ll,prth)
 
   if(ior < 0) then
 
-    if(pcomp(clab(1),'quit',4) .or. pcomp(clab(1),'q   ',4)) then
-      ll = -2
-      go to 210
-    elseif(pcomp(clab(1),'exit',4) &
-        .or. pcomp(clab(1),'e   ',4)) then
-      write(*,2006)
-      errck = tinput(clab,1,sv(1),0)
-      if(pcomp(clab(1),'y',1)) then
-        ll = -1
+     if(pcomp(clab(1),'quit',4) .or. pcomp(clab(1),'q   ',4)) then
+        ll = -2
         go to 210
-      else
-        go to 100
-      endif
-    endif
+     elseif(pcomp(clab(1),'exit',4) &
+          .or. pcomp(clab(1),'e   ',4)) then
+        write(*,2006)
+        errck = tinput(clab,1,sv(1),0)
+        if(pcomp(clab(1),'y',1)) then
+           ll = -1
+           go to 210
+        else
+           go to 100
+        endif
+     endif
   elseif(pcomp(clab(1),'end ',4)) then
-    go to 140
+     go to 140
   endif
 
   !     Set execution flag
@@ -155,10 +155,10 @@ subroutine pmacio (jct,lct,ct,wd,ed,nwd,nlp,ll,prth)
   lo      = ll
   lct(ll) = clab(2)
   do j = 1,nwd
-  if(pcomp(clab(1),wd(j),4)) then
-    jct(ll) = j
-    go to 120
-  endif
+     if(pcomp(clab(1),wd(j),4)) then
+        jct(ll) = j
+        go to 120
+     endif
   end do
 
   !     Look at existing procedures
@@ -172,132 +172,132 @@ subroutine pmacio (jct,lct,ct,wd,ed,nwd,nlp,ll,prth)
   !     Error no procedure with name clab(1)
 
   if( .not. flg) then
-    call errclr('PMACIO')
-    ll = ll - 1
-    go to 100
+     call errclr('PMACIO')
+     ll = ll - 1
+     go to 100
   endif
 
   !     Save information for history
 
-  120 if (hadd) then
-    do lc = lo,ll
-    nn = nn + 1
-    js(nn)  = jct(lc)
-    ljs(nn) = lct(lc)
-    lzs(nn) = lzz(lc)
-    end do
+120 if (hadd) then
+     do lc = lo,ll
+        nn = nn + 1
+        js(nn)  = jct(lc)
+        ljs(nn) = lct(lc)
+        lzs(nn) = lzz(lc)
+     end do
   endif
   nnn = nn
   if(pflg) then
-    write(iow,2000) clab,ct(1,ll),ct(2,ll),ct(3,ll)
+     write(iow,2000) clab,ct(1,ll),ct(2,ll),ct(3,ll)
   endif
   if (ior > 0) go to 100
-  130 ll = ll + 1
-  140 jct(ll)= nnx
+130 ll = ll + 1
+140 jct(ll)= nnx
 
   !     Check loop/next pairs
 
   j = 0
   do l = 1,ll
-  if(jct(l) == nlp) j = j + 1
-  if(jct(l) == nnx) j = j - 1
-  if(j < 0) then
-    if(ior > 0) then
-      go to 402
-    else
-      ll  = ll - 2
-      flg = .false. 
-      write(*,4002)
-      go to 100
-    endif
-  endif
+     if(jct(l) == nlp) j = j + 1
+     if(jct(l) == nnx) j = j - 1
+     if(j < 0) then
+        if(ior > 0) then
+           go to 402
+        else
+           ll  = ll - 2
+           flg = .false. 
+           write(*,4002)
+           go to 100
+        endif
+     endif
   end do
   if(j /= 0) then
-    if(ior > 0) then
-      go to 400
-    else
-      ll = ll - 1
-      flg = .false. 
-      go to 100
-    endif
+     if(ior > 0) then
+        go to 400
+     else
+        ll = ll - 1
+        flg = .false. 
+        go to 100
+     endif
   endif
 
   !     Set loop/next markers
 
   flg = .true. 
   do l = 1,ll-1
-  if(jct(l) == nlp) then
-    j     = 1
-    k     = l + 1
-    sv(1) = ct(2,l)
-    do i = k,ll
-    if(jct(i) == nlp) j = j + 1
-    if(j > 9) go to 401
-    if(jct(i) == nnx) j = j - 1
-    if(j == 0) go to 200
-    end do
-    go to 400
+     if(jct(l) == nlp) then
+        j     = 1
+        k     = l + 1
+        sv(1) = ct(2,l)
+        do i = k,ll
+           if(jct(i) == nlp) j = j + 1
+           if(j > 9) go to 401
+           if(jct(i) == nnx) j = j - 1
+           if(j == 0) go to 200
+        end do
+        go to 400
 
-    !         Store loop information in 'lzz'
+        !         Store loop information in 'lzz'
 
-    200 ct(1,i) = 0.0d0
-    ct(2,i) = l
-    ct(3,i) = sv(1)
-    write(zzz,2005) (ct(k,i),k=1,3)
-    lzz(i)  = zzz
+200     ct(1,i) = 0.0d0
+        ct(2,i) = l
+        ct(3,i) = sv(1)
+        write(zzz,2005) (ct(k,i),k=1,3)
+        lzz(i)  = zzz
 
-    errck   = vinput(lzz(l),50,ct(1,l),3)
-    ct(2,l) = i
-    write(zzz,2005) (ct(k,l),k=1,3)
-    lzz(l)  = zzz
+        errck   = vinput(lzz(l),50,ct(1,l),3)
+        ct(2,l) = i
+        write(zzz,2005) (ct(k,l),k=1,3)
+        lzz(l)  = zzz
 
-  endif
+     endif
   end do
 
-  210 return
+210 return
 
   !     Error messages
 
-  400 write(iow,4000)
+400 write(iow,4000)
   if(ior < 0) write(*,4000)
   call plstop()
 
-  401 write(iow,4001)
+401 write(iow,4001)
   if(ior < 0) write(*,4001)
   call plstop()
 
-  402 write(iow,4002)
+402 write(iow,4002)
   call plstop()
 
   !     Formats
 
-  2000 format(7x,a4,1x,a14,1x,1p,3e12.4)
+2000 format(7x,a4,1x,a14,1x,1p,3e12.4)
 
-  2001 format('  M a c r o   I n s t r u c t i o n s'// &
-    '  Macro Statement',12x,'Variable 1  Variable 2  Variable 3')
+2001 format('  M a c r o   I n s t r u c t i o n s'// &
+       '  Macro Statement',12x,'Variable 1  Variable 2  Variable 3')
 
-  2002 format(' Input a macro instruction: Enter "help" for list of ', &
-    'commands.')
-  2003 format(' Enter "exit" to end with restart save, "quit" to ', &
-    'end without restart save.')
+2002 format(' Input a macro instruction: Enter "help" for list of ', &
+       'commands.')
+2003 format(' Enter "exit" to end with restart save, "quit" to ', &
+       'end without restart save.')
 
-  2004 format('   List',i3,'  Macro',i3,'> ',$)
+2004 format('   List',i3,'  Macro',i3,'> ',$)
 
-  2005 format(1p,3e15.7)
+2005 format(1p,3e15.7)
 
-  2006 format('   Exit with restart file save (y or n) :',$)
+2006 format('   Exit with restart file save (y or n) :',$)
 
-  3001 format(' *WARNING* Maximum number of macro statements = 200' &
-    ,/'    Use history edit to reduce or program will stop' &
-    ,' when 200 is reached')
+3001 format(' *WARNING* Maximum number of macro statements = 200' &
+       ,/'    Use history edit to reduce or program will stop' &
+       ,' when 200 is reached')
 
-  3002 format(' *ERROR* Maximum number of macro instructions', &
-    '                  is limited to 200')
+3002 format(' *ERROR* Maximum number of macro instructions', &
+       '                  is limited to 200')
 
-  4000 format(' *ERROR* Unbalanced loop/next commands')
+4000 format(' *ERROR* Unbalanced loop/next commands')
 
-  4001 format(' *ERROR* Loops nested deeper than 8')
+4001 format(' *ERROR* Loops nested deeper than 8')
 
-  4002 format(' *ERROR* "loop" must precede "next" instruction')
+4002 format(' *ERROR* "loop" must precede "next" instruction')
 
 end subroutine pmacio

@@ -34,11 +34,11 @@ subroutine cashift(ap,ac,s,jp,jc,ir,neq)
 
   do ni = 2,neq
 
-  jp0 = jp(ni) - ni + 1
+     jp0 = jp(ni) - ni + 1
 
-  do nj = jc(ni-1)+1,jc(ni)
-  ap(ir(nj)+jp0) = ap(ir(nj)+jp0) - s*ac(nj)
-  end do
+     do nj = jc(ni-1)+1,jc(ni)
+        ap(ir(nj)+jp0) = ap(ir(nj)+jp0) - s*ac(nj)
+     end do
 
   end do
 

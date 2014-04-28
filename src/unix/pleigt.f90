@@ -33,10 +33,10 @@ subroutine pleigt(eval)
   call tplot(1.13d0 , 0.160d0, yy, 20, 1)
 
   if(imtyp == 1) then
-    dd = sqrt(abs(eval))*0.5d0/acos(-1.d0)
-    write(yy, '(a7,1p,1e9.2,a4)' ) 'Value =',dd,' Hz.'
+     dd = sqrt(abs(eval))*0.5d0/acos(-1.d0)
+     write(yy, '(a7,1p,1e9.2,a4)' ) 'Value =',dd,' Hz.'
   else
-    write(yy, '(a7,1p,1e9.2,a4)' ) 'Value =',eval,'    '
+     write(yy, '(a7,1p,1e9.2,a4)' ) 'Value =',eval,'    '
   endif
 
   !     Display Value for current vector
@@ -44,4 +44,4 @@ subroutine pleigt(eval)
   call pppcol(1,1)
   call tplot(1.13d0 , 0.160d0, yy, 20, 1)
 
-  end
+end subroutine pleigt

@@ -45,8 +45,8 @@ subroutine tplot(x1,y1,tx,mm,nctr)
   !     PostScript: Output text
 
   if (hdcpy) then
-    call dplot(x1+dtext,y1,3)
-    call fptplt(xp,yp,tx,nn,nctr)
+     call dplot(x1+dtext,y1,3)
+     call fptplt(xp,yp,tx,nn,nctr)
   endif
 
-  end
+end subroutine tplot

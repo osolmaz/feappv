@@ -40,33 +40,33 @@ subroutine profil (jp,idl,id,ix,iop,prt)
 
   if(iop == 1) then
 
-    call seteq(id,ndf,ndm,numnp,neq,prt)
+     call seteq(id,ndf,ndm,numnp,neq,prt)
 
-    !     Compute column heights
+     !     Compute column heights
 
   elseif(iop == 2) then
 
-    call rstprf(jp,idl,id,ix,ndf,nen1,nen,neq,numel)
+     call rstprf(jp,idl,id,ix,ndf,nen1,nen,neq,numel)
 
-    !       Compute diagonal pointers for profile
+     !       Compute diagonal pointers for profile
 
-    call nwprof(jp,neq)
+     call nwprof(jp,neq)
 
-    !       Estimate solve time (dops = est. no. ops/sec)
+     !       Estimate solve time (dops = est. no. ops/sec)
 
-    if(neq > 0 .and. prt) then
-      nad = jp(neq)
-      mm = (nad+neq)/neq
-      write(iow,2001) ndm,ndf,neq,numnp,mm,numel,nad,nummat
-      if(ior < 0) &
-        write(*,2001) ndm,ndf,neq,numnp,mm,numel,nad,nummat
-    endif
+     if(neq > 0 .and. prt) then
+        nad = jp(neq)
+        mm = (nad+neq)/neq
+        write(iow,2001) ndm,ndf,neq,numnp,mm,numel,nad,nummat
+        if(ior < 0) &
+             write(*,2001) ndm,ndf,neq,numnp,mm,numel,nad,nummat
+     endif
   endif
 
-  2001 format(/5x,'E q u a t i o n / P r o b l e m   S u m m a r y:'// &
-    &  10x,'Space dimension (ndm) =',i10,3x,'Number dof (ndf) =',i8/ &
-    &  10x,'Number of equations   =',i10,3x,'Number nodes     =',i8/ &
-    &  10x,'Average col. height   =',i10,3x,'Number elements  =',i8/ &
-    &  10x,'Number profile terms  =',i10,3x,'Number materials =',i8/)
+2001 format(/5x,'E q u a t i o n / P r o b l e m   S u m m a r y:'// &
+       &  10x,'Space dimension (ndm) =',i10,3x,'Number dof (ndf) =',i8/ &
+       &  10x,'Number of equations   =',i10,3x,'Number nodes     =',i8/ &
+       &  10x,'Average col. height   =',i10,3x,'Number elements  =',i8/ &
+       &  10x,'Number profile terms  =',i10,3x,'Number materials =',i8/)
 
 end subroutine profil

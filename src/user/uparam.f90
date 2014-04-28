@@ -28,7 +28,7 @@ subroutine uparam(ct,nrk,nrc,nrm,nrt,isw)
   real*8 ::    ct(3)
 
   if(isw == 0) then
-    nrt = 0
+     nrt = 0
   else
   endif
 

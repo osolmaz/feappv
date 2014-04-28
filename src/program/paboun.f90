@@ -40,50 +40,50 @@ subroutine paboun(td,x,ang,ntyp,ndm,numnp,numprt,prt,prth)
   !     Find closest node to input coordinates
 
   if(prt .and. numprt <= 0) then
-    call prtitl(prth)
-    write(iow,2000)
-    if(ior < 0) write(*,2000)
-    numprt = 50
+     call prtitl(prth)
+     write(iow,2000)
+     if(ior < 0) write(*,2000)
+     numprt = 50
   endif
 
   clflg = .false. 
   do n = 1,numnp
-  if(ntyp(n) >= 0) then
-    tmn = dotx(td(1),x(1,n),ndm)
-    if(clflg) then
-      if(tmn < xmn) then
-        xmn = tmn
-        nbc = n
-      endif
-    else
-      xmn   =  tmn
-      nbc   =  n
-      clflg = .true. 
-    endif
-  endif
+     if(ntyp(n) >= 0) then
+        tmn = dotx(td(1),x(1,n),ndm)
+        if(clflg) then
+           if(tmn < xmn) then
+              xmn = tmn
+              nbc = n
+           endif
+        else
+           xmn   =  tmn
+           nbc   =  n
+           clflg = .true. 
+        endif
+     endif
   end do
 
   !     Set angle
 
   if(clflg) then
-    ang(nbc) = td(ndm+1)
+     ang(nbc) = td(ndm+1)
 
-    !       Output current restraint codes set
+     !       Output current restraint codes set
 
-    if(prt) then
-      write(iow,2001) nbc,ang(nbc)
-      if(ior < 0) then
-        write(*,2001) nbc,ang(nbc)
-      endif
-      numprt = numprt - 1
-    endif
+     if(prt) then
+        write(iow,2001) nbc,ang(nbc)
+        if(ior < 0) then
+           write(*,2001) nbc,ang(nbc)
+        endif
+        numprt = numprt - 1
+     endif
   endif
 
   !     Format
 
-  2000 format('  C o o r d i n a t e    N o d a l    A n g l e s'/ &
-    /(4x,'Node   Angle'))
+2000 format('  C o o r d i n a t e    N o d a l    A n g l e s'/ &
+       /(4x,'Node   Angle'))
 
-  2001 format(i8,1p,e12.4)
+2001 format(i8,1p,e12.4)
 
 end subroutine paboun

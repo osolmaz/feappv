@@ -30,30 +30,30 @@ subroutine just(y,nt,n0)
   n1 = n0 - 1
   do i = 1,nt,n0
 
-  !       Find last non-blank character in string
+     !       Find last non-blank character in string
 
-  do j = i,i+n1
-  if(y(j:j) /= ' ') go to 100
+     do j = i,i+n1
+        if(y(j:j) /= ' ') go to 100
+     end do
+     y(i+n1:i+n1) = '0'
+100  if(y(i+n1:i+n1) == ' ') then
+
+        !         Identify a number in field and right justify
+
+        if((y(i:i) >= '0' .and. y(i:i) <= '9') &
+             .or. (y(i:i) == '-') &
+             .or. (y(i:i) == '+') &
+             .or. (y(i:i) == '.')) then
+           do j = i+n1-1,i,-1
+              if(y(j:j) /= ' ') go to 110
+           end do
+110        nl = n1 + i - j
+           do l = j,i,-1
+              y(l+nl:l+nl) = y(l:l)
+              y(l:l)       = ' '
+           end do
+        endif
+     endif
   end do
-  y(i+n1:i+n1) = '0'
-  100 if(y(i+n1:i+n1) == ' ') then
 
-    !         Identify a number in field and right justify
-
-    if((y(i:i) >= '0' .and. y(i:i) <= '9') &
-      .or. (y(i:i) == '-') &
-      .or. (y(i:i) == '+') &
-      .or. (y(i:i) == '.')) then
-    do j = i+n1-1,i,-1
-    if(y(j:j) /= ' ') go to 110
-    end do
-    110 nl = n1 + i - j
-    do l = j,i,-1
-    y(l+nl:l+nl) = y(l:l)
-    y(l:l)       = ' '
-    end do
-  endif
-endif
-end do
-
-    end subroutine just
+end subroutine just

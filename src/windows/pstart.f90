@@ -11,8 +11,8 @@ subroutine pstart()
   include  'pdata2.h'
 
   interface
-    logical(4)  function initialsettings
-    end function
+     logical(4)  function initialsettings
+     end function initialsettings
   end interface
 
   !     Graphics Driver for PC versioni
@@ -23,24 +23,24 @@ subroutine pstart()
 
   call pwopn()
 
-  end
+end subroutine pstart
 
-  logical(4) function initialsettings ( )
+logical(4) function initialsettings ( )
 
-    use       DFLIB
+  use       DFLIB
 
-    implicit  none
+  implicit  none
 
-    type(qwinfo) winfo
-    integer ::      status
+  type(qwinfo) winfo
+  integer ::      status
 
-    save
+  save
 
-    !     Maximize Frame
+  !     Maximize Frame
 
-    winfo.type = qwin$max
-    status     = setwsizeqq(qwin$framewindow,winfo)
+  winfo.type = qwin$max
+  status     = setwsizeqq(qwin$framewindow,winfo)
 
-    initialsettings = .true. 
+  initialsettings = .true. 
 
-  end function
+end function initialsettings

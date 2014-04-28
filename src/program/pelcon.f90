@@ -38,25 +38,25 @@ subroutine pelcon(numel, nen, neix, ix, ic, ielc, icneq, sgn)
   if(sgn > 0) call pzeroi(ielc, icneq)
 
   do i = 1, numel
-  do j = 1, nen
-  n = ix(j,i)
-  if(n > 0) then
-    do k = 1,ndf
-    nty = mr(np(31) + n*ndf - ndf + k - 1)
-    if(nty > 0) then
-      kp = ic(nty)
-      100 if(ielc(kp) == 0) go to 110
-      kp = kp - 1
-      go to 100
-      110 if(sgn > 0) then
-        ielc(kp) =  i
-      else
-        ielc(kp) = -i
-      endif
-    endif ! nty > 0
-    end do ! k
-  endif ! n > 0
-  end do ! j
+     do j = 1, nen
+        n = ix(j,i)
+        if(n > 0) then
+           do k = 1,ndf
+              nty = mr(np(31) + n*ndf - ndf + k - 1)
+              if(nty > 0) then
+                 kp = ic(nty)
+100              if(ielc(kp) == 0) go to 110
+                 kp = kp - 1
+                 go to 100
+110              if(sgn > 0) then
+                    ielc(kp) =  i
+                 else
+                    ielc(kp) = -i
+                 endif
+              endif ! nty > 0
+           end do ! k
+        endif ! n > 0
+     end do ! j
   end do ! i
 
 end subroutine pelcon

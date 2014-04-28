@@ -32,4 +32,4 @@ subroutine pltime()
   write(yy, '(6hTime =,1p,1e9.2)' ) ttim
   call tplot(1.13d0 , 0.135d0, yy, 15, 1)
 
-  end
+end subroutine pltime

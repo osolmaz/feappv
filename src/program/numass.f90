@@ -26,21 +26,21 @@ subroutine numass(b,neq,mq)
 
   nn = 0
   do n = 1,neq
-  if(b(n) /= 0.0d0) nn = nn + 1
+     if(b(n) /= 0.0d0) nn = nn + 1
   end do
 
   if(nn < mq) then
-    write(iow,2000) nn
-    if(ior < 0) then
-      write(*,2000) nn
-    endif
+     write(iow,2000) nn
+     if(ior < 0) then
+        write(*,2000) nn
+     endif
   endif
 
   mq = min0(mq,nn)
 
   !     Format
 
-  2000 format(' Subspace reduced to',i4,' by number of nonzero', &
-    ' diagonal mass terms')
+2000 format(' Subspace reduced to',i4,' by number of nonzero', &
+       ' diagonal mass terms')
 
 end subroutine numass

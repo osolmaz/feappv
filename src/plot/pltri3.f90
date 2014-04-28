@@ -29,25 +29,25 @@ subroutine pltri3(iel)
 
   if(iel > 0) then
 
-    inord(iel)    = 4
+     inord(iel)    = 4
 
-    !       Set plot sequence
+     !       Set plot sequence
 
-    ipord( 1,iel) = 1
-    ipord( 2,iel) = 2
-    ipord( 3,iel) = 3
-    ipord( 4,iel) = 1
+     ipord( 1,iel) = 1
+     ipord( 2,iel) = 2
+     ipord( 3,iel) = 3
+     ipord( 4,iel) = 1
 
   elseif(iel < 0) then
 
-    exord(-iel)    = 4
+     exord(-iel)    = 4
 
-    !       Set plot sequence
+     !       Set plot sequence
 
-    epord( 1,-iel) = 1
-    epord( 2,-iel) = 2
-    epord( 3,-iel) = 3
-    epord( 4,-iel) = 1
+     epord( 1,-iel) = 1
+     epord( 2,-iel) = 2
+     epord( 3,-iel) = 3
+     epord( 4,-iel) = 1
 
   endif
 

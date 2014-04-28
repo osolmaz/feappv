@@ -67,40 +67,40 @@ subroutine shapef(s,t,xl,shp,xsj,ndm,flg)
 
   xsj = 0.0625d0*xsj1
   if( .not. flg) then
-    if(xsj1 == 0.0d0) then
-      xsj1 = 1.0d0
-    else
-      xsj1 = 1.0d0/xsj1
-    endif
+     if(xsj1 == 0.0d0) then
+        xsj1 = 1.0d0
+     else
+        xsj1 = 1.0d0/xsj1
+     endif
 
-    !       Divide functions by jacobian
+     !       Divide functions by jacobian
 
-    xs  = (xs+xs)*xsj1
-    xt  = (xt+xt)*xsj1
-    ys  = (ys+ys)*xsj1
-    yt  = (yt+yt)*xsj1
+     xs  = (xs+xs)*xsj1
+     xt  = (xt+xt)*xsj1
+     ys  = (ys+ys)*xsj1
+     yt  = (yt+yt)*xsj1
 
-    !       Multiply by interpolations
+     !       Multiply by interpolations
 
-    ytm =  yt*tm
-    ysm =  ys*sm
-    ytp =  yt*tp
-    ysp =  ys*sp
-    xtm =  xt*tm
-    xsm =  xs*sm
-    xtp =  xt*tp
-    xsp =  xs*sp
+     ytm =  yt*tm
+     ysm =  ys*sm
+     ytp =  yt*tp
+     ysp =  ys*sp
+     xtm =  xt*tm
+     xsm =  xs*sm
+     xtp =  xt*tp
+     xsp =  xs*sp
 
-    !       Compute shape functions
+     !       Compute shape functions
 
-    shp(1,1) = - ytm+ysm
-    shp(1,2) =   ytm+ysp
-    shp(1,3) =   ytp-ysp
-    shp(1,4) = - ytp-ysm
-    shp(2,1) =   xtm-xsm
-    shp(2,2) = - xtm-xsp
-    shp(2,3) = - xtp+xsp
-    shp(2,4) =   xtp+xsm
+     shp(1,1) = - ytm+ysm
+     shp(1,2) =   ytm+ysp
+     shp(1,3) =   ytp-ysp
+     shp(1,4) = - ytp-ysm
+     shp(2,1) =   xtm-xsm
+     shp(2,2) = - xtm-xsp
+     shp(2,3) = - xtp+xsp
+     shp(2,4) =   xtp+xsm
   endif
 
 end subroutine shapef

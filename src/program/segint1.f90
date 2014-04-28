@@ -31,31 +31,31 @@ subroutine segint1(xs,side,is,ns,ndm,shp, x)
 
   !     Check sign
   if(side > 0) then
-    ib =  1
-    ie =  ns - 1
-    in =  2
-    io =  1
+     ib =  1
+     ie =  ns - 1
+     in =  2
+     io =  1
   else
-    ib =  ns
-    ie =  2
-    in = -2
-    io = -1
+     ib =  ns
+     ie =  2
+     in = -2
+     io = -1
   endif
 
   !     Compute segment values
 
   i1 = 1
   do i = ib,ie,in
-  do j = 1,ndm
-  xsn(j,1) = xs(j,is(i   ))
-  xsn(j,2) = xs(j,is(i+in))
-  end do ! j
+     do j = 1,ndm
+        xsn(j,1) = xs(j,is(i   ))
+        xsn(j,2) = xs(j,is(i+in))
+     end do ! j
 
-  !       Interpolate individual segments
+     !       Interpolate individual segments
 
-  call interp1(is(i+io),xsn, 1,isr,2,ndm,shp, x(1,i1))
+     call interp1(is(i+io),xsn, 1,isr,2,ndm,shp, x(1,i1))
 
-  i1 = i1 + is(i+io)
+     i1 = i1 + is(i+io)
 
   end do ! i
 

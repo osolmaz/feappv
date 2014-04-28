@@ -26,7 +26,7 @@ subroutine chkblk(y,n0,nt)
   !     Add character if y(nt) is blank
 
   do n = n0,nt,n0
-  if(y(n:n) == ' ') y(n:n) = '0'
+     if(y(n:n) == ' ') y(n:n) = '0'
   end do
 
 end subroutine chkblk

@@ -35,15 +35,15 @@ subroutine store(v,w,nv,itrn)
   ns = (neq+neq)*(nv-1)
 
   if(itrn == 1) then
-    point = np(71) + ns
-    call pmove(v,hr(point),neq)
-    point = point + neq
-    call pmove(w,hr(point),neq)
+     point = np(71) + ns
+     call pmove(v,hr(point),neq)
+     point = point + neq
+     call pmove(w,hr(point),neq)
   elseif(itrn == 2) then
-    point = np(71) + ns
-    call pmove(hr(point),v,neq)
-    point = point + neq
-    call pmove(hr(point),w,neq)
+     point = np(71) + ns
+     call pmove(hr(point),v,neq)
+     point = point + neq
+     call pmove(hr(point),w,neq)
   endif
 
 end subroutine store

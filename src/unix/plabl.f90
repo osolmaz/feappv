@@ -39,23 +39,23 @@ subroutine plabl(m)
   n = abs(m)
 
   if    (n >= 0   .and. n < 10   ) then
-    write(yyy,'(i1)') n
-    nchar = 1
+     write(yyy,'(i1)') n
+     nchar = 1
   elseif(n >= 10  .and. n < 100  ) then
-    write(yyy,'(i2)') n
-    nchar = 2
+     write(yyy,'(i2)') n
+     nchar = 2
   elseif(n >= 100 .and. n < 1000 ) then
-    write(yyy,'(i3)') n
-    nchar = 3
+     write(yyy,'(i3)') n
+     nchar = 3
   elseif(n >= 1000 .and. n < 10000 ) then
-    write(yyy,'(i4)') n
-    nchar = 4
+     write(yyy,'(i4)') n
+     nchar = 4
   elseif(n >= 10000 .and. n < 100000 ) then
-    write(yyy,'(i5)') n
-    nchar = 5
+     write(yyy,'(i5)') n
+     nchar = 5
   else
-    write(yyy,'(i6)') n
-    nchar = 6
+     write(yyy,'(i6)') n
+     nchar = 6
   endif
 
   !     X11
@@ -64,18 +64,18 @@ subroutine plabl(m)
   y11(1)=yp(2)*xx(3)*1.28
   y11(2)=0
   do j=1,nchar
-  jj=ichar(yyy(j:j))
-  x11(j+1)=jj
+     jj=ichar(yyy(j:j))
+     x11(j+1)=jj
   end do
   if(screfl) then
-    call gdx11(-1024-nchar,x11,y11)
+     call gdx11(-1024-nchar,x11,y11)
   endif
 
   !     PostScript
 
   if (hdcpy) then
-    xp0(2) = xp(2) + 0.0125*(4-nchar+nchar/3)
-    call fptplt(xp0,yp,yyy,nchar,0)
+     xp0(2) = xp(2) + 0.0125*(4-nchar+nchar/3)
+     call fptplt(xp0,yp,yyy,nchar,0)
   endif
 
-  end
+end subroutine plabl

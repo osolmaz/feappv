@@ -23,9 +23,9 @@ function ipos(file,nn)
   character file(nn)*1
 
   do n = nn,1,-1
-  if(file(n) /= ' ') go to 100
+     if(file(n) /= ' ') go to 100
   end do
   n    = 0
-  100 ipos = n
+100 ipos = n
 
 end function ipos

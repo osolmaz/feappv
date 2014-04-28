@@ -29,11 +29,11 @@ subroutine pltpt1(iel)
 
   if(iel > 0) then
 
-    inord(iel)    = -1
+     inord(iel)    = -1
 
   elseif(iel < 0) then
 
-    exord(-iel)    = -1
+     exord(-iel)    = -1
 
   endif
 

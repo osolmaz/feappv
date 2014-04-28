@@ -38,11 +38,11 @@ subroutine pstr3d(bb,bpr)
   b1  = (bb(1) + bb(2) + bb(3))*thrd
 
   do i = 1,6
-  bd(i) = bb(i)
+     bd(i) = bb(i)
   end do
 
   do i = 1,3
-  bd(i) = bd(i) - b1
+     bd(i) = bd(i) - b1
   end do
 
   !     Compute 2nd and 3rd invariants of deviator
@@ -51,27 +51,27 @@ subroutine pstr3d(bb,bpr)
   c2 = bd(5)*bd(5)
   c3 = bd(6)*bd(6)
   b2 = 0.5d0*(bd(1)*bd(1)+bd(2)*bd(2)+bd(3)*bd(3)) &
-    + c1 + c2 + c3
+       + c1 + c2 + c3
   if(b2 <= tol*b1*b1) then
-    bpr(1) = b1
-    bpr(2) = b1
-    bpr(3) = b1
+     bpr(1) = b1
+     bpr(2) = b1
+     bpr(3) = b1
   else
-    b3 = bd(1)*bd(2)*bd(3)+(bd(4)+bd(4))*bd(5)*bd(6) &
-      + bd(1)*(c1-c2) + bd(2)*(c1-c3)
+     b3 = bd(1)*bd(2)*bd(3)+(bd(4)+bd(4))*bd(5)*bd(6) &
+          + bd(1)*(c1-c2) + bd(2)*(c1-c3)
 
-    !       Set constants
+     !       Set constants
 
-    c1 = 2.d0*sqrt(b2*thrd)
-    c2 = 4.d0*b3
-    c3 = c1*c1*c1
-    al = atan2(sqrt(abs(c3*c3-c2*c2)),c2)*thrd
+     c1 = 2.d0*sqrt(b2*thrd)
+     c2 = 4.d0*b3
+     c3 = c1*c1*c1
+     al = atan2(sqrt(abs(c3*c3-c2*c2)),c2)*thrd
 
-    !       Set principal values
+     !       Set principal values
 
-    bpr(1) = b1 + c1*cos(al)
-    bpr(2) = b1 + c1*cos(al-pi23)
-    bpr(3) = b1 + c1*cos(al+pi23)
+     bpr(1) = b1 + c1*cos(al)
+     bpr(2) = b1 + c1*cos(al-pi23)
+     bpr(3) = b1 + c1*cos(al+pi23)
 
   endif
 

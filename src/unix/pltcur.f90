@@ -11,4 +11,4 @@ subroutine pltcur()
   !     Routine to turn on screen cursor for text window
   !     N.B. Not needed for UNIX version
 
-  end
+end subroutine pltcur

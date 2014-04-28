@@ -1,6 +1,6 @@
 ! Id:$
 subroutine pcdisp(td,x,f,ntyp,ndm,ndf,numnp,numprt,gap0, &
-    prt,prth)
+     prt,prth)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -46,78 +46,78 @@ subroutine pcdisp(td,x,f,ntyp,ndm,ndf,numnp,numprt,gap0, &
   !     Find closest node to input coordinates
 
   if(prt .and. numprt <= 0) then
-    call prtitl(prth)
-    write(iow,2000) (i,i=1,ndf)
-    if(ior < 0) write(*,2000) (i,i=1,ndf)
-    numprt = 50
+     call prtitl(prth)
+     write(iow,2000) (i,i=1,ndf)
+     if(ior < 0) write(*,2000) (i,i=1,ndf)
+     numprt = 50
   endif
 
   clflg = .false. 
   do n = 1,numnp
-  if(ntyp(n) >= 0) then
-    tmn = dotx(td(1),x(1,n),ndm)
-    if(clflg) then
-      if(tmn < gmn) then
-        gmn = tmn
-      endif
-      do i = 1,min(ndm,3)
-      xmn(i) = min(xmn(i),x(i,n))
-      xmx(i) = max(xmx(i),x(i,n))
-      end do ! i
-    else
-      gmn   =  tmn
-      clflg = .true. 
-      do i = 1,min(ndm,3)
-      xmn(i) = x(i,n)
-      xmx(i) = x(i,n)
-      end do ! i
-    endif
-  endif
+     if(ntyp(n) >= 0) then
+        tmn = dotx(td(1),x(1,n),ndm)
+        if(clflg) then
+           if(tmn < gmn) then
+              gmn = tmn
+           endif
+           do i = 1,min(ndm,3)
+              xmn(i) = min(xmn(i),x(i,n))
+              xmx(i) = max(xmx(i),x(i,n))
+           end do ! i
+        else
+           gmn   =  tmn
+           clflg = .true. 
+           do i = 1,min(ndm,3)
+              xmn(i) = x(i,n)
+              xmx(i) = x(i,n)
+           end do ! i
+        endif
+     endif
   end do
 
   !     Set search gap
 
   tmn = 0.0d0
   do i = 1,min(ndm,3)
-  tmn = max(xmx(i) - xmn(i),tmn)
+     tmn = max(xmx(i) - xmn(i),tmn)
   end do ! i
 
   if(gap0 == 0.0d0) then
-    gmn = gmn + tmn*1.d-10
+     gmn = gmn + tmn*1.d-10
   else
-    gmn = gmn + gap0
+     gmn = gmn + gap0
   endif
 
   !     Set displacement value
 
   if(clflg) then
-    do nbc = 1,numnp
-    if(ntyp(nbc) >= 0) then
-      tmn = dotx(td(1),x(1,nbc),ndm)
-      if(tmn <= gmn) then
-        do n = 1,ndf
-        f(n,nbc) = td(ndm+n)
-        end do
+     do nbc = 1,numnp
+        if(ntyp(nbc) >= 0) then
+           tmn = dotx(td(1),x(1,nbc),ndm)
+           if(tmn <= gmn) then
+              do n = 1,ndf
+                 f(n,nbc) = td(ndm+n)
+              end do
 
-        !             Output current displacement set
+              !             Output current displacement set
 
-        if(prt) then
-          write(iow,2001) nbc,(f(i,nbc),i=1,ndf)
-          if(ior < 0) then
-            write(*,2001) nbc,(f(i,nbc),i=1,ndf)
-          endif
-          numprt = numprt - 1
-        endif
-      endif ! tmn < gmn
-    endif ! ntyp(n) > 0
-    end do ! nbc
+              if(prt) then
+                 write(iow,2001) nbc,(f(i,nbc),i=1,ndf)
+                 if(ior < 0) then
+                    write(*,2001) nbc,(f(i,nbc),i=1,ndf)
+                 endif
+                 numprt = numprt - 1
+              endif
+           endif ! tmn < gmn
+        endif ! ntyp(n) > 0
+     end do ! nbc
   endif ! clflg = .true. 
 
   !     Formats
 
-  2000 format('  C o o r d i n a t e    N o d a l    V a l u e s'/ &
-    /4x,'Node',6(i6,'-Displ'):/(8x,6(i6,'-Displ')))
+2000 format('  C o o r d i n a t e    N o d a l    V a l u e s'/ &
+       /4x,'Node',6(i6,'-Displ'):/(8x,6(i6,'-Displ')))
 
-  2001 format(i8,1p,6e12.4:/(8x,1p,6e12.4))
+2001 format(i8,1p,6e12.4:/(8x,1p,6e12.4))
 
 end subroutine pcdisp

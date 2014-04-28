@@ -31,7 +31,7 @@ subroutine pfacex(il,ix,ixf,nen,nen1,nf,n)
   !     Set face nodes
 
   do j = 1,min(4,nen)
-  ixf(j) = ix(il(j))
+     ixf(j) = ix(il(j))
   end do
 
   !     Set region and material number

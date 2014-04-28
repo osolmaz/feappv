@@ -27,7 +27,7 @@ subroutine pmove(a,b,nn)
   !     Move a-array into b-array
 
   do n = 1,nn
-  b(n) = a(n)
+     b(n) = a(n)
   end do
 
 end subroutine pmove

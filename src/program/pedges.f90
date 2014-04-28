@@ -44,79 +44,79 @@ subroutine pedges(x,id,ndm,ndf,numnp,vtype,prt,prth,name)
   label = name
   gap   = 1.0d-3/sqrt(dble(max(1,numnp)))
   gapfl = .false. 
-  100 if(ior < 0) write(*,3001)
+100 if(ior < 0) write(*,3001)
   errck = tinput(text,1,td(2),ndf+1)
   if(errck) go to 100
   if(pcomp(text,'gap',3)) then
-    gap   = td(2)
-    gapfl = .true. 
-    if(prt) then
-      write(iow,2002) gap
-      if(ior < 0) then
-        write(*,2002) gap
-      endif
-    endif
-    go to 100
+     gap   = td(2)
+     gapfl = .true. 
+     if(prt) then
+        write(iow,2002) gap
+        if(ior < 0) then
+           write(*,2002) gap
+        endif
+     endif
+     go to 100
   else
-    errck = vinput(text,15,td(1),1)
-    i     = nint(td(1))
+     errck = vinput(text,15,td(1),1)
+     i     = nint(td(1))
   endif
   if(i <= 0 .or. i > ndm) go to 4
   x0 = td(2)
   do j = 1,ndf
-  idl(j) = nint(td(j+2))
+     idl(j) = nint(td(j+2))
   end do ! j
   if(gapfl) then
-    dx = gap
+     dx = gap
   else
-    dx = pdiff(x,i,ndm,numnp)*gap
+     dx = pdiff(x,i,ndm,numnp)*gap
   endif
   do n = 1,numnp
-  if(mr(np(49)-1+n) >= 0 .and. abs(x(i,n)-x0) <= dx) then
-    if(pcomp(vtype,'add',3)) then
-      do j = 1,ndf
-      id(j,n) = max(abs(id(j,n)),abs(idl(j)))
-      end do ! j
-    else
-      do j = 1,ndf
-      id(j,n) = abs(idl(j))
-      end do ! j
-    endif
-  endif
+     if(mr(np(49)-1+n) >= 0 .and. abs(x(i,n)-x0) <= dx) then
+        if(pcomp(vtype,'add',3)) then
+           do j = 1,ndf
+              id(j,n) = max(abs(id(j,n)),abs(idl(j)))
+           end do ! j
+        else
+           do j = 1,ndf
+              id(j,n) = abs(idl(j))
+           end do ! j
+        endif
+     endif
   end do ! n
   go to 100
 
-  4 call prtitl(prth)
+4 call prtitl(prth)
   if(prt) then
-    write(iow,2000) label,(i,label,i=1,ndf)
-    if(ior < 0) then
-      write(*,2000) label,(i,label,i=1,ndf)
-    endif
+     write(iow,2000) label,(i,label,i=1,ndf)
+     if(ior < 0) then
+        write(*,2000) label,(i,label,i=1,ndf)
+     endif
   endif
 
   do n = 1,numnp
-  do i = 1,ndf
-  if(id(i,n) /= 0) go to 400
-  end do ! i
-  go to 410
-  400 if(prt .and. mr(np(49)-1+n) >= 0) then
-    write(iow,2001) n,(id(i,n),i=1,ndf)
-    if(ior < 0) then
-      write(*,2001) n,(id(i,n),i=1,ndf)
-    endif
-  endif
-  410 continue
+     do i = 1,ndf
+        if(id(i,n) /= 0) go to 400
+     end do ! i
+     go to 410
+400  if(prt .and. mr(np(49)-1+n) >= 0) then
+        write(iow,2001) n,(id(i,n),i=1,ndf)
+        if(ior < 0) then
+           write(*,2001) n,(id(i,n),i=1,ndf)
+        endif
+     endif
+410  continue
   end do ! n
 
   !     Formats
 
-  2000 format('  E d g e    N o d a l    ',a4/ &
-    /(4x,'node',9(i3,'-',a4)))
+2000 format('  E d g e    N o d a l    ',a4/ &
+       /(4x,'node',9(i3,'-',a4)))
 
-  2001 format(10i8)
+2001 format(10i8)
 
-  2002 format(/'     Search gap =',1p,1e12.4/)
+2002 format(/'     Search gap =',1p,1e12.4/)
 
-  3001 format(' Input: ndir,x(ndir),(idl(i),i=1,ndf)','   >',$)
+3001 format(' Input: ndir,x(ndir),(idl(i),i=1,ndf)','   >',$)
 
 end subroutine pedges

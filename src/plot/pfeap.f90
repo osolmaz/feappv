@@ -61,9 +61,9 @@ subroutine pfeap(xl,yl,siz,color,border)
 
   size = 200.0/siz
   if(border <= 1) then
-    is = 1
+     is = 1
   else
-    is = 3
+     is = 3
   endif
 
   !     F
@@ -72,7 +72,7 @@ subroutine pfeap(xl,yl,siz,color,border)
   dixl = xl*size + ixl(1)
   call dplot((ifx(1)+dixl)/size,ify(1)/size+yl,is)
   do i = 2,11
-  call dplot((ifx(i)+dixl)/size,ify(i)/size+yl,2)
+     call dplot((ifx(i)+dixl)/size,ify(i)/size+yl,2)
   end do
   if(is == 1) call clpan
 
@@ -81,7 +81,7 @@ subroutine pfeap(xl,yl,siz,color,border)
   dixl = xl*size + ixl(2)
   call dplot((iex(1)+dixl)/size,iey(1)/size+yl,is)
   do i = 2,13
-  call dplot((iex(i)+dixl)/size,iey(i)/size+yl,2)
+     call dplot((iex(i)+dixl)/size,iey(i)/size+yl,2)
   end do
   if(is == 1) call clpan
 
@@ -90,11 +90,11 @@ subroutine pfeap(xl,yl,siz,color,border)
   dixl = xl*size + ixl(3)
   call dplot((iax(1)+dixl)/size,iay(1)/size+yl,is)
   do i = 2,12
-  call dplot((iax(i)+dixl)/size,iay(i)/size+yl,2)
+     call dplot((iax(i)+dixl)/size,iay(i)/size+yl,2)
   end do
 
   if(is == 1) then
-    call clpan
+     call clpan
   endif
 
   !     P
@@ -103,11 +103,11 @@ subroutine pfeap(xl,yl,siz,color,border)
   dixl = xl*size + ixl(4)
   call dplot((ipx(1)+dixl)/size,ipy(1)/size+yl,is)
   do i = 2,15
-  call dplot((ipx(i)+dixl)/size,ipy(i)/size+yl,2)
+     call dplot((ipx(i)+dixl)/size,ipy(i)/size+yl,2)
   end do
 
   if(is == 1) then
-    call clpan
+     call clpan
   endif
 
   !     P
@@ -117,11 +117,11 @@ subroutine pfeap(xl,yl,siz,color,border)
   dixl = xl*sizesm + ixl(5)
   call dplot((ipx(1)+dixl)/sizesm,ipy(1)/sizesm+yl,is)
   do i = 2,15
-  call dplot((ipx(i)+dixl)/sizesm,ipy(i)/sizesm+yl,2)
+     call dplot((ipx(i)+dixl)/sizesm,ipy(i)/sizesm+yl,2)
   end do
 
   if(is == 1) then
-    call clpan
+     call clpan
   endif
 
   !     V
@@ -130,11 +130,11 @@ subroutine pfeap(xl,yl,siz,color,border)
   dixl = xl*sizesm + ixl(6)
   call dplot((ivx(1)+dixl)/sizesm,ivy(1)/sizesm+yl,is)
   do i = 2,8
-  call dplot((ivx(i)+dixl)/sizesm,ivy(i)/sizesm+yl,2)
+     call dplot((ivx(i)+dixl)/sizesm,ivy(i)/sizesm+yl,2)
   end do
 
   if(is == 1) then
-    call clpan
+     call clpan
   endif
 
   !     Restore line type

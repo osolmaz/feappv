@@ -30,22 +30,22 @@ subroutine protv(nty,u,angl,ndm,ndf,numnp, du)
   save
 
   do n = 1,numnp
-  if(nty(n) >= 0) then
-    do i = 1,ndf
-    du(i,n) = u(i,n)
-    end do
-    if(ndm > 1 .and. ndf > 1 .and. angl(n) /= 0.0d0) then
-      ang = angl(n)*0.017453292d0
-      cn  = cos(ang)
-      sn  = sin(ang)
-      du(1,n) = u(1,n)*cn - u(2,n)*sn
-      du(2,n) = u(1,n)*sn + u(2,n)*cn
-    endif
-  else
-    do i = 1,ndf
-    du(i,n) = 0.0d0
-    end do
-  endif
+     if(nty(n) >= 0) then
+        do i = 1,ndf
+           du(i,n) = u(i,n)
+        end do
+        if(ndm > 1 .and. ndf > 1 .and. angl(n) /= 0.0d0) then
+           ang = angl(n)*0.017453292d0
+           cn  = cos(ang)
+           sn  = sin(ang)
+           du(1,n) = u(1,n)*cn - u(2,n)*sn
+           du(2,n) = u(1,n)*sn + u(2,n)*cn
+        endif
+     else
+        do i = 1,ndf
+           du(i,n) = 0.0d0
+        end do
+     endif
   end do
 
 end subroutine protv

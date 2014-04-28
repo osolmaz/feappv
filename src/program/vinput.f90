@@ -31,7 +31,7 @@ logical function vinput(xxx,nc,d,nn)
   vinput = .false. 
 
   do n = 1,nn
-  d(n) = 0.0d0
+     d(n) = 0.0d0
   end do ! n
 
   !     If no characters in list return
@@ -43,66 +43,66 @@ logical function vinput(xxx,nc,d,nn)
   is = 0
   iv = 1
   if(nc >= 3) then
-    if(pcomp(xxx,'off',3)) then
-      d(1) = 1.0d0
-      iv   = 2
-      do is = 4,nc
-      if(cksep(xxx(is:is))) go to 10
-      end do ! is
-      is   = nc - 2
-    endif
+     if(pcomp(xxx,'off',3)) then
+        d(1) = 1.0d0
+        iv   = 2
+        do is = 4,nc
+           if(cksep(xxx(is:is))) go to 10
+        end do ! is
+        is   = nc - 2
+     endif
   endif
   if(nc >= 2) then
-    if(pcomp(xxx,'on',2)) then
-      d(1) = 0.0d0
-      iv   = 2
-      do is = 3,nc
-      if(cksep(xxx(is:is))) go to 10
-      end do ! is
-      is   = nc - 2
-    endif
+     if(pcomp(xxx,'on',2)) then
+        d(1) = 0.0d0
+        iv   = 2
+        do is = 3,nc
+           if(cksep(xxx(is:is))) go to 10
+        end do ! is
+        is   = nc - 2
+     endif
   endif
 
-  10 is = is + 1
+10 is = is + 1
   do nl = nc,is,-1
-  if(xxx(nl:nl) /= ' ') go to 20
+     if(xxx(nl:nl) /= ' ') go to 20
   end do ! nl
   return
 
   !     Parse instruction
 
-  20 no = is
+20 no = is
   nv = iv
 
   !     Skip leading blank characters
 
   do n = is,nl
-  if(xxx(n:n) /= ' ') go to 25
+     if(xxx(n:n) /= ' ') go to 25
   end do ! n
 
   !     Check characters
 
-  25 iau = ichar('A')
+25 iau = ichar('A')
   izu = ichar('Z')
   id  = ichar('a') - iau
 
   !     Check for upper case letters
 
-  30 nu = ichar(xxx(n:n))
+30 nu = ichar(xxx(n:n))
   if(nu >= iau .and. nu <= izu) then
-    xxx(n:n) = char(nu+id)
+     xxx(n:n) = char(nu+id)
   endif
 
   !     Format separators are blanks, commas, or equals
 
   if(cksep(xxx(n:n))) then
-    if(n > no) call setval(xxx(no:n),n-no,d(nv))
-    31 n  = n  + 1
-    if(n < nl .and. xxx(n:n) == ' ') go to 31
-    no = n
-    nv = nv + 1
+     if(n > no) call setval(xxx(no:n),n-no,d(nv))
+31   n  = n  + 1
+     if(n < nl .and. xxx(n:n) == ' ') go to 31
+     no = n
+     nv = nv + 1
   else
-    n  = n + 1
+     n  = n + 1
   endif
   if(n <= nl .and. nv <= nn) go to 30
 

@@ -31,7 +31,7 @@ subroutine umacr2(lct,ctl)
   !     Set command word
 
   if( .not. pcomp(uct,'mac2',4)) then
-    !       uct = 'name'                    ! Specify 'name'
+     !       uct = 'name'                    ! Specify 'name'
   elseif(urest == 1) then           ! Read  restart data
 
   elseif(urest == 2) then           ! Write restart data

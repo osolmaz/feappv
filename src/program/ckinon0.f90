@@ -23,10 +23,10 @@ logical function ckinon0(v, nn )
   save
 
   do n = 1,nn
-  if(v(n) /= 0) then
-    ckinon0 = .true. 
-    return
-  endif
+     if(v(n) /= 0) then
+        ckinon0 = .true. 
+        return
+     endif
   end do ! n
 
   !     Set false to indicate vector is zero

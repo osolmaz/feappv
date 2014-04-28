@@ -30,10 +30,10 @@ integer function inza(n1, n2, ir, k, n)
   !     Find term for assembly.
 
   do i = n1, n2
-  if(ir(i) == k) then
-    inza = i
-    return
-  endif
+     if(ir(i) == k) then
+        inza = i
+        return
+     endif
   end do ! i
 
   !     ERROR if loop exits.
@@ -45,8 +45,8 @@ integer function inza(n1, n2, ir, k, n)
 
   !     Format
 
-  2000 format(/5x,'INZA: Eq. No. =',i8,' Col. No. =',i8/ &
-    &         5x,'     Col. top =',i8,' Col. Bot =',i8/ &
-    &         5x,'     Column entries'/ (5x,8i8))
+2000 format(/5x,'INZA: Eq. No. =',i8,' Col. No. =',i8/ &
+       &         5x,'     Col. top =',i8,' Col. Bot =',i8/ &
+       &         5x,'     Column entries'/ (5x,8i8))
 
 end function inza

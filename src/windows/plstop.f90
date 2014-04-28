@@ -32,8 +32,8 @@ subroutine plstop()
   if (hdcpy) call fpplcl()
 
   if(everon) then
-    status = vclrwk()
-    status = vclswk()
+     status = vclrwk()
+     status = vclswk()
   endif
 
   !     Clear last time history plot
@@ -45,4 +45,4 @@ subroutine plstop()
 
   stop
 
-  end
+end subroutine plstop

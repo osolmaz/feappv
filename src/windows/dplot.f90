@@ -49,15 +49,15 @@ subroutine dplot(x,y,ipin)
   ipen = abs(ipin)
 
   if(fwin .and. clchk) then
-    iwx1 = int(wmin(1)*idx/idxl) + wxy(1,1,iwindow)
-    iwy1 = int(wmin(2)*idy/idyl) + wxy(2,1,iwindow)
-    iwx2 = int(wmax(1)*idx/idxl) + wxy(1,1,iwindow)
-    iwy2 = int(wmax(2)*idy/idyl) + wxy(2,1,iwindow)
+     iwx1 = int(wmin(1)*idx/idxl) + wxy(1,1,iwindow)
+     iwy1 = int(wmin(2)*idy/idyl) + wxy(2,1,iwindow)
+     iwx2 = int(wmax(1)*idx/idxl) + wxy(1,1,iwindow)
+     iwy2 = int(wmax(2)*idy/idyl) + wxy(2,1,iwindow)
   else
-    iwx1 = wxy(1,1,iwindow)
-    iwy1 = wxy(2,1,iwindow)
-    iwx2 = wxy(1,2,iwindow)
-    iwy2 = wxy(2,2,iwindow)
+     iwx1 = wxy(1,1,iwindow)
+     iwy1 = wxy(2,1,iwindow)
+     iwx2 = wxy(1,2,iwindow)
+     iwy2 = wxy(2,2,iwindow)
   endif
 
   !     Set current clip region size
@@ -74,68 +74,68 @@ subroutine dplot(x,y,ipin)
   jy1 = y*idy
 
   if(ipen == 1) then
-    ixy(1,1) = jx1
-    ixy(2,1) = jy1
-    npf      = 1
+     ixy(1,1) = jx1
+     ixy(2,1) = jy1
+     npf      = 1
   elseif(ipen == 2 .and. npf > 0) then
-    npf        = npf + 1
-    ixy(1,npf) = jx1
-    ixy(2,npf) = jy1
+     npf        = npf + 1
+     ixy(1,npf) = jx1
+     ixy(2,npf) = jy1
   elseif(ipen == 2 .and. npf <= 0) then
-    ixy(1,1) = jx1
-    ixy(2,1) = jy1
-    if(screfl) status = vpline(ixy,2)
+     ixy(1,1) = jx1
+     ixy(2,1) = jy1
+     if(screfl) status = vpline(ixy,2)
   elseif(ipen == 3) then
-    npf      = -1
-    ixy(1,1) = jx1
-    ixy(2,1) = jy1
-    if(screfl) status = vpline(ixy,3)
+     npf      = -1
+     ixy(1,1) = jx1
+     ixy(2,1) = jy1
+     if(screfl) status = vpline(ixy,3)
   endif
 
   !     Postcript
 
   if(hdcpy) then
 
-    if(fwin .and. clchk) then
-      if(psoff) then
-        call fppsin(' cl ')
-        psoff = .false. 
-      endif
-    elseif( .not. psoff) then
-      call fppsin(' fl ')
-      psoff = .true. 
-    endif
+     if(fwin .and. clchk) then
+        if(psoff) then
+           call fppsin(' cl ')
+           psoff = .false. 
+        endif
+     elseif( .not. psoff) then
+        call fppsin(' fl ')
+        psoff = .true. 
+     endif
 
-    !       Set points if necessary
+     !       Set points if necessary
 
-    if (ipen == 1) then
-      xp(1) = 0.78125d0*x
-      yp(1) = 0.78125d0*y
-      ipan  = 1
-    elseif(ipen == 2) then
-      if(ipan == 0) then
+     if (ipen == 1) then
+        xp(1) = 0.78125d0*x
+        yp(1) = 0.78125d0*y
+        ipan  = 1
+     elseif(ipen == 2) then
+        if(ipan == 0) then
+           xp(1) = xp(2)
+           yp(1) = yp(2)
+           xp(2) = 0.78125d0*x
+           yp(2) = 0.78125d0*y
+        elseif(ipan >= 1) then
+           ipan = ipan + 1
+           xp(ipan) = 0.78125d0*x
+           yp(ipan) = 0.78125d0*y
+        endif
+     elseif(ipen == 3) then
         xp(1) = xp(2)
         yp(1) = yp(2)
         xp(2) = 0.78125d0*x
         yp(2) = 0.78125d0*y
-      elseif(ipan >= 1) then
-        ipan = ipan + 1
-        xp(ipan) = 0.78125d0*x
-        yp(ipan) = 0.78125d0*y
-      endif
-    elseif(ipen == 3) then
-      xp(1) = xp(2)
-      yp(1) = yp(2)
-      xp(2) = 0.78125d0*x
-      yp(2) = 0.78125d0*y
-    endif
+     endif
 
-    !       Plot line segment
+     !       Plot line segment
 
-    if(ipan == 0 .and. ipen == 2) then
-      call fpplps(2, xp, yp)
-    endif
+     if(ipan == 0 .and. ipen == 2) then
+        call fpplps(2, xp, yp)
+     endif
 
   endif
 
-  end
+end subroutine dplot

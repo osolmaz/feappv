@@ -48,12 +48,12 @@ subroutine pfclip(os,is)
   !     Add corner points to list
 
   cs = os
-  100 if(cs /= is) then
-    cs   = mod(cs,4) + 1
-    ipan     = ipan + 1
-    xp(ipan) = real(xc(cs)*0.78125d0)
-    yp(ipan) = real(yc(cs)*0.78125d0)
-    go to 100
+100 if(cs /= is) then
+     cs   = mod(cs,4) + 1
+     ipan     = ipan + 1
+     xp(ipan) = real(xc(cs)*0.78125d0)
+     yp(ipan) = real(yc(cs)*0.78125d0)
+     go to 100
   end if
 
-  end
+end subroutine pfclip

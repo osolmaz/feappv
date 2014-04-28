@@ -43,35 +43,35 @@ subroutine plopen
   icol   = 1
 
   if(iclear == 0) then
-    if(screfl) status = vclrwk()
+     if(screfl) status = vclrwk()
   endif
 
   !     PostScript
 
   if(iclear == 0) then
-    iclear = 1
+     iclear = 1
 
-    !       Put up border
+     !       Put up border
 
-    if ( hdlogo .and. hdcpy ) then
-      hdcpy = .false. 
-      ifrfl = 1
-    endif
+     if ( hdlogo .and. hdcpy ) then
+        hdcpy = .false. 
+        ifrfl = 1
+     endif
 
-    if(iwindow == 1) then
-      if(bordfl) call plbord(icol)
+     if(iwindow == 1) then
+        if(bordfl) call plbord(icol)
 
-      !         Put up logo for feap
+        !         Put up logo for feap
 
-      call pfeap(0.983d0,0.017d0,0.250d0,3,3)
-      call pfeap(0.980d0,0.020d0,0.250d0,2,1)
-    endif
+        call pfeap(0.983d0,0.017d0,0.250d0,3,3)
+        call pfeap(0.980d0,0.020d0,0.250d0,2,1)
+     endif
 
-    if (ifrfl == 1) then
-      hdcpy = hdcpyo
-      ifrfl = 0
-    endif
+     if (ifrfl == 1) then
+        hdcpy = hdcpyo
+        ifrfl = 0
+     endif
 
   endif
 
-  end
+end subroutine plopen

@@ -19,11 +19,11 @@ subroutine pushv3f (fi,v)
   !     Push-forward a 1 covariant vector.
 
   do i =1,3
-  t(i) = v(1)*fi(1,i) + v(2)*fi(2,i) + v(3)*fi(3,i)
+     t(i) = v(1)*fi(1,i) + v(2)*fi(2,i) + v(3)*fi(3,i)
   end do ! i
 
   do i = 1,3
-  v(i) = t(i)
+     v(i) = t(i)
   end do ! i
 
 end subroutine pushv3f

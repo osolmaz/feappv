@@ -45,14 +45,14 @@ subroutine plotl(xx1,xx2,xx3,ipen)
   !     Perform perspective tranformation
 
   if(kpers == 1) then
-    xg(1) = x1
-    xg(2) = x2
-    xg(3) = x3
-    call perspj(xg,ntyp,1,errv)
-    if(lview) return
-    x1 = xg(1)
-    x2 = xg(2)
-    x3 = xg(3)
+     xg(1) = x1
+     xg(2) = x2
+     xg(3) = x3
+     call perspj(xg,ntyp,1,errv)
+     if(lview) return
+     x1 = xg(1)
+     x2 = xg(2)
+     x3 = xg(3)
   endif
 
   !     Compute the normal coordinates

@@ -46,53 +46,53 @@ subroutine plot2d(ie,ix,ip,x,xl,nie,ndm,nen,nen1,nume,n1,n2)
 
   do nn = 1,nume
 
-  n  = ip(nn)
+     n  = ip(nn)
 
-  if(n > 0) then
-    if(ix(nen1-1,n) >= 0) then
+     if(n > 0) then
+        if(ix(nen1-1,n) >= 0) then
 
-      ma = ix(nen1,n)
+           ma = ix(nen1,n)
 
-      !           Plot correct material number: ma > 0 active material
+           !           Plot correct material number: ma > 0 active material
 
-      if( maplt == 0 .or. ma == maplt) then
-        if(n1 == 0) then
-          icolr = ma + 1
-        elseif(n1 < 0) then
-          icolr = mod(ix(nen1-1,n),7) + 1
-        else
-          icolr = n1
+           if( maplt == 0 .or. ma == maplt) then
+              if(n1 == 0) then
+                 icolr = ma + 1
+              elseif(n1 < 0) then
+                 icolr = mod(ix(nen1-1,n),7) + 1
+              else
+                 icolr = n1
+              endif
+              call pppcol(icolr,0)
+
+              do i = 1,nen
+                 ii = abs(ix(i,n))
+                 if(ii > 0) then
+                    nel = i
+                    do j = 1,ndm
+                       xl(j,i) = x(j,ii)
+                    end do
+                 else
+                    do j = 1,ndm
+                       xl(j,i) = 0.0d0
+                    end do
+                 endif
+              end do
+
+              !             Check for a line element
+
+              if(ix(1,n) == ix(4,n) .and. ix(2,n) == ix(3,n)) nel = 2
+
+              if(n2 > 0) then
+                 isp = -1
+              else
+                 isp =  1
+              endif
+              call plot9(ie(nie-1,ma),ix(1,n),xl,ndm,nel,isp)
+
+           endif
         endif
-        call pppcol(icolr,0)
-
-        do i = 1,nen
-        ii = abs(ix(i,n))
-        if(ii > 0) then
-          nel = i
-          do j = 1,ndm
-          xl(j,i) = x(j,ii)
-          end do
-        else
-          do j = 1,ndm
-          xl(j,i) = 0.0d0
-          end do
-        endif
-        end do
-
-        !             Check for a line element
-
-        if(ix(1,n) == ix(4,n) .and. ix(2,n) == ix(3,n)) nel = 2
-
-        if(n2 > 0) then
-          isp = -1
-        else
-          isp =  1
-        endif
-        call plot9(ie(nie-1,ma),ix(1,n),xl,ndm,nel,isp)
-
-      endif
-    endif
-  endif
+     endif
   end do
 
 end subroutine plot2d

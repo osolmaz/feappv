@@ -45,34 +45,34 @@ subroutine pltelm(x,ie,ix,scale,nie,ndm,nen1,n1,n2)
   dx1 = .005d0/scale
   nd = 5
   do n = n1,n2
-  ma = ix(nen1,n)
-  if(ix(nen1-1,n) >= 0 .and. maplt == 0 .or. ma == maplt) then
-    xx(1) = 0.0d0
-    xx(2) = 0.0d0
-    xx(3) = 0.0d0
-    jj = 0
-    call pltord(ix(1,n),ie(nie-1,ma), nn,iplt)
-    nn = max(1,nn-1)
-    do i = 1,nn
-    j  = iplt(i)
-    ii = ix(j,n)
-    if(ii > 0) then
-      jj = jj + 1
-      xx(1) = xx(1) + x(1,ii)
-      if(ndm >= 2) xx(2) = xx(2) + x(2,ii)
-      if(ndm >= 3) xx(3) = xx(3) + x(3,ii)
-    endif
-    end do
-    if(jj > 0) then
-      xx(1) = xx(1)/jj
-      xx(2) = xx(2)/jj
-      xx(3) = xx(3)/jj
-      if(zoom(xx(1),ndm)) then
-        call plotl(xx(1)-dx1*nd,xx(2)-dx1,xx(3),3)
-        if(clip) call plabl(n)
-      endif
-    endif
-  endif
+     ma = ix(nen1,n)
+     if(ix(nen1-1,n) >= 0 .and. maplt == 0 .or. ma == maplt) then
+        xx(1) = 0.0d0
+        xx(2) = 0.0d0
+        xx(3) = 0.0d0
+        jj = 0
+        call pltord(ix(1,n),ie(nie-1,ma), nn,iplt)
+        nn = max(1,nn-1)
+        do i = 1,nn
+           j  = iplt(i)
+           ii = ix(j,n)
+           if(ii > 0) then
+              jj = jj + 1
+              xx(1) = xx(1) + x(1,ii)
+              if(ndm >= 2) xx(2) = xx(2) + x(2,ii)
+              if(ndm >= 3) xx(3) = xx(3) + x(3,ii)
+           endif
+        end do
+        if(jj > 0) then
+           xx(1) = xx(1)/jj
+           xx(2) = xx(2)/jj
+           xx(3) = xx(3)/jj
+           if(zoom(xx(1),ndm)) then
+              call plotl(xx(1)-dx1*nd,xx(2)-dx1,xx(3),3)
+              if(clip) call plabl(n)
+           endif
+        endif
+     endif
   end do
 
-  end
+end subroutine pltelm

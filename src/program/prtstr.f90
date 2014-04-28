@@ -43,46 +43,46 @@ subroutine prtstr(x,dp,ds,ndm,numnp,n1,n2,n3,prth)
 
   ista = 0
   do n = 1,abs(istv)
-  if(cknon0(ds(1,n),numnp) ) ista = n
+     if(cknon0(ds(1,n),numnp) ) ista = n
   end do
 
   if(ista > 0) then
-    count = 0
-    nxt1  = max(1,nxt)
-    do n = n1,n2,n3
-    if( nxt == 0 .or. abs(x(nxt1,n)-xt) <= xtol ) then
-      vnon0 = .false. 
-      do i = 1,ista
-      if(ds(n,i) /= 0.0d0) vnon0 = .true. 
-      end do
-      if(vnon0) then
-        count = count - 1
-        if(count <= 0) then
-          call prtitl(prth)
-          write(iow,2000) (i,i=1,3),(i,i=1,ista)
-          if(ior < 0 .and. pfr) then
-            write(*,2000) (i,i=1,3),(i,i=1,ista)
-          endif
-          count = 50
+     count = 0
+     nxt1  = max(1,nxt)
+     do n = n1,n2,n3
+        if( nxt == 0 .or. abs(x(nxt1,n)-xt) <= xtol ) then
+           vnon0 = .false. 
+           do i = 1,ista
+              if(ds(n,i) /= 0.0d0) vnon0 = .true. 
+           end do
+           if(vnon0) then
+              count = count - 1
+              if(count <= 0) then
+                 call prtitl(prth)
+                 write(iow,2000) (i,i=1,3),(i,i=1,ista)
+                 if(ior < 0 .and. pfr) then
+                    write(*,2000) (i,i=1,3),(i,i=1,ista)
+                 endif
+                 count = 50
+              endif
+              write(iow,2001) n,(dp(n,i),i=1,7),(ds(n,i),i=1,ista)
+              if(ior < 0 .and. pfr) then
+                 write(*,2001) n,(dp(n,i),i=1,7),(ds(n,i),i=1,ista)
+              endif
+           endif
         endif
-        write(iow,2001) n,(dp(n,i),i=1,7),(ds(n,i),i=1,ista)
-        if(ior < 0 .and. pfr) then
-          write(*,2001) n,(dp(n,i),i=1,7),(ds(n,i),i=1,ista)
-        endif
-      endif
-    endif
-    end do
+     end do
   else
-    if(ior < 0 .and. pfr) write(*,*) 'All values zero'
-    write(iow,*) 'All values zero'
+     if(ior < 0 .and. pfr) write(*,*) 'All values zero'
+     write(iow,*) 'All values zero'
   endif
 
   !     Formats
 
-  2000 format('   N o d a l   P r o j e c t i o n s'//'   Node', &
-    &  3(i3,'-Pr.Value'),'  1-Pr.Angle'/ &
-    &  7x,'   I_1 Value   J_2 Value   J_3 Value'/(7x,6(i6,' Value')))
+2000 format('   N o d a l   P r o j e c t i o n s'//'   Node', &
+       &  3(i3,'-Pr.Value'),'  1-Pr.Angle'/ &
+       &  7x,'   I_1 Value   J_2 Value   J_3 Value'/(7x,6(i6,' Value')))
 
-  2001 format(/i7,1p,4e12.4/7x,1p,3e12.4/(7x,1p,6e12.4))
+2001 format(/i7,1p,4e12.4/7x,1p,3e12.4/(7x,1p,6e12.4))
 
 end subroutine prtstr

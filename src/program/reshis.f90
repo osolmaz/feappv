@@ -34,13 +34,13 @@ subroutine reshis(ix,nen1,numel,n1, n2)
   !     Move history variables from location 'n1' to 'n2'
 
   do n = 1,numel
-  nh1 = np(50) + ix(n1,n) - 1
-  nh2 = np(50) + ix(n2,n) - 1
-  if(nh2 /= nh1) then
-    do nh = 1,abs(ix(n2,n) - ix(n1,n))
-    hr(nh+nh2) = hr(nh+nh1)
-    end do ! nh
-  endif
+     nh1 = np(50) + ix(n1,n) - 1
+     nh2 = np(50) + ix(n2,n) - 1
+     if(nh2 /= nh1) then
+        do nh = 1,abs(ix(n2,n) - ix(n1,n))
+           hr(nh+nh2) = hr(nh+nh1)
+        end do ! nh
+     endif
   end do ! n
 
 end subroutine reshis

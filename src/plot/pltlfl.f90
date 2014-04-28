@@ -42,67 +42,67 @@ subroutine pltlfl(ns,xl,v,vc,nc)
   icx = ilc(1)
   icn = ilc(1)
   do i = 1,ns
-  vci      = max(vci,abs(v(i)))
-  vc(nc+1) = max(vc(nc+1),v(i))
-  icx      = max(ilc(i),icx)
-  icn      = min(ilc(i),icn)
+     vci      = max(vci,abs(v(i)))
+     vc(nc+1) = max(vc(nc+1),v(i))
+     icx      = max(ilc(i),icx)
+     icn      = min(ilc(i),icn)
   end do
   vc(nc+1)   = vc(nc+1)*1.001 + vci + 1.0d-8
   do icol = icn,icx
-  i = ipal(icol)
-  call pppcol(i,0)
-  k = 0
-  i = ns
-  do j = 1,ns
-  if((ilc(j) >= icol .and. ilc(i) <= icol) &
-    .and. (ilc(i) /= ilc(j))) then
-  if(icol-1 >= ilc(i)) then
-    s = (vc(icol-1)-v(i))/(v(j)-v(i))
-    k = k + 1
-    xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
-    yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
-    zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
-  endif
-  s = (vc(icol)-v(i))/(v(j)-v(i))
-  if(s < 1.0d0) then
-    k = k + 1
-    xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
-    yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
-    zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
-  endif
-elseif((ilc(i) >= icol .and. ilc(j) <= icol) &
-    .and. (ilc(i) /= ilc(j))) then
-  s = (vc(icol)-v(i))/(v(j)-v(i))
-  if(s >= 0.0d0) then
-    k = k + 1
-    xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
-    yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
-    zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
-  endif
-  if(icol-1 >= ilc(j)) then
-    s = (vc(icol-1)-v(i))/(v(j)-v(i))
-    k = k + 1
-    xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
-    yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
-    zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
-  endif
-endif
-if(ilc(j) == icol) then
-  k = k + 1
-  xp(k) = xl(1,j)
-  yp(k) = xl(2,j)
-  zp(k) = xl(3,j)
-endif
-i = j
-end do
+     i = ipal(icol)
+     call pppcol(i,0)
+     k = 0
+     i = ns
+     do j = 1,ns
+        if((ilc(j) >= icol .and. ilc(i) <= icol) &
+             .and. (ilc(i) /= ilc(j))) then
+           if(icol-1 >= ilc(i)) then
+              s = (vc(icol-1)-v(i))/(v(j)-v(i))
+              k = k + 1
+              xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
+              yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
+              zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
+           endif
+           s = (vc(icol)-v(i))/(v(j)-v(i))
+           if(s < 1.0d0) then
+              k = k + 1
+              xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
+              yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
+              zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
+           endif
+        elseif((ilc(i) >= icol .and. ilc(j) <= icol) &
+             .and. (ilc(i) /= ilc(j))) then
+           s = (vc(icol)-v(i))/(v(j)-v(i))
+           if(s >= 0.0d0) then
+              k = k + 1
+              xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
+              yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
+              zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
+           endif
+           if(icol-1 >= ilc(j)) then
+              s = (vc(icol-1)-v(i))/(v(j)-v(i))
+              k = k + 1
+              xp(k) = xl(1,i) + (xl(1,j)-xl(1,i))*s
+              yp(k) = xl(2,i) + (xl(2,j)-xl(2,i))*s
+              zp(k) = xl(3,i) + (xl(3,j)-xl(3,i))*s
+           endif
+        endif
+        if(ilc(j) == icol) then
+           k = k + 1
+           xp(k) = xl(1,j)
+           yp(k) = xl(2,j)
+           zp(k) = xl(3,j)
+        endif
+        i = j
+     end do
 
-!       Plot line of this color
+     !       Plot line of this color
 
-call plotl(xp(1),yp(1),zp(1),3)
-do j = 2,k
-call plotl(xp(j),yp(j),zp(j),2)
-end do
-call pppcol(0,0)
-end do
+     call plotl(xp(1),yp(1),zp(1),3)
+     do j = 2,k
+        call plotl(xp(j),yp(j),zp(j),2)
+     end do
+     call pppcol(0,0)
+  end do
 
-    end subroutine pltlfl
+end subroutine pltlfl

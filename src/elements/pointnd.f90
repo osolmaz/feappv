@@ -37,88 +37,88 @@ subroutine pointnd(d,ul,s,r,ndf,nst,isw)
 
   if(isw == 1) then
 
-    !       Record:
+     !       Record:
 
-    spring = .false. 
-    masses = .false. 
+     spring = .false. 
+     masses = .false. 
 
-    vtype = 'start'
-    do while( .not. pcomp(vtype,'    ',4))
+     vtype = 'start'
+     do while( .not. pcomp(vtype,'    ',4))
 
-    errck = tinput(vtype,1,td,6)
+        errck = tinput(vtype,1,td,6)
 
-    !         Mass parameter
+        !         Mass parameter
 
-    if    (pcomp(vtype,'mass',4)) then
+        if    (pcomp(vtype,'mass',4)) then
 
-      do i = 1,ndf
-      d(i) = td(i)
-      end do ! i
-      masses = .true. 
+           do i = 1,ndf
+              d(i) = td(i)
+           end do ! i
+           masses = .true. 
 
-      !         Spring parameter
+           !         Spring parameter
 
-    elseif(pcomp(vtype,'spri',4)) then
+        elseif(pcomp(vtype,'spri',4)) then
 
-      do i = 1,ndf
-      d(i+10) = td(i)
-      end do ! i
-      spring = .true. 
+           do i = 1,ndf
+              d(i+10) = td(i)
+           end do ! i
+           spring = .true. 
 
-      !         Inadmissible data
+           !         Inadmissible data
 
-    elseif( .not. pcomp(vtype,'    ',4)) then
-      write(  *,4000) vtype
-      write(iow,4000) vtype
+        elseif( .not. pcomp(vtype,'    ',4)) then
+           write(  *,4000) vtype
+           write(iow,4000) vtype
 
-    end if
+        end if
 
-    end do ! while
+     end do ! while
 
-    !       Output material properties
+     !       Output material properties
 
-    write(iow,2000)
-    if(masses) then
-      write(iow,2001) (i,d(i),i=1,ndf)
-    endif
-    if(spring) then
-      write(iow,2002) (i,d(i+10),i=1,ndf)
-    endif
+     write(iow,2000)
+     if(masses) then
+        write(iow,2001) (i,d(i),i=1,ndf)
+     endif
+     if(spring) then
+        write(iow,2002) (i,d(i+10),i=1,ndf)
+     endif
 
-    !       Set for no plots
+     !       Set for no plots
 
-    call pltpt1(iel)
+     call pltpt1(iel)
 
-    !     CHECK ELEMENTS
+     !     CHECK ELEMENTS
 
   elseif(isw == 2) then
 
-    !     COMPUTE ELEMENT STIFFNESS AND RESIDUAL ARRAYS
+     !     COMPUTE ELEMENT STIFFNESS AND RESIDUAL ARRAYS
 
   elseif(isw == 3  .or. isw == 6 ) then
 
-    do i = 1,ndf
-    r(i,1) = -d(i)*ul(i,1,5) - d(i+10)*ul(i,1,1)
-    s(i,i) =  d(i)*ctan(3)   + d(i+10)*ctan(1)
-    end do ! i
+     do i = 1,ndf
+        r(i,1) = -d(i)*ul(i,1,5) - d(i+10)*ul(i,1,1)
+        s(i,i) =  d(i)*ctan(3)   + d(i+10)*ctan(1)
+     end do ! i
 
-    !     COMPUTE MASS MATRIX
+     !     COMPUTE MASS MATRIX
 
   elseif(isw == 5) then
 
-    do i = 1,ndf
-    r(i,1) = d(i)
-    s(i,i) = d(i)
-    end do ! i
+     do i = 1,ndf
+        r(i,1) = d(i)
+        s(i,i) = d(i)
+     end do ! i
 
   endif
 
   !     I/O Formats
 
-  2000 format(9x,'P o i n t    E l e m e n t'/)
-  2001 format(14x,'MASS(',i1,')     :',1p,1e12.4)
-  2002 format(14x,'SPRING(',i1,')   :',1p,1e12.4)
+2000 format(9x,'P o i n t    E l e m e n t'/)
+2001 format(14x,'MASS(',i1,')     :',1p,1e12.4)
+2002 format(14x,'SPRING(',i1,')   :',1p,1e12.4)
 
-  4000 format(' *WARNING* Property: ',a,' is not valid')
+4000 format(' *WARNING* Property: ',a,' is not valid')
 
 end subroutine pointnd

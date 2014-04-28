@@ -56,7 +56,7 @@ subroutine dasol(al,au,ad,b,jp,neqs, neqt, energy)
   !     Find first non-zero entry in right hand side
 
   do is = 1,neqt
-  if(b(is) /= 0.0d0) go to 100
+     if(b(is) /= 0.0d0) go to 100
   end do
   if(ior > 0) write(iow,2000)
   if(ior < 0) write(*,2000)
@@ -66,46 +66,46 @@ subroutine dasol(al,au,ad,b,jp,neqs, neqt, energy)
 
   !     Do symmetric part
 
-  100 neq = max(1, neqs)
+100 neq = max(1, neqs)
   do j = is+1,neq
-  jr = jp(j-1)
-  jh = jp(j) - jr
-  if(jh > 0) then
-    b(j) = b(j) - dot(au(jr+1),b(j-jh),jh)
-  endif
+     jr = jp(j-1)
+     jh = jp(j) - jr
+     if(jh > 0) then
+        b(j) = b(j) - dot(au(jr+1),b(j-jh),jh)
+     endif
   end do
 
   !     Do unsymmetric part
 
   do j = max(is,neq)+1,neqt
-  jr = jp(j-1)
-  jh = jp(j) - jr
-  if(jh > 0) then
-    jr   = jr   - jp(neq)
-    b(j) = b(j) - dot(al(jr+1),b(j-jh),jh)
-  endif
+     jr = jp(j-1)
+     jh = jp(j) - jr
+     if(jh > 0) then
+        jr   = jr   - jp(neq)
+        b(j) = b(j) - dot(al(jr+1),b(j-jh),jh)
+     endif
   end do
 
   !     Multiply by inverse of diagonal elements
 
   do j = is,neqt
-  bd = b(j)
-  b(j) = b(j)*ad(j)
-  energy = energy + bd*b(j)
+     bd = b(j)
+     b(j) = b(j)*ad(j)
+     energy = energy + bd*b(j)
   end do
 
   !     Symmetric and unsymmetric backsubstitution
 
   do j = neqt,2,-1
-  jr = jp(j-1)
-  jh = jp(j) - jr
-  if(jh > 0) then
-    call colred(au(jr+1),b(j),jh, b(j-jh))
-  endif
+     jr = jp(j-1)
+     jh = jp(j) - jr
+     if(jh > 0) then
+        call colred(au(jr+1),b(j),jh, b(j-jh))
+     endif
   end do
 
   !     Warning format
 
-  2000 format(' *WARNING* Zero right-hand-side vector')
+2000 format(' *WARNING* Zero right-hand-side vector')
 
 end subroutine dasol

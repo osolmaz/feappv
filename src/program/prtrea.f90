@@ -38,37 +38,37 @@ subroutine prtrea(r,x,ndm,ndf,n1,n2,n3,prth)
   save
 
   do k = 1,ndf
-  psum(k) = 0.d0
-  rsum(k) = 0.d0
-  asum(k) = 0.d0
+     psum(k) = 0.d0
+     rsum(k) = 0.d0
+     asum(k) = 0.d0
   end do
   do i = 1,numnp
-  do k = 1,ndf
-  rsum(k) = rsum(k) - r(k,i)
-  asum(k) = asum(k) + dabs(r(k,i))
-  end do
+     do k = 1,ndf
+        rsum(k) = rsum(k) - r(k,i)
+        asum(k) = asum(k) + dabs(r(k,i))
+     end do
   end do
   count = 0
   nxt1  = max(1,nxt)
   do n = n1,n2,n3
-  if(nxt == 0 .or. abs(x(nxt1,n)-xt) <= xtol ) then
-    count = count - 1
-    do k = 1,ndf
-    psum(k) = psum(k) - r(k,n)
-    end do
-    if(count <= 0) then
-      call prtitl(prth)
-      write(iow,2000) (k,k=1,ndf)
-      if(ior < 0 .and. pfr) then
-        write(*,2000) (k,k=1,ndf)
-      endif
-      count = 50
-    endif
-    if(ior < 0 .and. pfr) then
-      write(*,2001) n,(-r(k,n),k=1,ndf)
-    endif
-    write(iow,2001) n,(-r(k,n),k=1,ndf)
-  endif
+     if(nxt == 0 .or. abs(x(nxt1,n)-xt) <= xtol ) then
+        count = count - 1
+        do k = 1,ndf
+           psum(k) = psum(k) - r(k,n)
+        end do
+        if(count <= 0) then
+           call prtitl(prth)
+           write(iow,2000) (k,k=1,ndf)
+           if(ior < 0 .and. pfr) then
+              write(*,2000) (k,k=1,ndf)
+           endif
+           count = 50
+        endif
+        if(ior < 0 .and. pfr) then
+           write(*,2001) n,(-r(k,n),k=1,ndf)
+        endif
+        write(iow,2001) n,(-r(k,n),k=1,ndf)
+     endif
   end do
 
   !     Print sum checks
@@ -77,22 +77,22 @@ subroutine prtrea(r,x,ndm,ndf,n1,n2,n3,prth)
   write(iow,2003) (rsum(k),k=1,ndf)
   write(iow,2004) (asum(k),k=1,ndf)
   if(ior < 0 .and. pfr) then
-    write(*,2002) (psum(k),k=1,ndf)
-    write(*,2003) (rsum(k),k=1,ndf)
-    write(*,2004) (asum(k),k=1,ndf)
+     write(*,2002) (psum(k),k=1,ndf)
+     write(*,2003) (rsum(k),k=1,ndf)
+     write(*,2004) (asum(k),k=1,ndf)
   endif
 
   !     Formats
 
-  2000 format('  N o d a l    R e a c t i o n s'// &
-    '   Node',6(i8,' dof'):/(7x,6(i8,' dof')))
+2000 format('  N o d a l    R e a c t i o n s'// &
+       '   Node',6(i8,' dof'):/(7x,6(i8,' dof')))
 
-  2001 format(i7,1p,6e12.4:/(7x,1p,6e12.4))
+2001 format(i7,1p,6e12.4:/(7x,1p,6e12.4))
 
-  2002 format(/' Pr.Sum',1p,6e12.4:/(7x,1p,6e12.4))
+2002 format(/' Pr.Sum',1p,6e12.4:/(7x,1p,6e12.4))
 
-  2003 format( '   Sum ',1p,6e12.4:/(7x,1p,6e12.4))
+2003 format( '   Sum ',1p,6e12.4:/(7x,1p,6e12.4))
 
-  2004 format( '  |Sum|',1p,6e12.4:/(7x,1p,6e12.4))
+2004 format( '  |Sum|',1p,6e12.4:/(7x,1p,6e12.4))
 
 end subroutine prtrea

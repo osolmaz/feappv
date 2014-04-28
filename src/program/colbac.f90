@@ -24,7 +24,7 @@ subroutine colbac(u,s,d,jj)
   real*8 ::    d,u(*),s(*)
 
   do j = 1,jj
-  s(j) = s(j) - u(j)*s(jj+1)
+     s(j) = s(j) - u(j)*s(jj+1)
   end do
   s(jj) = s(jj)*d
 

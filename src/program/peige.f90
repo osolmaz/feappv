@@ -43,10 +43,10 @@ subroutine peige(s,nst, dr,vflg)
 
   j1 = -1
   do j = 1,nst
-  do i = 1,j
-  dr(n1+j1+i) = s(i,j)
-  end do
-  j1 = j1 + j
+     do i = 1,j
+        dr(n1+j1+i) = s(i,j)
+     end do
+     j1 = j1 + j
   end do
 
   !     Compute eigenpairs for last element computed
@@ -56,18 +56,18 @@ subroutine peige(s,nst, dr,vflg)
   !     Move eigenvalues and vectors to 'EIGE' storage for plots.
 
   do i = 0,nst*nst-1
-  hr(np(75)+i) = dr(n2+i)
+     hr(np(75)+i) = dr(n2+i)
   end do
   point = np(75) + nst*nst - 1
   do i = 1,nst
-  hr(point+i) = dr(i)
+     hr(point+i) = dr(i)
   end do
 
   !     Output eigenpairs for last element
 
   call mprint (  dr,       1, nst,  1,'Eigenvalue')
   if(vflg) then
-    call mprint (dr(n2), nst, nst,nst,'Eigenvect.')
+     call mprint (dr(n2), nst, nst,nst,'Eigenvect.')
   endif
 
 end subroutine peige

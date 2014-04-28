@@ -44,86 +44,86 @@ subroutine psolve(fp,factor,solve,cfr, prnt)
 
   if(solver) then
 
-    !       Factor tangent matrix
+     !       Factor tangent matrix
 
-    if(factor) then
-      if(ittyp <= -1) then
-        tt    = etime(tary)
-        tdiff = tary(1)
+     if(factor) then
+        if(ittyp <= -1) then
+           tt    = etime(tary)
+           tdiff = tary(1)
 
-        call datri(hr(fp(3)),hr(fp(2)),hr(fp(1)),mr(fp(5)),neqs,neq)
+           call datri(hr(fp(3)),hr(fp(2)),hr(fp(1)),mr(fp(5)),neqs,neq)
 
-        tt    = etime(tary)
-        tdiff = tary(1) - tdiff  ! save for timing solutions
-        if(prnt) then
-          write(iow,2001) tary
-          if(ior < 0) then
-            write(*,2001) tary
-          endif
+           tt    = etime(tary)
+           tdiff = tary(1) - tdiff  ! save for timing solutions
+           if(prnt) then
+              write(iow,2001) tary
+              if(ior < 0) then
+                 write(*,2001) tary
+              endif
+           endif
         endif
-      endif
-    endif
+     endif
 
-    !       Solve equations
+     !       Solve equations
 
-    if(solve) then
+     if(solve) then
 
-      !         Direct solution
+        !         Direct solution
 
-      if(ittyp <= -1) then
+        if(ittyp <= -1) then
 
-        call dasol (hr(fp(3)),hr(fp(2)),hr(fp(1)),hr(fp(4)), &
-          mr(fp(5)),neqs,neq,aengy)
+           call dasol (hr(fp(3)),hr(fp(2)),hr(fp(1)),hr(fp(4)), &
+                mr(fp(5)),neqs,neq,aengy)
 
-        !         Conjugate gradient solver
+           !         Conjugate gradient solver
 
-      else
-        if(rnmax == 0.0d0) then
-          rn0 = rnorm*rnorm
+        else
+           if(rnmax == 0.0d0) then
+              rn0 = rnorm*rnorm
+           endif
+           njpr = 1
+           naur = 1
+
+           setvar = palloc(81,'TEMP1',5*neq,2) ! allocate temp storage
+           fp(6) = np(81)
+           do i = 7,10
+              fp(i) = fp(i-1) + neq
+           end do
+
+           if(prnt .and. ior < 0) write(*,*) 'START CG: SOLVER'
+
+           call conjgd(hr(fp(1)),hr(fp(2)),hr(fp(6)),hr(fp(4)), &
+                mr(np(2)),mr(np(3)),hr(fp(7)),hr(fp(8)), &
+                hr(fp(9)),hr(fp(10)),neq,neq,tol,rn,rn0)
+
+           setvar = palloc(81,'TEMP1', 0, 2) ! destroy temp storage
+
+           aengy = sqrt(rn)
+           rnmax = max(rnmax,sqrt(rn0))
+           if(prnt) then
+              tt    = etime(tary)
+              write(iow,2002) tary
+              if(ior < 0) then
+                 write(*,2002) tary
+              endif
+           endif
+
         endif
-        njpr = 1
-        naur = 1
+     endif
 
-        setvar = palloc(81,'TEMP1',5*neq,2) ! allocate temp storage
-        fp(6) = np(81)
-        do i = 7,10
-        fp(i) = fp(i-1) + neq
-        end do
-
-        if(prnt .and. ior < 0) write(*,*) 'START CG: SOLVER'
-
-        call conjgd(hr(fp(1)),hr(fp(2)),hr(fp(6)),hr(fp(4)), &
-          mr(np(2)),mr(np(3)),hr(fp(7)),hr(fp(8)), &
-          hr(fp(9)),hr(fp(10)),neq,neq,tol,rn,rn0)
-
-        setvar = palloc(81,'TEMP1', 0, 2) ! destroy temp storage
-
-        aengy = sqrt(rn)
-        rnmax = max(rnmax,sqrt(rn0))
-        if(prnt) then
-          tt    = etime(tary)
-          write(iow,2002) tary
-          if(ior < 0) then
-            write(*,2002) tary
-          endif
-        endif
-
-      endif
-    endif
-
-    !     User supplied solver routine
+     !     User supplied solver routine
 
   else
-    flags(1) = .false. 
-    flags(2) =  factor
-    flags(3) =  cfr
-    flags(4) =  solve
-    flags(5) = .false. 
-    call usolve(flags, hr(fp(4)))
+     flags(1) = .false. 
+     flags(2) =  factor
+     flags(3) =  cfr
+     flags(4) =  solve
+     flags(5) = .false. 
+     call usolve(flags, hr(fp(4)))
   endif
   !     Formats
 
-  2001 format('   End Triangular Decomposition',28x,'t=',0p,2f9.2)
-  2002 format('   End Conjugate Gradient Solution',25x,'t=',0p,2f9.2)
+2001 format('   End Triangular Decomposition',28x,'t=',0p,2f9.2)
+2002 format('   End Conjugate Gradient Solution',25x,'t=',0p,2f9.2)
 
 end subroutine psolve

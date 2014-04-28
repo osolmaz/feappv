@@ -31,53 +31,53 @@ subroutine pstrip(xxx,yyy,i)
   !     Strip comments
 
   do n = i,256
-  if(ichar(yyy(n:n)) == 13) then
-    yyy(n:n) = ' '
-  elseif(ichar(yyy(n:n)) == 9) then
-    yyy(n:n) = ' '
-  elseif(yyy(n:n) == '!') then
-    yyy(n:256) = ' '
-    go to 100
-  end if
+     if(ichar(yyy(n:n)) == 13) then
+        yyy(n:n) = ' '
+     elseif(ichar(yyy(n:n)) == 9) then
+        yyy(n:n) = ' '
+     elseif(yyy(n:n) == '!') then
+        yyy(n:256) = ' '
+        go to 100
+     end if
   end do
 
   !     Strip leading blanks
 
-  100 xxx = ' '
+100 xxx = ' '
   do n = 1,256
-  if(yyy(n:n) /= ' ') then
-    xxx(1:257-n) = yyy(n:256)
-    go to 200
-  end if
+     if(yyy(n:n) /= ' ') then
+        xxx(1:257-n) = yyy(n:256)
+        go to 200
+     end if
   end do
   return
 
   !     Find last character
 
-  200 do nn = 256,1,-1
-  if(xxx(nn:nn) /= ' ') go to 300
+200 do nn = 256,1,-1
+     if(xxx(nn:nn) /= ' ') go to 300
   end do
   nn = 2
 
   !     Remove extra blanks
 
-  300 n = 1
+300 n = 1
 
-  301 if(xxx(n:n) == ' ' .and. cksep(xxx(n+1:n+1))) then
-    xxx(n:nn-1) = xxx(n+1:nn)
-    xxx(nn:nn) = ' '
-    nn = nn - 1
-    go to 301
+301 if(xxx(n:n) == ' ' .and. cksep(xxx(n+1:n+1))) then
+     xxx(n:nn-1) = xxx(n+1:nn)
+     xxx(nn:nn) = ' '
+     nn = nn - 1
+     go to 301
   endif
   n = n + 1
   if(n < nn) go to 301
 
   do n = 1,nn-2
-  if((xxx(n:n) == ',' .or. xxx(n:n) == '=') &
-    .and. xxx(n+1:n+1) == ' ' ) then
-  xxx(n+1:nn-1) = xxx(n+2:nn)
-  xxx(nn:nn) = ' '
-endif
-end do
+     if((xxx(n:n) == ',' .or. xxx(n:n) == '=') &
+          .and. xxx(n+1:n+1) == ' ' ) then
+        xxx(n+1:nn-1) = xxx(n+2:nn)
+        xxx(nn:nn) = ' '
+     endif
+  end do
 
-    end subroutine pstrip
+end subroutine pstrip

@@ -58,58 +58,58 @@ subroutine serchl(gtol,id,prsd,pu,d,stol,t,neq, step)
   !     Find bracket on zero
 
   if(ga*gb > 0.0d0) then
-    write(iow,3000)
-    if(ior < 0) write(*,3000)
+     write(iow,3000)
+     if(ior < 0) write(*,3000)
 
-    !     Perform 'linmax' steps of line-search
+     !     Perform 'linmax' steps of line-search
 
   else
-    j = 0
-    10 j = j + 1
-    if (j <= linmax) then
+     j = 0
+10   j = j + 1
+     if (j <= linmax) then
 
-      step = sa - ga*(sa-sb)/(ga-gb)
-      g    = gamma1(id,pu,prsd,d,t,step)
+        step = sa - ga*(sa-sb)/(ga-gb)
+        g    = gamma1(id,pu,prsd,d,t,step)
 
-      !         Output line-search parameters
+        !         Output line-search parameters
 
-      write(iow,3001) j,step,g,sa,sb
-      if(ior < 0) write(*,3001) j,step,g,sa,sb
+        write(iow,3001) j,step,g,sa,sb
+        if(ior < 0) write(*,3001) j,step,g,sa,sb
 
-      !         Update postions for next iteration
+        !         Update postions for next iteration
 
-      gb = 0.5d0*gb
-      if (g*ga < 0.0d0) then
-        sb = sa
-        gb = ga
-      endif
-      sa = step
-      ga = g
+        gb = 0.5d0*gb
+        if (g*ga < 0.0d0) then
+           sb = sa
+           gb = ga
+        endif
+        sa = step
+        ga = g
 
-      !         Check convergence
+        !         Check convergence
 
-      if(abs(g) > stol*abs(gtol)) go to 10
-    endif
+        if(abs(g) > stol*abs(gtol)) go to 10
+     endif
 
-    !       Multiply solution increment by step size computed
+     !       Multiply solution increment by step size computed
 
-    do j = 1,neq
-    d(j) = step*d(j)
-    end do
+     do j = 1,neq
+        d(j) = step*d(j)
+     end do
 
-    !       Update histories
+     !       Update histories
 
-    hflgu  = .true. 
-    h3flgu = .false. 
-    g      = gamma1(id,pu,prsd,d,t,1.d0)
+     hflgu  = .true. 
+     h3flgu = .false. 
+     g      = gamma1(id,pu,prsd,d,t,1.d0)
 
   endif
 
   !     Formats
 
-  3000 format(' -> No line search - Energy positive at full step.')
+3000 format(' -> No line search - Energy positive at full step.')
 
-  3001 format(' -> Iteration',i3,' Step Size =',1p,e12.5,' Energy =', &
-    &        1p,e12.5,' sa=',f6.3,' sb=',f6.3)
+3001 format(' -> Iteration',i3,' Step Size =',1p,e12.5,' Energy =', &
+       &        1p,e12.5,' sa=',f6.3,' sb=',f6.3)
 
 end subroutine serchl

@@ -24,7 +24,7 @@ function   dot(a,b,n)
 
   dot = 0.0d0
   do i = 1,n
-  dot = dot + a(i)*b(i)
+     dot = dot + a(i)*b(i)
   end do
 
-end function 
+end function dot

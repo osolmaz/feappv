@@ -36,37 +36,37 @@ subroutine uiters(nnu,isw)
 
   if(isw == -1) then
 
-    setvar = palloc(153,'USER3', numnp*ndf, 1)
-    call elcnt(numnp,numel,nen,nen1,mr(np(33)),mr(np(153)), .true. )
-    call sumcnt(mr(np(153)),numnp*ndf,kp)
+     setvar = palloc(153,'USER3', numnp*ndf, 1)
+     call elcnt(numnp,numel,nen,nen1,mr(np(33)),mr(np(153)), .true. )
+     call sumcnt(mr(np(153)),numnp*ndf,kp)
 
-    setvar = palloc(154,'USER4', kp, 1)
-    call pelcon(numel,nen,nen1,mr(np(33)),mr(np(153)),mr(np(154)), &
-      kp,1)
+     setvar = palloc(154,'USER4', kp, 1)
+     call pelcon(numel,nen,nen1,mr(np(33)),mr(np(153)),mr(np(154)), &
+          kp,1)
 
-    !       Assign storage type
+     !       Assign storage type
 
-    ubycol = .true.       ! Store by columns
-    udiag  = .false.      ! Diagonal in separate part of array
-    uall   = .false. 
-    setvar =  palloc(151,'USER1', ndf*numnp, 1)
-    if(np(152) /= 0) then
-      setvar = palloc(152,'USER2',0, 1)
-    endif
-    setvar = palloc(152,'USER2',  1, 1)
-    call compro(numnp,nen,nen1,ndf,mr(np(33)),mr(np(31)), &
-      mr(np(153)),mr(np(154)),mr(np(152)),mr(np(151)), &
-      kp,maxm-mmax,ubycol,udiag,uall)
-    setvar = palloc(152,'USER2', kp, 1)
-    nnu    = kp
+     ubycol = .true.       ! Store by columns
+     udiag  = .false.      ! Diagonal in separate part of array
+     uall   = .false. 
+     setvar =  palloc(151,'USER1', ndf*numnp, 1)
+     if(np(152) /= 0) then
+        setvar = palloc(152,'USER2',0, 1)
+     endif
+     setvar = palloc(152,'USER2',  1, 1)
+     call compro(numnp,nen,nen1,ndf,mr(np(33)),mr(np(31)), &
+          mr(np(153)),mr(np(154)),mr(np(152)),mr(np(151)), &
+          kp,maxm-mmax,ubycol,udiag,uall)
+     setvar = palloc(152,'USER2', kp, 1)
+     nnu    = kp
 
-    !       Delete temporary arrays
+     !       Delete temporary arrays
 
-    setvar = palloc(154,'USER4', 0, 1)
-    setvar = palloc(153,'USER3', 0, 1)
+     setvar = palloc(154,'USER4', 0, 1)
+     setvar = palloc(153,'USER3', 0, 1)
 
   else
-    write(*,*) '  *ERROR* OPTION NOT IMPLEMENTED FOR ISW =',isw
+     write(*,*) '  *ERROR* OPTION NOT IMPLEMENTED FOR ISW =',isw
   endif
 
 end subroutine uiters

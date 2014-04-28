@@ -55,35 +55,35 @@ subroutine pmatin(tx,d,ul,xl,tl,s,p,idl,ie,prt,prth)
   ma    = nint(td(1))
   if(nummat == 1) ma = max(1,ma)
   if(ma <= 0 .or. ma > nummat) then
-    if(ior > 0) then
-      write(iow,3000) ma
-      call plstop()
-    else
-      write(*,3000) ma,' Reinput mate,ma'
-    endif
-    return
+     if(ior > 0) then
+        write(iow,3000) ma
+        call plstop()
+     else
+        write(*,3000) ma,' Reinput mate,ma'
+     endif
+     return
   endif
 
   if(prt) then
-    call prtitl(prth)
-    write(iow,2000)
+     call prtitl(prth)
+     write(iow,2000)
   endif
 
   !     Set material identifier
 
   do j = 3,80
-  if(xxx(j:j) == ' ' .or. xxx(j:j) == ',') then
-    do i = j+1,80
-    if(xxx(i:i) == ' ' .or. xxx(i:i) == ',') go to 300
-    end do
-  endif
+     if(xxx(j:j) == ' ' .or. xxx(j:j) == ',') then
+        do i = j+1,80
+           if(xxx(i:i) == ' ' .or. xxx(i:i) == ',') go to 300
+        end do
+     endif
   end do
   i = 69
-  300 mtype = xxx(i+1:70)
+300 mtype = xxx(i+1:70)
 
   !     Input record for element type selection
 
-  301 if(ior < 0) write(*,2004)
+301 if(ior < 0) write(*,2004)
   il = min(ndf+2,15)
   errck = tinput(tx,1,td,il)
   if(errck) go to 301
@@ -92,45 +92,45 @@ subroutine pmatin(tx,d,ul,xl,tl,s,p,idl,ie,prt,prth)
 
   iel = nint(td(1))
   if( .not. pcomp(tx(1),'user',4)) then
-    call pelnum(tx(1),iel,errck)
+     call pelnum(tx(1),iel,errck)
   endif
 
   if(ie(nie-1,ma) /= 0 .and. iel == 0) then
-    iel = ie(nie-1,ma)
+     iel = ie(nie-1,ma)
   else
-    ie(nie-2,ma) = nint(td(2))
-    if(ie(nie-2,ma) <= 0) ie(nie-2,ma) = ma
+     ie(nie-2,ma) = nint(td(2))
+     if(ie(nie-2,ma) <= 0) ie(nie-2,ma) = ma
   endif
 
   do j = 1,min(ndf,13)
-  idl(j) = nint(td(j+2))
+     idl(j) = nint(td(j+2))
   end do
 
   if(ndf > 13) then
-    do ii = 1,(ndf+2)/16
-    is = il+1
-    il = min(is+15,ndf+2)
-    302 errck = pinput(td,il-is+1)
-    if(errck) go to 302
-    do j = 1,il-is+1
-    idl(j+is-3) = nint(td(j))
-    end do
-    end do
+     do ii = 1,(ndf+2)/16
+        is = il+1
+        il = min(is+15,ndf+2)
+302     errck = pinput(td,il-is+1)
+        if(errck) go to 302
+        do j = 1,il-is+1
+           idl(j+is-3) = nint(td(j))
+        end do
+     end do
   endif
 
   !     Check to see if degree of freedoms to be reassigned
 
   do i = 1,ndf
-  if(idl(i) /= 0) go to 303
+     if(idl(i) /= 0) go to 303
   end do
 
   !     Reset all zero inputs
 
   do i = 1,ndf
-  idl(i) = i
+     idl(i) = i
   end do
 
-  303 ie(nie-1,ma) = iel
+303 ie(nie-1,ma) = iel
 
   !     Set flags for number of history and stress terms
 
@@ -143,25 +143,25 @@ subroutine pmatin(tx,d,ul,xl,tl,s,p,idl,ie,prt,prth)
   !     Output information
 
   if(prt) then
-    if(iel > 0) then
-      write(iow,2001) ma,iel,(j,idl(j),j=1,ndf)
-    else
-      write(iow,2002) ma,tx(1)(1:5),(j,idl(j),j=1,ndf)
-    endif
-    write(iow,2003) mtype
+     if(iel > 0) then
+        write(iow,2001) ma,iel,(j,idl(j),j=1,ndf)
+     else
+        write(iow,2002) ma,tx(1)(1:5),(j,idl(j),j=1,ndf)
+     endif
+     write(iow,2003) mtype
   else
-    if(iel > 0) then
-      write(iow,2001) ma,iel
-    else
-      write(iow,2002) ma,tx(1)(1:5)
-    endif
-    write(iow,2003) mtype
+     if(iel > 0) then
+        write(iow,2001) ma,iel
+     else
+        write(iow,2002) ma,tx(1)(1:5)
+     endif
+     write(iow,2003) mtype
   endif
 
   !     Obtain inputs from element routine
 
   do i = 1,ndf
-  ie(i,ma) = i
+     ie(i,ma) = i
   end do
   rotyp = 0
 
@@ -170,17 +170,17 @@ subroutine pmatin(tx,d,ul,xl,tl,s,p,idl,ie,prt,prth)
   !     Set assembly information
 
   do i = 1,ndf
-  if(ie(i,ma) > 0) then
-    ie(i,ma) = idl(i)
-  endif
+     if(ie(i,ma) > 0) then
+        ie(i,ma) = idl(i)
+     endif
   end do
 
   !     Set number of history terms
 
   if(nh1 /= 0) then
-    ie(nie,ma) = int(nh1)
+     ie(nie,ma) = int(nh1)
   else
-    ie(nie,ma) = mct
+     ie(nie,ma) = mct
   endif
   ie(nie-5,ma) = int(nh3)
   npstr        = max(npstr,istv)
@@ -188,25 +188,25 @@ subroutine pmatin(tx,d,ul,xl,tl,s,p,idl,ie,prt,prth)
   !     Set rotational update type
 
   if(rotyp > 0) then
-    ie(nie-6,ma) = rotyp
+     ie(nie-6,ma) = rotyp
   endif
 
   !     Formats
 
-  2000 format('   M a t e r i a l    P r o p e r t i e s')
+2000 format('   M a t e r i a l    P r o p e r t i e s')
 
-  2001 format(/5x,'Material Set',i3,' for User Element Type',i3,5x,/:/ &
-    &    5x,'Degree of Freedom Assignments    Local    Global'/ &
-    &    37x,'Number',4x,'Number'/(31x,2i10))
+2001 format(/5x,'Material Set',i3,' for User Element Type',i3,5x,/:/ &
+       &    5x,'Degree of Freedom Assignments    Local    Global'/ &
+       &    37x,'Number',4x,'Number'/(31x,2i10))
 
-  2002 format(/5x,'Material Set',i3,' for Element Type: ',a,5x,/:/ &
-    &    5x,'Degree of Freedom Assignments    Local    Global'/ &
-    &    37x,'Number',4x,'Number'/(31x,2i10))
+2002 format(/5x,'Material Set',i3,' for Element Type: ',a,5x,/:/ &
+       &    5x,'Degree of Freedom Assignments    Local    Global'/ &
+       &    37x,'Number',4x,'Number'/(31x,2i10))
 
-  2003 format(5x,a)
+2003 format(5x,a)
 
-  2004 format(' Input: Elmt type, Id No., dof set'/3x,'>',$)
+2004 format(' Input: Elmt type, Id No., dof set'/3x,'>',$)
 
-  3000 format(' *ERROR*  Illegal material number: ma=',i5:,a)
+3000 format(' *ERROR*  Illegal material number: ma=',i5:,a)
 
 end subroutine pmatin

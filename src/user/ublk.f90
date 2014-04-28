@@ -1,6 +1,6 @@
 ! Id:$
 subroutine ublk(td,nn,nr,ns,nt,xl,x,ixl,ix,dr,ds,dt, &
-    ni,ne,ndm,nen1,ma,ctype,prt, isw)
+     ni,ne,ndm,nen1,ma,ctype,prt, isw)
 
   !      * * F E A P * * A Finite Element Analysis Program
 
@@ -51,6 +51,6 @@ subroutine ublk(td,nn,nr,ns,nt,xl,x,ixl,ix,dr,ds,dt, &
   if(ior < 0) write(*,2000)
   write(iow,2000)
 
-  2000 format(' *ERROR* No user block generator loaded')
+2000 format(' *ERROR* No user block generator loaded')
 
 end subroutine ublk

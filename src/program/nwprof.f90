@@ -23,7 +23,7 @@ subroutine nwprof(jp,neq)
 
   jp(1) = 0
   do n = 2,neq
-  jp(n) = jp(n) + jp(n-1)
+     jp(n) = jp(n) + jp(n-1)
   end do
 
 end subroutine nwprof

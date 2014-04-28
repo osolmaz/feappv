@@ -36,10 +36,10 @@ subroutine pjstrs(trifl)
 
   ii = 0
   do i = nen1-1,nen1*numel-1,nen1
-  if(mr(np(91)+ii) < 0) then
-    mr(np(33)+i) = -abs(mr(np(33)+i))
-  endif
-  ii = ii + 1
+     if(mr(np(91)+ii) < 0) then
+        mr(np(33)+i) = -abs(mr(np(33)+i))
+     endif
+     ii = ii + 1
   end do
 
   call pzero(hr(np(58)), npstr*numnp)
@@ -47,13 +47,13 @@ subroutine pjstrs(trifl)
   if( .not. trifl) call pzero(hr(np(60)),numel)
 
   call formfe(np(40),np(26),np(26),np(26), &
-    .false. , .false. , .false. ,8,1,numel,1)
+       .false. , .false. , .false. ,8,1,numel,1)
 
   call pltstr(hr(np(58)),hr(np(57)+numnp),hr(np(58)+numnp), &
-    numnp,ndm)
+       numnp,ndm)
 
   do i = nen1-1,nen1*numel-1,nen1
-  mr(np(33)+i) = abs(mr(np(33)+i))
+     mr(np(33)+i) = abs(mr(np(33)+i))
   end do
 
 end subroutine pjstrs

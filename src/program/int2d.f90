@@ -35,96 +35,96 @@ subroutine int2d(l,lint,sg)
 
   if(l == 0) then
 
-    lint = 5
-    g    = sqrt(0.6d0)
-    do i = 1,4
-    sg(1,i) = g*lr(i)
-    sg(2,i) = g*lz(i)
-    sg(3,i) = 5.d0/9.d0
-    end do
+     lint = 5
+     g    = sqrt(0.6d0)
+     do i = 1,4
+        sg(1,i) = g*lr(i)
+        sg(2,i) = g*lz(i)
+        sg(3,i) = 5.d0/9.d0
+     end do
 
-    sg(1,5) = 0.0d0
-    sg(2,5) = 0.0d0
-    sg(3,5) = 16.d0/9.d0
+     sg(1,5) = 0.0d0
+     sg(2,5) = 0.0d0
+     sg(3,5) = 16.d0/9.d0
 
-    !     1x1 integration
+     !     1x1 integration
 
   elseif(l == 1) then
-    sg(1,1) = 0.d0
-    sg(2,1) = 0.d0
-    if(nel == 3) sg(2,1) = -third
-    sg(3,1) = 4.d0
+     sg(1,1) = 0.d0
+     sg(2,1) = 0.d0
+     if(nel == 3) sg(2,1) = -third
+     sg(3,1) = 4.d0
 
-    !     2x2 integration
+     !     2x2 integration
 
   elseif(l == 2) then
-    g = sqrt(third)
-    do i = 1,4
-    sg(1,i) = g*lr(i)
-    sg(2,i) = g*lz(i)
-    sg(3,i) = 1.d0
-    end do
+     g = sqrt(third)
+     do i = 1,4
+        sg(1,i) = g*lr(i)
+        sg(2,i) = g*lz(i)
+        sg(3,i) = 1.d0
+     end do
 
-    !     3x3 integration
+     !     3x3 integration
 
   elseif(l == 3) then
-    g = sqrt(0.6d0)
-    h = 1.d0/81.d0
-    do i = 1,9
-    sg(1,i) = g*lr(i)
-    sg(2,i) = g*lz(i)
-    sg(3,i) = h*lw(i)
-    end do
+     g = sqrt(0.6d0)
+     h = 1.d0/81.d0
+     do i = 1,9
+        sg(1,i) = g*lr(i)
+        sg(2,i) = g*lz(i)
+        sg(3,i) = h*lw(i)
+     end do
 
-    !     4x4 integration
+     !     4x4 integration
 
   elseif(l == 4) then
-    g     = sqrt(4.8d0)
-    h     = third/g
-    ss(1) = sqrt((3.d0+g)/7.d0)
-    ss(4) = - ss(1)
-    ss(2) = sqrt((3.d0-g)/7.d0)
-    ss(3) = -ss(2)
-    ww(1) = 0.5d0 - h
-    ww(2) = 0.5d0 + h
-    ww(3) = 0.5d0 + h
-    ww(4) = 0.5d0 - h
-    i = 0
-    do j = 1,4
-    do k = 1,4
-    i = i + 1
-    sg(1,i) = ss(k)
-    sg(2,i) = ss(j)
-    sg(3,i) = ww(j)*ww(k)
-    end do
-    end do
+     g     = sqrt(4.8d0)
+     h     = third/g
+     ss(1) = sqrt((3.d0+g)/7.d0)
+     ss(4) = - ss(1)
+     ss(2) = sqrt((3.d0-g)/7.d0)
+     ss(3) = -ss(2)
+     ww(1) = 0.5d0 - h
+     ww(2) = 0.5d0 + h
+     ww(3) = 0.5d0 + h
+     ww(4) = 0.5d0 - h
+     i = 0
+     do j = 1,4
+        do k = 1,4
+           i = i + 1
+           sg(1,i) = ss(k)
+           sg(2,i) = ss(j)
+           sg(3,i) = ww(j)*ww(k)
+        end do
+     end do
 
-    !     5x5 integration
+     !     5x5 integration
 
   elseif(l == 5) then
 
-    g     =  sqrt(1120.d0)
-    ss(1) =  sqrt((70.d0 + g)/126.d0)
-    ss(2) =  sqrt((70.d0 - g)/126.d0)
-    ss(3) =  0.0d0
-    ss(4) = -ss(2)
-    ss(5) = -ss(1)
+     g     =  sqrt(1120.d0)
+     ss(1) =  sqrt((70.d0 + g)/126.d0)
+     ss(2) =  sqrt((70.d0 - g)/126.d0)
+     ss(3) =  0.0d0
+     ss(4) = -ss(2)
+     ss(5) = -ss(1)
 
-    ww(1) =  (21.d0*g + 117.6d0)/(g*(70.d0 + g))
-    ww(2) =  (21.d0*g - 117.6d0)/(g*(70.d0 - g))
-    ww(3) =  2.d0*(1.d0 - ww(1) - ww(2))
-    ww(4) =  ww(2)
-    ww(5) =  ww(1)
+     ww(1) =  (21.d0*g + 117.6d0)/(g*(70.d0 + g))
+     ww(2) =  (21.d0*g - 117.6d0)/(g*(70.d0 - g))
+     ww(3) =  2.d0*(1.d0 - ww(1) - ww(2))
+     ww(4) =  ww(2)
+     ww(5) =  ww(1)
 
-    i = 0
-    do j = 1,5
-    do k = 1,5
-    i = i + 1
-    sg(1,i) = ss(k)
-    sg(2,i) = ss(j)
-    sg(3,i) = ww(j)*ww(k)
-    end do
-    end do
+     i = 0
+     do j = 1,5
+        do k = 1,5
+           i = i + 1
+           sg(1,i) = ss(k)
+           sg(2,i) = ss(j)
+           sg(3,i) = ww(j)*ww(k)
+        end do
+     end do
 
   endif
 

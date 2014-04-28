@@ -40,143 +40,143 @@ subroutine pfuncs(x,v,val,nex,error)
   yy(1:75) = ' '
   k = 0
   i = 1
-  140 continue
+140 continue
   k = k + 1
   if(    pcomp(x(i),'atand',5))then
-    kk = 1
+     kk = 1
   elseif(pcomp(x(i),'asind',5))then
-    kk = 2
+     kk = 2
   elseif(pcomp(x(i),'acosd',5))then
-    kk = 3
+     kk = 3
   elseif(pcomp(x(i),'atan',4))then
-    kk = 4
+     kk = 4
   elseif(pcomp(x(i),'asin',4))then
-    kk = 5
+     kk = 5
   elseif(pcomp(x(i),'acos',4))then
-    kk = 6
+     kk = 6
   elseif(pcomp(x(i),'cosh',4))then
-    kk = 7
+     kk = 7
   elseif(pcomp(x(i),'sinh',4))then
-    kk = 8
+     kk = 8
   elseif(pcomp(x(i),'tanh',4))then
-    kk = 9
+     kk = 9
   elseif(pcomp(x(i),'cosd',4))then
-    kk = 10
+     kk = 10
   elseif(pcomp(x(i),'sind',4))then
-    kk = 11
+     kk = 11
   elseif(pcomp(x(i),'tand',4))then
-    kk = 12
+     kk = 12
   elseif(pcomp(x(i),'sqrt',4))then
-    kk = 13
+     kk = 13
   elseif(pcomp(x(i),'exp',3)) then
-    kk = 14
+     kk = 14
   elseif(pcomp(x(i),'sin',3)) then
-    kk = 15
+     kk = 15
   elseif(pcomp(x(i),'cos',3)) then
-    kk = 16
+     kk = 16
   elseif(pcomp(x(i),'tan',3)) then
-    kk = 17
+     kk = 17
   elseif(pcomp(x(i),'abs',3)) then
-    kk = 18
+     kk = 18
   elseif(pcomp(x(i),'int',3)) then
-    kk = 19
+     kk = 19
   elseif(pcomp(x(i),'log',3)) then
-    kk = 20
+     kk = 20
   elseif(pcomp(x(i),'inc',3)) then
-    kk = 21
+     kk = 21
   elseif(pcomp(x(i),'dec',3)) then
-    kk = 22
+     kk = 22
   else
-    kk = 0
+     kk = 0
   endif
 
   !       Evaluate functions
 
   if(kk /= 0 ) then
 
-    !         Functions 1 to 3
+     !         Functions 1 to 3
 
-    if(kk <= 3) then
-      j = 5
+     if(kk <= 3) then
+        j = 5
 
-      !         Functions 4 to 13
+        !         Functions 4 to 13
 
-    elseif(kk <= 13) then
-      j = 4
+     elseif(kk <= 13) then
+        j = 4
 
-      !         Functions 14 to 22
+        !         Functions 14 to 22
 
-    else
-      j = 3
+     else
+        j = 3
 
-    endif
+     endif
 
-    nn = ichar(x(i+j)) - 64
-    if(nn > 26) then
-      jj = nn + ichar(x(i+j+1))
-      if    (jj >= ichar('a') .and. jj <= ichar('z')) then
-        ii = jj - ichar('a') + 1
-      elseif(jj >= ichar('0') .and. jj <= ichar('9')) then
-        ii = jj - ichar('0') + 27
-      else
-        ii = 0
-      endif
+     nn = ichar(x(i+j)) - 64
+     if(nn > 26) then
+        jj = nn + ichar(x(i+j+1))
+        if    (jj >= ichar('a') .and. jj <= ichar('z')) then
+           ii = jj - ichar('a') + 1
+        elseif(jj >= ichar('0') .and. jj <= ichar('9')) then
+           ii = jj - ichar('0') + 27
+        else
+           ii = 0
+        endif
 
-      val = vvv(nn-32,ii)
-    else
-      val = www(nn)
-    endif
+        val = vvv(nn-32,ii)
+     else
+        val = www(nn)
+     endif
 
-    nex = nex + 1
-    if(    kk == 1) then
-      www(nex) = atand(val)
-    elseif(kk == 2) then
-      www(nex) = asind(val)
-    elseif(kk == 3) then
-      www(nex) = acosd(val)
-    elseif(kk == 4) then
-      www(nex) = atan(val)
-    elseif(kk == 5) then
-      www(nex) = asin(val)
-    elseif(kk == 6) then
-      www(nex) = acos(val)
-    elseif(kk == 7) then
-      www(nex) = cosh(val)
-    elseif(kk == 8) then
-      www(nex) = sinh(val)
-    elseif(kk == 9) then
-      www(nex) = tanh(val)
-    elseif(kk == 10) then
-      www(nex) = cosd(val)
-    elseif(kk == 11) then
-      www(nex) = sind(val)
-    elseif(kk == 12) then
-      www(nex) = tand(val)
-    elseif(kk == 13) then
-      www(nex) = sqrt(val)
-    elseif(kk == 14) then
-      www(nex) = exp(val)
-    elseif(kk == 15) then
-      www(nex) = sin(val)
-    elseif(kk == 16) then
-      www(nex) = cos(val)
-    elseif(kk == 17) then
-      www(nex) = tan(val)
-    elseif(kk == 18) then
-      www(nex) = abs(val)
-    elseif(kk == 19) then
-      www(nex) = int(val)
-    elseif(kk == 20) then
-      www(nex) = log(val)
-    elseif(kk == 21) then
-      www(nex) = padd(val)
-    elseif(kk == 22) then
-      www(nex) = psub(val)
-    endif
-    yy(k:k) = char(nex+64)
-    i = i + j
+     nex = nex + 1
+     if(    kk == 1) then
+        www(nex) = atand(val)
+     elseif(kk == 2) then
+        www(nex) = asind(val)
+     elseif(kk == 3) then
+        www(nex) = acosd(val)
+     elseif(kk == 4) then
+        www(nex) = atan(val)
+     elseif(kk == 5) then
+        www(nex) = asin(val)
+     elseif(kk == 6) then
+        www(nex) = acos(val)
+     elseif(kk == 7) then
+        www(nex) = cosh(val)
+     elseif(kk == 8) then
+        www(nex) = sinh(val)
+     elseif(kk == 9) then
+        www(nex) = tanh(val)
+     elseif(kk == 10) then
+        www(nex) = cosd(val)
+     elseif(kk == 11) then
+        www(nex) = sind(val)
+     elseif(kk == 12) then
+        www(nex) = tand(val)
+     elseif(kk == 13) then
+        www(nex) = sqrt(val)
+     elseif(kk == 14) then
+        www(nex) = exp(val)
+     elseif(kk == 15) then
+        www(nex) = sin(val)
+     elseif(kk == 16) then
+        www(nex) = cos(val)
+     elseif(kk == 17) then
+        www(nex) = tan(val)
+     elseif(kk == 18) then
+        www(nex) = abs(val)
+     elseif(kk == 19) then
+        www(nex) = int(val)
+     elseif(kk == 20) then
+        www(nex) = log(val)
+     elseif(kk == 21) then
+        www(nex) = padd(val)
+     elseif(kk == 22) then
+        www(nex) = psub(val)
+     endif
+     yy(k:k) = char(nex+64)
+     i = i + j
   else
-    yy(k:k) = x(i)
+     yy(k:k) = x(i)
   endif
   i = i + 1
   if(i < 75) go to 140

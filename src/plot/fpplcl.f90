@@ -30,7 +30,7 @@ subroutine fpplcl()
   !     Close line with stroke if necessary
 
   if(lstrk) then
-    call fppsin('s')
+     call fppsin('s')
   endif
 
   !     Add closing information to file
@@ -46,15 +46,15 @@ subroutine fpplcl()
   !     Convert bounding box coordinates to character array
 
   if(psfram) then
-    write(llx,'(i9)') -nint(yur*pscal) - 3 + 625
-    write(lly,'(i9)')  nint(xll*pscal) - 3 -  10
-    write(urx,'(i9)') -nint(yll*pscal) + 3 + 625
-    write(ury,'(i9)')  nint(xur*pscal) + 3 -  10
-    else
-    write(llx,'(i9)')  nint(xll*pscal) - 3
-    write(lly,'(i9)')  nint(yll*pscal) - 3
-    write(urx,'(i9)')  nint(xur*pscal) + 3
-    write(ury,'(i9)')  nint(yur*pscal) + 3
+     write(llx,'(i9)') -nint(yur*pscal) - 3 + 625
+     write(lly,'(i9)')  nint(xll*pscal) - 3 -  10
+     write(urx,'(i9)') -nint(yll*pscal) + 3 + 625
+     write(ury,'(i9)')  nint(xur*pscal) + 3 -  10
+  else
+     write(llx,'(i9)')  nint(xll*pscal) - 3
+     write(lly,'(i9)')  nint(yll*pscal) - 3
+     write(urx,'(i9)')  nint(xur*pscal) + 3
+     write(ury,'(i9)')  nint(yur*pscal) + 3
   endif
 
   !     Create 'Feap#.eps file
@@ -63,7 +63,7 @@ subroutine fpplcl()
 
   if(ior < 0) write(*,2000) fname(1:10)
 
-  2000 format(' --> Closing FEAP PostScript file: ',a )
+2000 format(' --> Closing FEAP PostScript file: ',a )
 
 end subroutine fpplcl
 
@@ -110,24 +110,24 @@ subroutine feapbb(filer,llx,lly,urx,ury)
 
   eofile = .true. 
   do while (eofile)
-  read(lun,'(a)',end=200) line
+     read(lun,'(a)',end=200) line
 
-  !       Non bounding box records
+     !       Non bounding box records
 
-  if(line(3:7) /= 'Bound') then
-    do ii = 80,1,-1
-    if(line(ii:ii) /= ' ') go to 100
-    end do
-    100 write(ios,'(a)') line(1:ii)
+     if(line(3:7) /= 'Bound') then
+        do ii = 80,1,-1
+           if(line(ii:ii) /= ' ') go to 100
+        end do
+100     write(ios,'(a)') line(1:ii)
 
-    !       BoundingBox record
+        !       BoundingBox record
 
-  else
-    write(ios,'(a50)') boundbox
-  endif
+     else
+        write(ios,'(a50)') boundbox
+     endif
   end do
 
-  200 close(lun,status='delete')
+200 close(lun,status='delete')
   close(ios)
 
 end subroutine feapbb

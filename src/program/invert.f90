@@ -24,24 +24,24 @@ subroutine invert(a,nmax,ndm)
   real*8 ::    d, a(ndm,*)
 
   do n = 1,nmax
-  if(a(n,n) /= 0.0d0) then
-    d = 1.d0/a(n,n)
-    do j = 1,nmax
-    a(n,j) = -a(n,j)*d
-    end do
+     if(a(n,n) /= 0.0d0) then
+        d = 1.d0/a(n,n)
+        do j = 1,nmax
+           a(n,j) = -a(n,j)*d
+        end do
 
-    do i = 1,nmax
-    if(n /= i) then
-      do j = 1,nmax
-      if(n /= j) a(i,j) = a(i,j) +a(i,n)*a(n,j)
-      end do
-    endif
-    a(i,n) = a(i,n)*d
-    end do
-    a(n,n) = d
-  else
-    write(*,*) ' *WARNING* Zero pivot in INVERT'
-  endif
+        do i = 1,nmax
+           if(n /= i) then
+              do j = 1,nmax
+                 if(n /= j) a(i,j) = a(i,j) +a(i,n)*a(n,j)
+              end do
+           endif
+           a(i,n) = a(i,n)*d
+        end do
+        a(n,n) = d
+     else
+        write(*,*) ' *WARNING* Zero pivot in INVERT'
+     endif
   end do
 
 end subroutine invert

@@ -37,11 +37,11 @@ subroutine clpan()
   !     Fill panel for PostScript
 
   if (hdcpy .and. ipan >= 3 ) then
-    call fppspl(ipan,xp,yp)
+     call fppspl(ipan,xp,yp)
   endif
 
   !     Reinitialize panel counter
 
   ipan = 0
 
-  end
+end subroutine clpan

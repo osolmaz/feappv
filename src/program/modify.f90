@@ -31,18 +31,18 @@ subroutine modify(b,ld,s,dul,nst)
   !     Loop over columns and search for boundary terms
 
   do j = 1,nst
-  if(ld(j) < 0) then
+     if(ld(j) < 0) then
 
-    !         Loop over rows to modify active equations
+        !         Loop over rows to modify active equations
 
-    do i = 1,nst
-    ii = ld(i)
-    if(ii > 0) then
-      b(ii) = b(ii) - s(i,j)*dul(j)
-    endif
-    end do
+        do i = 1,nst
+           ii = ld(i)
+           if(ii > 0) then
+              b(ii) = b(ii) - s(i,j)*dul(j)
+           endif
+        end do
 
-  endif
+     endif
   end do
 
 end subroutine modify

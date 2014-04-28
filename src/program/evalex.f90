@@ -34,10 +34,10 @@ subroutine evalex(xs,v,val,ns,error)
 
   num = 0
   do i = 1,ns
-  if(xs(i:i) /= ' ') then
-    num        = num + 1
-    x(num:num) = xs(i:i)
-  endif
+     if(xs(i:i) /= ' ') then
+        num        = num + 1
+        x(num:num) = xs(i:i)
+     endif
   end do ! i
 
   !     Evaluate an expression: (+) add, (-) subtract, (*) multiply,
@@ -45,25 +45,25 @@ subroutine evalex(xs,v,val,ns,error)
 
   k  = 0
   do i = 1,num
-  if(k == 0 .and. x(i:i) == ' ') go to 100
-  if((x(i:i) == '+') .or. (x(i:i) == '-')) then
-    if(i > 2) then
-      y = x(i-1:i-1)
-      if(y == 'e' .or. y == 'd' .or. y == 'E' .or. y == 'D') then
-        if((x(i-2:i-2) >= '0' .and. x(i-2:i-2) <= '9') .or. &
-          x(i-2:i-2) == '.') go to 100
-      endif
-    endif
-    k      = k + 1
-    op(k)  = x(i:i)
-    x(i:i) = ','
-  endif
-  if((x(i:i) == '*') .or. (x(i:i) == '/') .or. (x(i:i) == '^')) then
-    k      = k + 1
-    op(k)  = x(i:i)
-    x(i:i) = ','
-  endif
-  100 continue
+     if(k == 0 .and. x(i:i) == ' ') go to 100
+     if((x(i:i) == '+') .or. (x(i:i) == '-')) then
+        if(i > 2) then
+           y = x(i-1:i-1)
+           if(y == 'e' .or. y == 'd' .or. y == 'E' .or. y == 'D') then
+              if((x(i-2:i-2) >= '0' .and. x(i-2:i-2) <= '9') .or. &
+                   x(i-2:i-2) == '.') go to 100
+           endif
+        endif
+        k      = k + 1
+        op(k)  = x(i:i)
+        x(i:i) = ','
+     endif
+     if((x(i:i) == '*') .or. (x(i:i) == '/') .or. (x(i:i) == '^')) then
+        k      = k + 1
+        op(k)  = x(i:i)
+        x(i:i) = ','
+     endif
+100  continue
   end do ! i
 
   call dcheck(x,v,num,error)
@@ -75,61 +75,61 @@ subroutine evalex(xs,v,val,ns,error)
   val = v(1)
   if(k >= 1) then
 
-    !      1. Evaluate all exponentiations
+     !      1. Evaluate all exponentiations
 
-    i = 1
-    110 if(op(i) == '^') then
-      v(i) = v(i) ** v(i+1)
-      k = k - 1
-      do j = i,k
-      v(j+1) = v(j+2)
-      op(j) = op(j+1)
-      end do ! j
-    endif
-    i = i + 1
-    if(i <= k) go to 110
+     i = 1
+110  if(op(i) == '^') then
+        v(i) = v(i) ** v(i+1)
+        k = k - 1
+        do j = i,k
+           v(j+1) = v(j+2)
+           op(j) = op(j+1)
+        end do ! j
+     endif
+     i = i + 1
+     if(i <= k) go to 110
 
-    !      2. Evaluate all multiplications and divisions
+     !      2. Evaluate all multiplications and divisions
 
-    i = 1
-    120 if(op(i) == '*' .or. op(i) == '/') then
-      if(op(i) == '*') then
-        v(i) = v(i) * v(i+1)
-      else
-        if(v(i+1) == 0.0d0) then
-          write(iow,3000) let
-          if(v(i) /= 0.0d0) then
-            v(i) = sign(1.d20,v(i))
-          else
-            v(i) = 0.0d0
-          endif
+     i = 1
+120  if(op(i) == '*' .or. op(i) == '/') then
+        if(op(i) == '*') then
+           v(i) = v(i) * v(i+1)
         else
-          v(i) = v(i) / v(i+1)
+           if(v(i+1) == 0.0d0) then
+              write(iow,3000) let
+              if(v(i) /= 0.0d0) then
+                 v(i) = sign(1.d20,v(i))
+              else
+                 v(i) = 0.0d0
+              endif
+           else
+              v(i) = v(i) / v(i+1)
+           endif
         endif
-      endif
-      k = k - 1
-      do j = i,k
-      v(j+1) = v(j+2)
-      op(j) = op(j+1)
-      end do ! j
-    else
-      i = i + 1
-    endif
-    if(i <= k) go to 120
+        k = k - 1
+        do j = i,k
+           v(j+1) = v(j+2)
+           op(j) = op(j+1)
+        end do ! j
+     else
+        i = i + 1
+     endif
+     if(i <= k) go to 120
 
-    !      3. Evaluate all additions and subractions
+     !      3. Evaluate all additions and subractions
 
-    val = v(1)
-    if(k > 0) then
-      do i = 1,k
-      if(op(i) == '+') val = val + v(i+1)
-      if(op(i) == '-') val = val - v(i+1)
-      end do ! i
-    endif
+     val = v(1)
+     if(k > 0) then
+        do i = 1,k
+           if(op(i) == '+') val = val + v(i+1)
+           if(op(i) == '-') val = val - v(i+1)
+        end do ! i
+     endif
   endif
 
   !     Format
 
-  3000 format(' *ERROR* Dividing by zero in expression for: ',a)
+3000 format(' *ERROR* Dividing by zero in expression for: ',a)
 
 end subroutine evalex

@@ -35,40 +35,40 @@ subroutine pincld(fname)
   dnam = fname
 
   if(pcomp(dnam,'end',3)) then
-    inquire(file=fnamr,opened=lopen,exist=errc)
-    if(errc .and. lopen) then
-      close(icf)
-    else
-      inquire(unit=icf,opened=lopen,exist=errc)
-      if(errc .and. lopen) then
+     inquire(file=fnamr,opened=lopen,exist=errc)
+     if(errc .and. lopen) then
         close(icf)
-      endif
-    endif
-    if(isf > 1) then
-      fincld(isf) = ' '
-    endif
-    isf   = max(1,isf-1)
-    ior   = isfile(isf)
-    icf   = max(icl,abs(ior))
-    lread = .false. 
+     else
+        inquire(unit=icf,opened=lopen,exist=errc)
+        if(errc .and. lopen) then
+           close(icf)
+        endif
+     endif
+     if(isf > 1) then
+        fincld(isf) = ' '
+     endif
+     isf   = max(1,isf-1)
+     ior   = isfile(isf)
+     icf   = max(icl,abs(ior))
+     lread = .false. 
   else
-    1 inquire(unit=icf,opened=lopen)
-    if(lopen) then
-      icf = icf + 1
-      go to 1
-    endif
-    fnamr =  dnam
-    fext  =  dnam(1:8)
-    call opnfil(fext,fnamr,-2,icf,lread)
-    if( .not. lread) then
-      if(ior < 0) return
-      call plstop()
-    endif
-    isfile(isf) = ior
-    ior         = icf
-    isf         = isf + 1
-    fincld(isf) = fnamr
-    irecrd(isf) = 0
+1    inquire(unit=icf,opened=lopen)
+     if(lopen) then
+        icf = icf + 1
+        go to 1
+     endif
+     fnamr =  dnam
+     fext  =  dnam(1:8)
+     call opnfil(fext,fnamr,-2,icf,lread)
+     if( .not. lread) then
+        if(ior < 0) return
+        call plstop()
+     endif
+     isfile(isf) = ior
+     ior         = icf
+     isf         = isf + 1
+     fincld(isf) = fnamr
+     irecrd(isf) = 0
   endif
 
 end subroutine pincld

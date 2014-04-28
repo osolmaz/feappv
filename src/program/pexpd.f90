@@ -32,17 +32,17 @@ subroutine pexpd(a,t,id,neq,nneq)
   !     Copy compressed to temporary vector
 
   do n = 1,neq
-  t(n) = a(n)
+     t(n) = a(n)
   end do
 
   !     Exand compressed temporary vector
 
   do n = 1,nneq
-  if(id(n) > 0) then
-    a(n) = t(id(n))
-  else
-    a(n) = 0.0d0
-  endif
+     if(id(n) > 0) then
+        a(n) = t(id(n))
+     else
+        a(n) = 0.0d0
+     endif
   end do
 
 end subroutine pexpd

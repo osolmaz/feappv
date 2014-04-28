@@ -26,7 +26,7 @@ subroutine pzeroi(ii,nn)
   !     Zero integer array
 
   do n = 1,nn
-  ii(n) = 0
+     ii(n) = 0
   end do
 
 end subroutine pzeroi

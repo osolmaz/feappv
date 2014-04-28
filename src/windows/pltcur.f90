@@ -22,4 +22,4 @@ subroutine pltcur()
 
   status = displaycursor($GCURSORON)
 
-  end
+end subroutine pltcur

@@ -35,24 +35,24 @@ logical function readfl(tx)
   !     Close file and reset logical unit number
 
   if(pcomp(tx,'end',3)) then
-    inquire(file=fnamr,opened=lopen,exist=lexist)
-    if(lexist .and. lopen) close(lfile)
-    if(lread) then
-      ior    = isfile
-      lread  = .false. 
-      readfl = .false. 
-    endif
+     inquire(file=fnamr,opened=lopen,exist=lexist)
+     if(lexist .and. lopen) close(lfile)
+     if(lread) then
+        ior    = isfile
+        lread  = .false. 
+        readfl = .false. 
+     endif
 
-    !     Open file and set new logical unit number
+     !     Open file and set new logical unit number
 
   else
-    fnamr    = tx
-    fext     = tx
-    call opnfil(fext,fnamr,-2,lfile,lread)
-    if( .not. lread) return
-    isfile = ior
-    ior    = lfile
-    readfl = .true. 
+     fnamr    = tx
+     fext     = tx
+     call opnfil(fext,fnamr,-2,lfile,lread)
+     if( .not. lread) return
+     isfile = ior
+     ior    = lfile
+     readfl = .true. 
   endif
 
 end function readfl

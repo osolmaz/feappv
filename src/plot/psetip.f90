@@ -25,7 +25,7 @@ subroutine psetip(ip,numel)
   save
 
   do n = 1,numel
-  ip(n) = n
+     ip(n) = n
   end do
 
 end subroutine psetip

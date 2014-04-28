@@ -24,10 +24,10 @@ function cvtc2i(cdev)
   nz= ichar('0')
   n = 0
   do i = 1,12
-  if(cdev(i) == char(0) .or. cdev(i) == ' ') go to 200
-  n = 10*n + (ichar(cdev(i)) - nz)
+     if(cdev(i) == char(0) .or. cdev(i) == ' ') go to 200
+     n = 10*n + (ichar(cdev(i)) - nz)
   end do
 
-  200 cvtc2i = n
+200 cvtc2i = n
 
 end function cvtc2i

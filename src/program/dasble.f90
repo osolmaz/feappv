@@ -46,80 +46,80 @@ subroutine dasble(s,p,ld,jp,ns,neqs,afl,bfl,  b,al,au,ad)
 
   if(solver .and. afl) then
 
-    !       Check for compressed assembly
+     !       Check for compressed assembly
 
-    if(compfl) then
+     if(compfl) then
 
-      if(neqs > 1) then
-        alfl = .false. 
-      else
-        alfl = .true. 
-      endif
-
-      !         Compressed stiffness assembly
-
-      if(castif) then
-        call cassem(ad,au,al,s,mr(np(3)),mr(np(2)), &
-          ld,ns,alfl,kbycol,kdiag,kall)
-
-        !         Compressed damping assembly
-
-      elseif(cadamp) then
-        call cassem(ad,au,al,s,mr(np(19)),mr(np(18)), &
-          ld,ns,alfl,cbycol,cdiag,call)
-
-        !         Compressed mass assembly
-
-      elseif(camass) then
-        call cassem(ad,au,al,s,mr(np(11)),mr(np(10)), &
-          ld,ns,alfl,mbycol,mdiag,mall)
-
-        !         Compressed user assembly
-
-      elseif(causer) then
-        call cassem(ad,au,al,s,mr(np(152)),mr(np(151)), &
-          ld,ns,alfl,ubycol,udiag,uall)
-      endif
-
-    else
-
-      !       Loop through rows to perform assembly
-
-      je = jp(neqs)
-      do i = 1,ns
-      if(ld(i) > 0) then
-        ii = ld(i) + 1
-
-        !             Loop through columns to perform assembly
-
-        do j = 1,ns
-        if(ld(j) == ld(i)) then
-          ad(ld(i)) = ad(ld(i)) + s(i,j)
-        elseif(ld(j) > ld(i)) then
-          jj = ii + jp(ld(j)) - ld(j)
-          au(jj) = au(jj) + s(i,j)
-          if(ld(j) > neqs) then
-            al(jj-je) = al(jj-je) + s(j,i)
-          endif
+        if(neqs > 1) then
+           alfl = .false. 
+        else
+           alfl = .true. 
         endif
+
+        !         Compressed stiffness assembly
+
+        if(castif) then
+           call cassem(ad,au,al,s,mr(np(3)),mr(np(2)), &
+                ld,ns,alfl,kbycol,kdiag,kall)
+
+           !         Compressed damping assembly
+
+        elseif(cadamp) then
+           call cassem(ad,au,al,s,mr(np(19)),mr(np(18)), &
+                ld,ns,alfl,cbycol,cdiag,call)
+
+           !         Compressed mass assembly
+
+        elseif(camass) then
+           call cassem(ad,au,al,s,mr(np(11)),mr(np(10)), &
+                ld,ns,alfl,mbycol,mdiag,mall)
+
+           !         Compressed user assembly
+
+        elseif(causer) then
+           call cassem(ad,au,al,s,mr(np(152)),mr(np(151)), &
+                ld,ns,alfl,ubycol,udiag,uall)
+        endif
+
+     else
+
+        !       Loop through rows to perform assembly
+
+        je = jp(neqs)
+        do i = 1,ns
+           if(ld(i) > 0) then
+              ii = ld(i) + 1
+
+              !             Loop through columns to perform assembly
+
+              do j = 1,ns
+                 if(ld(j) == ld(i)) then
+                    ad(ld(i)) = ad(ld(i)) + s(i,j)
+                 elseif(ld(j) > ld(i)) then
+                    jj = ii + jp(ld(j)) - ld(j)
+                    au(jj) = au(jj) + s(i,j)
+                    if(ld(j) > neqs) then
+                       al(jj-je) = al(jj-je) + s(j,i)
+                    endif
+                 endif
+              end do
+           endif
         end do
-      endif
-      end do
-    endif
+     endif
   endif
 
   !     Assemble a vector
 
   if(solver .and. bfl) then
-    do i = 1,ns
-    if(ld(i) > 0) b(ld(i))  = b(ld(i))  + p(i)
-    end do
+     do i = 1,ns
+        if(ld(i) > 0) b(ld(i))  = b(ld(i))  + p(i)
+     end do
   endif
 
   !     User supplied assembler
 
   if( .not. solver) then
-    call uasble(s,p,ld,ns,afl,bfl,b)
+     call uasble(s,p,ld,ns,afl,bfl,b)
   endif
 
 end subroutine dasble

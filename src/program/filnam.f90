@@ -45,46 +45,46 @@ subroutine filnam
 
   !     Look to see if any problem has been run
 
-  101 inquire(file='feapname',exist=lfil)
+101 inquire(file='feapname',exist=lfil)
   if(lfil) then
-    open(ios,file='feapname',status='unknown')
-    read(ios,2010,err=900,end=900) pinp,pout,pres,psav,pplt,epmac
-    close(ios)
-    finp = pinp
-    fout = pout
-    fres = pres
-    fsav = psav
-    fplt = pplt
+     open(ios,file='feapname',status='unknown')
+     read(ios,2010,err=900,end=900) pinp,pout,pres,psav,pplt,epmac
+     close(ios)
+     finp = pinp
+     fout = pout
+     fres = pres
+     fsav = psav
+     fplt = pplt
 
-    !       Compute solution timings
+     !       Compute solution timings
 
-    if(nargs > 0) then
-      call getcon(epmac)
-    else
-      ior = -abs(ior)
-      write(*,2000) versn
-    endif
-    go to 200
+     if(nargs > 0) then
+        call getcon(epmac)
+     else
+        ior = -abs(ior)
+        write(*,2000) versn
+     endif
+     go to 200
   else
 
-    !       Set default file names
+     !       Set default file names
 
-    ior = -abs(ior)
-    write(*,2000) versn
-    pinp = dinp
-    pout = dout
-    pres = dres
-    psav = dres
-    pplt = dinp
+     ior = -abs(ior)
+     write(*,2000) versn
+     pinp = dinp
+     pout = dout
+     pres = dres
+     psav = dres
+     pplt = dinp
 
-    call getcon(epmac)
+     call getcon(epmac)
   endif
 
   !     Name file for input data
 
-  100 ierr = 1
+100 ierr = 1
   finp = pinp
-  1 write(*,2001) pinp
+1 write(*,2001) pinp
   read (*,1000,err=901,end=902) filein
   if (pcomp(filein,'stop',4)) call plstop()
   if (pcomp(filein,'exit',4)) call plstop()
@@ -93,51 +93,51 @@ subroutine filnam
 
   !     Check if input files exists
 
-  10 inquire(file=finp,exist=linp)
+10 inquire(file=finp,exist=linp)
   if( .not. linp) then
-    write(*,3000)
-    go to 1
+     write(*,3000)
+     go to 1
   endif
   pinp = finp
 
   !     Set default files for a filname beginning with 'I' or 'i'
 
   if(pcomp(pinp,'I',1)) then
-    pinp(1:1) = 'I'
-    pout      = pinp
-    pout(1:1) = 'O'
-    pres      = pinp
-    pres(1:1) = 'R'
-    psav      = pinp
-    psav(1:1) = 'R'
+     pinp(1:1) = 'I'
+     pout      = pinp
+     pout(1:1) = 'O'
+     pres      = pinp
+     pres(1:1) = 'R'
+     psav      = pinp
+     psav(1:1) = 'R'
   endif
 
   !     Name file for output data
 
   ierr =  2
   fout = pout
-  2 write(*,2002) pout
+2 write(*,2002) pout
   read (*,1000,err=901,end=902) filein
   if ( .not. pcomp(filein,' ',1)) fout = filein
-  20 pout = fout
+20 pout = fout
 
   !     Name file for restart read data
 
   ierr =  3
   fres = pres
-  3 write(*,2003) pres
+3 write(*,2003) pres
   read (*,1000,err=901,end=902) filein
   if ( .not. pcomp(filein,' ',1)) fres = filein
-  30 pres = fres
+30 pres = fres
 
   !     Name file for restart save data
 
   ierr = 4
   fsav = psav
-  4 write(*,2004) psav
+4 write(*,2004) psav
   read (*,1000,err=901,end=902) filein
   if ( .not. pcomp(filein,' ',1)) fsav = filein
-  40 psav = fsav
+40 psav = fsav
 
   !     Set default plot window
 
@@ -147,7 +147,7 @@ subroutine filnam
 
   !     Check file status and input if necessary
 
-  200 inquire(file=finp,exist=linp)
+200 inquire(file=finp,exist=linp)
   if( .not. linp .and. nargs > 0) call plstop()
   if( .not. linp) go to 100
   iinp = 2
@@ -162,7 +162,7 @@ subroutine filnam
   if(lsav) isav = 2
   if(nargs > 0) go to 300
   write(*,2007) finp,wd(iinp),fout,wd(ioup),fres,wd(ires), &
-    fsav,wd(isav)
+       fsav,wd(isav)
 
   ierr =  5
 
@@ -175,77 +175,77 @@ subroutine filnam
 
   !     Reset ior unit number
 
-  300 ior = iorsav
+300 ior = iorsav
   return
 
   !     Error in form of feapname file
 
-  900 lfil = .false. 
+900 lfil = .false. 
   write(*,'(/a)') ' ERROR IN feapname FILE -- Read filenames'
   close(ios,status = 'delete')
   go to 101
 
   !     Error trap
 
-  901 write(*,3001)
+901 write(*,3001)
   if(    ierr == 1) then
-    go to 1
+     go to 1
   elseif(ierr == 2) then
-    go to 2
+     go to 2
   elseif(ierr == 3) then
-    go to 3
+     go to 3
   elseif(ierr == 4) then
-    go to 4
-    ! lseif(ierr.eq.5) then
-    ! o to 5
+     go to 4
+     ! lseif(ierr.eq.5) then
+     ! o to 5
   else
-    call plstop()
+     call plstop()
   endif
 
   !     EOF encountered
 
-  902 call  endclr ('FILNAM',filein)
+902 call  endclr ('FILNAM',filein)
   if(    ierr == 1) then
-    go to 10
+     go to 10
   elseif(ierr == 2) then
-    go to 20
+     go to 20
   elseif(ierr == 3) then
-    go to 30
+     go to 30
   elseif(ierr == 4) then
-    go to 40
-    ! lseif(ierr.eq.5) then
-    ! o to 5
+     go to 40
+     ! lseif(ierr.eq.5) then
+     ! o to 5
   else
-    call plstop()
+     call plstop()
   endif
 
   !     Formats
 
-  1000 format(5a12/1p,2e25.15)
+1000 format(5a12/1p,2e25.15)
 
-  1001 format(75a1)
+1001 format(75a1)
 
   ! 000  format('feappv ',a17,' ',a17)
 
-  2000 format('feappv ',a17,' date: ',a17)
+2000 format('feappv ',a17,' date: ',a17)
 
-  2001 format('Specify input files:', / &
-    &        1x,'Input   Data (default: ',a12,') :',$)
-  2002 format(1x,'Output  Data (default: ',a12,') :',$)
-  2003 format(1x,'Restart Read (default: ',a12,') :',$)
-  2004 format(1x,'Restart Save (default: ',a12,') :',$)
+2001 format('Specify input files:', / &
+       &        1x,'Input   Data (default: ',a12,') :',$)
+2002 format(1x,'Output  Data (default: ',a12,') :',$)
+2003 format(1x,'Restart Read (default: ',a12,') :',$)
+2004 format(1x,'Restart Save (default: ',a12,') :',$)
 
-  2007 format(/14x,'Filename',9x,'Status'/ &
-    &        1x,'Input   (r) : ',a12,5x,a6/ &
-    &        1x,'Output  (w) : ',a12,5x,a6/ &
-    &        1x,'Restart (r) : ',a12,5x,a6/ &
-    &        1x,'Restart (w) : ',a12,5x,a6// &
-    'Caution, existing write files will be overwritten.')
+2007 format(/14x,'Filename',9x,'Status'/ &
+       &        1x,'Input   (r) : ',a12,5x,a6/ &
+       &        1x,'Output  (w) : ',a12,5x,a6/ &
+       &        1x,'Restart (r) : ',a12,5x,a6/ &
+       &        1x,'Restart (w) : ',a12,5x,a6// &
+       'Caution, existing write files will be overwritten.')
 
-  2010 format(a/a/a/a/a/1p,1e25.15)
+2010 format(a/a/a/a/a/1p,1e25.15)
 
-  3000 format(/'*ERROR* Specified input file does not exist, ', &
-    'reinput name.'/)
-  3001 format(/'*ERROR* Reinput data')
+3000 format(/'*ERROR* Specified input file does not exist, ', &
+       'reinput name.'/)
+3001 format(/'*ERROR* Reinput data')
 
 end subroutine filnam

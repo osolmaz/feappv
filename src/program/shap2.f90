@@ -36,35 +36,35 @@ subroutine shap2(s,t,shp,ix,nel)
   t2 = (1.d0-t*t)*0.5d0
 
   do i = 5,9
-  do j = 1,3
-  shp(j,i) = 0.0d0
-  end do
+     do j = 1,3
+        shp(j,i) = 0.0d0
+     end do
   end do
 
   !     Midside nodes (serendipity)
 
   if(ix(5) /= 0) then
-    shp(1,5) = -s*(1.d0-t)
-    shp(2,5) = -s2
-    shp(3,5) = s2*(1.d0-t)
+     shp(1,5) = -s*(1.d0-t)
+     shp(2,5) = -s2
+     shp(3,5) = s2*(1.d0-t)
   endif
   if(nel < 6) go to 100
   if(ix(6) /= 0) then
-    shp(1,6) = t2
-    shp(2,6) = -t*(1.d0+s)
-    shp(3,6) = t2*(1.d0+s)
+     shp(1,6) = t2
+     shp(2,6) = -t*(1.d0+s)
+     shp(3,6) = t2*(1.d0+s)
   endif
   if(nel < 7) go to 100
   if(ix(7) /= 0) then
-    shp(1,7) = -s*(1.d0+t)
-    shp(2,7) = s2
-    shp(3,7) = s2*(1.d0+t)
+     shp(1,7) = -s*(1.d0+t)
+     shp(2,7) = s2
+     shp(3,7) = s2*(1.d0+t)
   endif
   if(nel < 8) go to 100
   if(ix(8) /= 0) then
-    shp(1,8) = -t2
-    shp(2,8) = -t*(1.d0-s)
-    shp(3,8) = t2*(1.d0-s)
+     shp(1,8) = -t2
+     shp(2,8) = -t*(1.d0-s)
+     shp(3,8) = t2*(1.d0-s)
   endif
 
   !     Interior node (lagrangian)
@@ -77,23 +77,23 @@ subroutine shap2(s,t,shp,ix,nel)
   !     Correct edge nodes for interior node (lagrangian)
 
   do j= 1,3
-  do i = 1,4
-  shp(j,i) = shp(j,i) - 0.25d0*shp(j,9)
-  end do
-  do i = 5,8
-  if(ix(i) /= 0) shp(j,i) = shp(j,i) - 0.5d0*shp(j,9)
-  end do
+     do i = 1,4
+        shp(j,i) = shp(j,i) - 0.25d0*shp(j,9)
+     end do
+     do i = 5,8
+        if(ix(i) /= 0) shp(j,i) = shp(j,i) - 0.5d0*shp(j,9)
+     end do
   end do
 
   !     Correct corner nodes for presence of midside nodes
 
-  100 k = 8
+100 k = 8
   do i = 1,4
-  l = i + 4
-  do j = 1,3
-  shp(j,i) = shp(j,i) - 0.5d0*(shp(j,k)+shp(j,l))
-  end do
-  k = l
+     l = i + 4
+     do j = 1,3
+        shp(j,i) = shp(j,i) - 0.5d0*(shp(j,k)+shp(j,l))
+     end do
+     k = l
   end do
 
 end subroutine shap2

@@ -27,15 +27,15 @@ subroutine cfunc(shp,xl,ixl,ndm,x)
   real*8 ::    shp(3,*),xl(3,*),x(*)
 
   do l = 1,ndm
-  x(l) = 0.0d0
+     x(l) = 0.0d0
   end do
 
   do k = 1,9
-  if(ixl(k) > 0) then
-    do l = 1,ndm
-    x(l) = x(l) + shp(3,ixl(k))*xl(l,ixl(k))
-    end do
-  end if
+     if(ixl(k) > 0) then
+        do l = 1,ndm
+           x(l) = x(l) + shp(3,ixl(k))*xl(l,ixl(k))
+        end do
+     end if
   end do
 
 end subroutine cfunc

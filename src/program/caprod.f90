@@ -34,31 +34,31 @@ subroutine caprod(ad,ac,p,v,jc,ir,neq)
   !     Diagonal part
 
   do ni = 1,neq
-  v(ni) = ad(ni)*p(ni)
+     v(ni) = ad(ni)*p(ni)
   end do
 
   !     Loop over number of equations
 
   do ni = 2,neq
 
-  !     Perform multiplies for non-zero terms
+     !     Perform multiplies for non-zero terms
 
-  nj0 = jc(ni-1)
-  njd = jc(ni) - nj0
-  vni = 0.0d0
+     nj0 = jc(ni-1)
+     njd = jc(ni) - nj0
+     vni = 0.0d0
 
-  do nj = 1,njd
+     do nj = 1,njd
 
-  !         Lower part
+        !         Lower part
 
-  vni           = vni + ac(nj+nj0)*p(ir(nj+nj0))
+        vni           = vni + ac(nj+nj0)*p(ir(nj+nj0))
 
-  !         Upper part
+        !         Upper part
 
-  v(ir(nj+nj0)) = v(ir(nj+nj0)) + ac(nj+nj0)*p(ni)
+        v(ir(nj+nj0)) = v(ir(nj+nj0)) + ac(nj+nj0)*p(ni)
 
-  end do
-  v(ni) = v(ni) + vni
+     end do
+     v(ni) = v(ni) + vni
 
   end do
 

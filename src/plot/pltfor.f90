@@ -52,102 +52,102 @@ subroutine pltfor(x,f,angl,id,ip,ndm,ndf,numnp,n1, isgn)
   fdis   = isgn > 1
   fm   = 0.d0
   do n = 1,numnp
-  if(ip(n) > 0 .and. mr(np(49)+n-1) >= 0 &
-    .and. zoom(x(1,n),ndm)) then
-  d = 0.d0
-  do i = 1,min(ndm,ndf)
-  j = pdf(i)
-  if(j > 0 .and. j <= ndf) then
-    if(id(j,n) > 0 .or. isgn < 0) then
-      d = d + f(j,n)**2
-    end if
-  end if
+     if(ip(n) > 0 .and. mr(np(49)+n-1) >= 0 &
+          .and. zoom(x(1,n),ndm)) then
+        d = 0.d0
+        do i = 1,min(ndm,ndf)
+           j = pdf(i)
+           if(j > 0 .and. j <= ndf) then
+              if(id(j,n) > 0 .or. isgn < 0) then
+                 d = d + f(j,n)**2
+              end if
+           end if
+        end do
+        fm = max(fm,d)
+     endif
   end do
-  fm = max(fm,d)
-endif
-end do
 
-!     Zero length vectors
+  !     Zero length vectors
 
-if(fm <= 0.0d0) then
-  if(iow < 0) write(*,2000)
+  if(fm <= 0.0d0) then
+     if(iow < 0) write(*,2000)
 
-  !     Compute vector at each node
+     !     Compute vector at each node
 
-else
+  else
 
-  fm = isgn*sqrt(fm)*scale*40.d0
-  x3 = 0.0d0
-  do n = 1,numnp
-  if(ip(n) > 0 .and. zoom(x(1,n),ndm)) then
-    x1 = x(1,n)
-    x2 = x(2,n)
-    vfl = .false. 
-    do i = 1,3
-    dd(i) = 0.0d0
-    end do
-    do i = 1,min(ndm,ndf)
-    j = pdf(i)
-    if(j > 0 .and. j <= ndf) then
-      if( ((id(j,n) > 0) .or. isgn < 0) &
-        .and. (f(j,n) /= 0.0d0) .or. fdis ) then
-      dd(i) = f(j,n)
-      vfl = .true. 
-    endif
+     fm = isgn*sqrt(fm)*scale*40.d0
+     x3 = 0.0d0
+     do n = 1,numnp
+        if(ip(n) > 0 .and. zoom(x(1,n),ndm)) then
+           x1 = x(1,n)
+           x2 = x(2,n)
+           vfl = .false. 
+           do i = 1,3
+              dd(i) = 0.0d0
+           end do
+           do i = 1,min(ndm,ndf)
+              j = pdf(i)
+              if(j > 0 .and. j <= ndf) then
+                 if( ((id(j,n) > 0) .or. isgn < 0) &
+                      .and. (f(j,n) /= 0.0d0) .or. fdis ) then
+                    dd(i) = f(j,n)
+                    vfl = .true. 
+                 endif
+              endif
+           end do
+           if(vfl) then
+              dd(1) = dd(1)/fm
+              dd(2) = dd(2)/fm
+              if(angl(n) /= 0.0d0) then
+                 ang = angl(n)*0.017453292d0
+                 cs = cos(ang)
+                 sn = sin(ang)
+                 tm    =  dd(1)*cs - dd(2)*sn
+                 dd(2) =  dd(1)*sn + dd(2)*cs
+                 dd(1) =  tm
+              endif
+              if(ndm >= 3) then
+                 dd(3) = dd(3)/fm
+                 x3 = x(3,n)
+                 xx(3,1) = x3
+                 xx(3,2) = xx(3,1) + dd(3)
+                 xx(3,3) = xx(3,2) -.6d0*dd(3) + .2d0*(dd(1)+dd(2))
+                 xx(3,4) = xx(3,2) -.6d0*dd(3) - .2d0*(dd(1)+dd(2))
+              endif
+              xx(1,1) = x1
+              xx(2,1) = x2
+              xx(1,2) = xx(1,1) + dd(1)
+              xx(2,2) = xx(2,1) + dd(2)
+              xx(1,3) = xx(1,2) -.6d0*dd(1) - .2d0*(dd(2)+dd(3))
+              xx(2,3) = xx(2,2) -.6d0*dd(2) + .2d0*(dd(1)+dd(3))
+              xx(1,4) = xx(1,2) -.6d0*dd(1) + .2d0*(dd(2)+dd(3))
+              xx(2,4) = xx(2,2) -.6d0*dd(2) - .2d0*(dd(1)+dd(3))
+
+              do k = 1, 4
+                 do j = 1,3
+                    xx(j,k) = (xx(j,k) - xsyc(j)) + xsyc(j)
+                 end do
+              end do
+              if(n1 == 0) then
+                 dx1 = 0.d0
+                 dx2 = 0.d0
+                 dx3 = 0.d0
+              else
+                 dx1 = xx(1,1) - xx(1,2)
+                 dx2 = xx(2,1) - xx(2,2)
+                 dx3 = xx(3,1) - xx(3,2)
+              endif
+              call plotl(xx(1,1)+dx1,xx(2,1)+dx2,xx(3,1)+dx3,3)
+              call plotl(xx(1,2)+dx1,xx(2,2)+dx2,xx(3,2)+dx3,2)
+              call plotl(xx(1,3)+dx1,xx(2,3)+dx2,xx(3,3)+dx3,2)
+              call plotl(xx(1,4)+dx1,xx(2,4)+dx2,xx(3,4)+dx3,2)
+              call plotl(xx(1,2)+dx1,xx(2,2)+dx2,xx(3,2)+dx3,2)
+           endif
+        endif
+     end do
   endif
-  end do
-  if(vfl) then
-    dd(1) = dd(1)/fm
-    dd(2) = dd(2)/fm
-    if(angl(n) /= 0.0d0) then
-      ang = angl(n)*0.017453292d0
-      cs = cos(ang)
-      sn = sin(ang)
-      tm    =  dd(1)*cs - dd(2)*sn
-      dd(2) =  dd(1)*sn + dd(2)*cs
-      dd(1) =  tm
-    endif
-    if(ndm >= 3) then
-      dd(3) = dd(3)/fm
-      x3 = x(3,n)
-      xx(3,1) = x3
-      xx(3,2) = xx(3,1) + dd(3)
-      xx(3,3) = xx(3,2) -.6d0*dd(3) + .2d0*(dd(1)+dd(2))
-      xx(3,4) = xx(3,2) -.6d0*dd(3) - .2d0*(dd(1)+dd(2))
-    endif
-    xx(1,1) = x1
-    xx(2,1) = x2
-    xx(1,2) = xx(1,1) + dd(1)
-    xx(2,2) = xx(2,1) + dd(2)
-    xx(1,3) = xx(1,2) -.6d0*dd(1) - .2d0*(dd(2)+dd(3))
-    xx(2,3) = xx(2,2) -.6d0*dd(2) + .2d0*(dd(1)+dd(3))
-    xx(1,4) = xx(1,2) -.6d0*dd(1) + .2d0*(dd(2)+dd(3))
-    xx(2,4) = xx(2,2) -.6d0*dd(2) - .2d0*(dd(1)+dd(3))
 
-    do k = 1, 4
-    do j = 1,3
-    xx(j,k) = (xx(j,k) - xsyc(j)) + xsyc(j)
-    end do
-    end do
-    if(n1 == 0) then
-      dx1 = 0.d0
-      dx2 = 0.d0
-      dx3 = 0.d0
-    else
-      dx1 = xx(1,1) - xx(1,2)
-      dx2 = xx(2,1) - xx(2,2)
-      dx3 = xx(3,1) - xx(3,2)
-    endif
-    call plotl(xx(1,1)+dx1,xx(2,1)+dx2,xx(3,1)+dx3,3)
-    call plotl(xx(1,2)+dx1,xx(2,2)+dx2,xx(3,2)+dx3,2)
-    call plotl(xx(1,3)+dx1,xx(2,3)+dx2,xx(3,3)+dx3,2)
-    call plotl(xx(1,4)+dx1,xx(2,4)+dx2,xx(3,4)+dx3,2)
-    call plotl(xx(1,2)+dx1,xx(2,2)+dx2,xx(3,2)+dx3,2)
-  endif
-endif
-end do
-    endif
+2000 format('  Zero values acting on mesh ')
 
-    2000 format('  Zero values acting on mesh ')
-
-  end subroutine pltfor
+end subroutine pltfor

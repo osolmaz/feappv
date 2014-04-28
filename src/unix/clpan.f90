@@ -34,16 +34,16 @@ subroutine clpan()
   !     Fill panel using X11
 
   if(ipan >= 3) then
-    do ii=1, ipan
-    x11(ii) = xp(ii)*xx(2)
-    y11(ii) = yp(ii)*xx(3)*1.28
-    end do
+     do ii=1, ipan
+        x11(ii) = xp(ii)*xx(2)
+        y11(ii) = yp(ii)*xx(3)*1.28
+     end do
 
-    if(screfl) call gdx11(ipan+1024,x11,y11)
+     if(screfl) call gdx11(ipan+1024,x11,y11)
 
-    !       Fill panel for PostScript
+     !       Fill panel for PostScript
 
-    if (hdcpy) call fppspl(ipan,xp,yp)
+     if (hdcpy) call fppspl(ipan,xp,yp)
 
   endif
 
@@ -51,4 +51,4 @@ subroutine clpan()
 
   ipan = 0
 
-  end
+end subroutine clpan

@@ -30,14 +30,14 @@ subroutine pangl(ix,nen,angl,angg,nrot)
 
   nrot = 0
   do n = 1,nen
-  angl(n) = 0.0d0
-  ii = ix(n)
-  if (ii > 0) then
-    if (angg(ii) /= 0.0d0) then
-      angl(n) = angg(ii)
-      nrot = nrot + 1
-    endif
-  endif
+     angl(n) = 0.0d0
+     ii = ix(n)
+     if (ii > 0) then
+        if (angg(ii) /= 0.0d0) then
+           angl(n) = angg(ii)
+           nrot = nrot + 1
+        endif
+     endif
   end do
 
 end subroutine pangl

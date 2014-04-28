@@ -49,13 +49,13 @@ subroutine phide(ct,nix,nxd,nxn,nne,nface,iln)
   nne     = nface
   nfac    = nne
   call plface(mr(np(nix)),mr(np(62)),hr(np(54)), &
-    &             3,nxd,numnp,nne,iln,ct)
+       &             3,nxd,numnp,nne,iln,ct)
 
   !     Set plot sequence for z-sort
 
   if(kpers /= 0) then
-    call perspz(hr(np(54)),mr(np(nix)), &
-      mr(np(62)),nxd,nxn,  3,numnp,nne)
+     call perspz(hr(np(54)),mr(np(nix)), &
+          mr(np(62)),nxd,nxn,  3,numnp,nne)
   endif
 
 end subroutine phide

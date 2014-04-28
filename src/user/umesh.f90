@@ -34,25 +34,25 @@ logical function umesh(cc,tx,prt)
 
   if(pcomp(cc,'user',4)) then
 
-    if(prt) write(  *,*) ' '
-    if(prt) write(  *,*) '    USER COMMAND = ',cc
-    if(prt) write(  *,*) ' '
+     if(prt) write(  *,*) ' '
+     if(prt) write(  *,*) '    USER COMMAND = ',cc
+     if(prt) write(  *,*) ' '
 
-    !       Return TRUE to indicate command was successful
+     !       Return TRUE to indicate command was successful
 
-    umesh = .true. 
+     umesh = .true. 
 
   elseif(pcomp(cc,'use2',4)) then
 
-    !       Second user command location, etc. for others.
+     !       Second user command location, etc. for others.
 
-    umesh = .true. 
+     umesh = .true. 
 
   else
 
-    !       Return FALSE for no match on user mesh command
+     !       Return FALSE for no match on user mesh command
 
-    umesh = .false. 
+     umesh = .false. 
 
   endif
 

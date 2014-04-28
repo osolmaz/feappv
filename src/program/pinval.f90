@@ -27,10 +27,10 @@ subroutine pinval(xs,val,error)
 
   read(xs,1000,err=100) val
   return
-  100 error = .true. 
+100 error = .true. 
 
   !     Format
 
-  1000 format(f15.0)
+1000 format(f15.0)
 
 end subroutine pinval

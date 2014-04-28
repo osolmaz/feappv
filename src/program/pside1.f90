@@ -44,37 +44,37 @@ subroutine pside1(nr,xs,tr,side,is,ns,ndm,shp,rt, x, styp)
 
   if(styp == 0) then
 
-    call interp1(nr,xs,side,is,ns,ndm,shp, x)
+     call interp1(nr,xs,side,is,ns,ndm,shp, x)
 
-    !     R/theta interpolation
+     !     R/theta interpolation
 
   elseif(styp == 1) then
 
-    call arcint1(nr,xs,side,is,ns,ndm,shp, x,rt)
+     call arcint1(nr,xs,side,is,ns,ndm,shp, x,rt)
 
-    !     R/theta interpolation
+     !     R/theta interpolation
 
   elseif(styp == 2) then
 
-    call segint1(xs,side,is,ns,ndm,shp, x)
+     call segint1(xs,side,is,ns,ndm,shp, x)
 
-    !     Eliptical interpolation
+     !     Eliptical interpolation
 
   elseif(styp == 3) then
 
-    call elpint1(nr,xs,side,is,ns,ndm,shp, x,rt)
+     call elpint1(nr,xs,side,is,ns,ndm,shp, x,rt)
 
   endif
 
   !     Transform to current frame
 
   do n = 1,nr+1
-  do k = 1,ndm
-  xx(k) = x(k,n)
-  end do ! k
-  do k = 1,ndm
-  x(k,n) = tr(k,4)+tr(k,1)*xx(1)+tr(k,2)*xx(2)+tr(k,3)*xx(3)
-  end do ! k
+     do k = 1,ndm
+        xx(k) = x(k,n)
+     end do ! k
+     do k = 1,ndm
+        x(k,n) = tr(k,4)+tr(k,1)*xx(1)+tr(k,2)*xx(2)+tr(k,3)*xx(3)
+     end do ! k
   end do ! n
 
 end subroutine pside1

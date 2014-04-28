@@ -49,8 +49,8 @@ subroutine fppsop(scal)
   fname = 'FeapAA.eps'
   inquire(file = fname,exist = fexist)
   do while(fexist)
-  call postname(fname)
-  inquire(file = fname,exist = fexist)
+     call postname(fname)
+     inquire(file = fname,exist = fexist)
   end do ! while
 
   !     Set initial BoundingBox coordinates
@@ -64,8 +64,8 @@ subroutine fppsop(scal)
 
   ii = 0
   do i = 1,67,4
-  ii           = ii + 1
-  title(i:i+3) = head(ii)
+     ii           = ii + 1
+     title(i:i+3) = head(ii)
   end do ! i
 
   !     Show initialization worked, i.e. we opened file.
@@ -158,11 +158,11 @@ subroutine fppsop(scal)
   !     Set for 12 point type in landscape mode (10 in portrait)
 
   if(psfram) then
-    call fppsin &
-      ('/H {/Helvetica findfont 91 scalefont setfont} bind def')
+     call fppsin &
+          ('/H {/Helvetica findfont 91 scalefont setfont} bind def')
   else
-    call fppsin &
-      ('/H {/Helvetica findfont 100 scalefont setfont} bind def')
+     call fppsin &
+          ('/H {/Helvetica findfont 100 scalefont setfont} bind def')
   endif
   call fppsdu()
   call fppsin('/w {stringwidth pop 2 div neg 0 rmoveto} bind def')
@@ -185,31 +185,31 @@ subroutine fppsop(scal)
   !     Start landscape mode plot
 
   if(psfram) then
-    call fppsin('%Landscape mode ')
-    call fppsdu()
-    if(blk) then
-      call fppsin(' 0 0 0 h ')
-      call fppsin('n 0 0 m 612 0 l 612 792 l 0 792 l c f')
-      call fppsdu()
-    end if
-    call fppsin('90 rotate -10 -625 translate ')
-    write(string,'(f6.4,f7.4,a7)') scal*0.1333,scal*0.1333,' scale '
-    call fppsin(string)
-    pscal = scal*0.1333
+     call fppsin('%Landscape mode ')
+     call fppsdu()
+     if(blk) then
+        call fppsin(' 0 0 0 h ')
+        call fppsin('n 0 0 m 612 0 l 612 792 l 0 792 l c f')
+        call fppsdu()
+     end if
+     call fppsin('90 rotate -10 -625 translate ')
+     write(string,'(f6.4,f7.4,a7)') scal*0.1333,scal*0.1333,' scale '
+     call fppsin(string)
+     pscal = scal*0.1333
 
-    !     Start portrait mode plot
+     !     Start portrait mode plot
 
   else
-    call fppsin('%Portrait mode ')
-    call fppsdu()
-    write(string,'(f6.4,f7.4,a7)') scal*0.1,scal*0.1,' scale '
-    pscal = scal*0.1
-    call fppsin(string)
-    if(blk) then
-      call fppsdu()
-      call fppsin('0 0 0 h n ')
-      call fppsin('318 318 m 5800 318 l 5800 4495 l 318 4495 l c f')
-    end if
+     call fppsin('%Portrait mode ')
+     call fppsdu()
+     write(string,'(f6.4,f7.4,a7)') scal*0.1,scal*0.1,' scale '
+     pscal = scal*0.1
+     call fppsin(string)
+     if(blk) then
+        call fppsdu()
+        call fppsin('0 0 0 h n ')
+        call fppsin('318 318 m 5800 318 l 5800 4495 l 318 4495 l c f')
+     end if
   endif
   call fppsdu()
   call fppsin('1 setlinecap 1 setlinejoin ')
@@ -237,7 +237,7 @@ subroutine fppsop(scal)
 
   !     Format
 
-  2000 format(' --> Opening FEAP PostScript file: ',a )
+2000 format(' --> Opening FEAP PostScript file: ',a )
 
 end subroutine fppsop
 
@@ -259,30 +259,30 @@ subroutine postname( name )
 
   do while( add .and. n > 1 )
 
-  !       Get a character from 'name'
+     !       Get a character from 'name'
 
-  nc = ichar(name(n:n))
+     nc = ichar(name(n:n))
 
-  !       Check that it is less than a 'Z'
+     !       Check that it is less than a 'Z'
 
-  if(nc < 90) then
-    name(n:n) =  char(nc+1)
-    add       = .false. 
+     if(nc < 90) then
+        name(n:n) =  char(nc+1)
+        add       = .false. 
 
-    !       It is a 'Z' (or something erroneous!).  Do next column
+        !       It is a 'Z' (or something erroneous!).  Do next column
 
-  else
-    name(n:n) = 'A'
-  endif
+     else
+        name(n:n) = 'A'
+     endif
 
-  n = n - 1
+     n = n - 1
 
   end do ! while
 
   !     Too many files exist!
 
   if(n <= 1) then
-    write(*,*) ' *ERROR* - Too many file names'
+     write(*,*) ' *ERROR* - Too many file names'
   endif
 
 end subroutine postname

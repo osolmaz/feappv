@@ -40,50 +40,50 @@ subroutine fpplps(num,xp,yp)
   y = nint(5400.0*yp(1) + 360.0)
 
   if( (x /= xold .or. y /= yold) .or. lfill .or. &
-    .not. pcomp(clin,oclin,3)) then
-  if( lstrk ) then
-    call fppsin('s ')
-  endif
-  write(coord,'(i4,1x,i4,1x)') x,y
-  if( .not. pcomp(clin,oclin,3)) then
-    call fppsin(coord//'m '//clin)
-    oclin =  clin
-  else
-    call fppsin(coord//'m ')
+       .not. pcomp(clin,oclin,3)) then
+     if( lstrk ) then
+        call fppsin('s ')
+     endif
+     write(coord,'(i4,1x,i4,1x)') x,y
+     if( .not. pcomp(clin,oclin,3)) then
+        call fppsin(coord//'m '//clin)
+        oclin =  clin
+     else
+        call fppsin(coord//'m ')
+     end if
+
+     xll = min(x,xll)
+     yll = min(y,yll)
+     xur = max(x,xur)
+     yur = max(y,yur)
+
   end if
 
-  xll = min(x,xll)
-  yll = min(y,yll)
-  xur = max(x,xur)
-  yur = max(y,yur)
+  do i=2, num
 
-end if
+     if( xp(i) /= xp(i-1) .or. yp(i) /= yp(i-1) ) then
+        x   = nint(5400.0*xp(i) + 360.0)
+        y   = nint(5400.0*yp(i) + 360.0)
 
-do i=2, num
+        xll = min(x,xll)
+        yll = min(y,yll)
+        xur = max(x,xur)
+        yur = max(y,yur)
 
-if( xp(i) /= xp(i-1) .or. yp(i) /= yp(i-1) ) then
-  x   = nint(5400.0*xp(i) + 360.0)
-  y   = nint(5400.0*yp(i) + 360.0)
+        write(coord,'(i4,1x,i4,1x)') x,y
+        call fppsin(coord//'l ')
+     endif
 
-  xll = min(x,xll)
-  yll = min(y,yll)
-  xur = max(x,xur)
-  yur = max(y,yur)
+  end do
 
-  write(coord,'(i4,1x,i4,1x)') x,y
-  call fppsin(coord//'l ')
-endif
+  !     Save last drawn line point
 
-end do
+  xold = x
+  yold = y
 
-!     Save last drawn line point
+  lstrk = .true. 
+  lfill = .false. 
 
-xold = x
-yold = y
+  ocvar = ' g'
 
-lstrk = .true. 
-lfill = .false. 
-
-ocvar = ' g'
-
-    end subroutine fpplps
+end subroutine fpplps

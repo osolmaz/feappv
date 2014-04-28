@@ -26,12 +26,12 @@ subroutine prtitl(prtf)
   save
 
   if(prtf) then
-    write(iow,2000) o,head
-    if(ior < 0) then
-      write(*,2000) o,head
-    endif
+     write(iow,2000) o,head
+     if(ior < 0) then
+        write(*,2000) o,head
+     endif
   endif
 
-  2000 format(/a1,19a4,a2/1x)
+2000 format(/a1,19a4,a2/1x)
 
 end subroutine prtitl

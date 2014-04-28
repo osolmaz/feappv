@@ -8,6 +8,7 @@ LT_INIT()
 #LT_INIT([disable-static])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([subdir-objects])
+AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE([enable])
 : ${CFLAGS=""}
 : ${CXXFLAGS=""}

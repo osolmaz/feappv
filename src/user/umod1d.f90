@@ -41,10 +41,10 @@ subroutine umod1d(umat,eps,td,d,ud,hn,h1,nh,ii,istrt, sig,dd, isw)
 
   if(umat == 1) then
 
-    !       Dummy elastic model:  sig = E*eps
+     !       Dummy elastic model:  sig = E*eps
 
-    dd  = d(1)
-    sig = d(1)*eps
+     dd  = d(1)
+     sig = d(1)*eps
 
   endif
 

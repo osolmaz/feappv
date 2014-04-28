@@ -43,58 +43,58 @@ subroutine pfboun(td,x,f,ntyp,ndm,ndf,numnp,numprt,vtype,prt,prth)
   !     Find closest node to input coordinates
 
   if(prt .and. numprt <= 0) then
-    call prtitl(prth)
-    write(iow,2000) (n,n=1,ndf)
-    if(ior < 0) write(*,2000) (n,n=1,ndf)
-    numprt = 50
+     call prtitl(prth)
+     write(iow,2000) (n,n=1,ndf)
+     if(ior < 0) write(*,2000) (n,n=1,ndf)
+     numprt = 50
   endif
 
   clflg = .false. 
   do n = 1,numnp
-  if(ntyp(n) >= 0) then
-    tmn = dotx(td(1),x(1,n),ndm)
-    if(clflg) then
-      if(tmn < xmn) then
-        xmn = tmn
-        nbc = n
-      endif
-    else
-      xmn   =  tmn
-      nbc   =  n
-      clflg = .true. 
-    endif
-  endif
+     if(ntyp(n) >= 0) then
+        tmn = dotx(td(1),x(1,n),ndm)
+        if(clflg) then
+           if(tmn < xmn) then
+              xmn = tmn
+              nbc = n
+           endif
+        else
+           xmn   =  tmn
+           nbc   =  n
+           clflg = .true. 
+        endif
+     endif
   end do
 
   !     Set b.c. forced values
 
   if(clflg) then
-    if(pcomp(vtype,'add',3)) then
-      do n = 1,ndf
-      f(n,nbc) = f(n,nbc) + td(ndm+n)
-      end do
-    else
-      do n = 1,ndf
-      f(n,nbc) = td(ndm+n)
-      end do
-    endif
+     if(pcomp(vtype,'add',3)) then
+        do n = 1,ndf
+           f(n,nbc) = f(n,nbc) + td(ndm+n)
+        end do
+     else
+        do n = 1,ndf
+           f(n,nbc) = td(ndm+n)
+        end do
+     endif
 
-    !       Output current restraint codes set
+     !       Output current restraint codes set
 
-    if(prt) then
-      write(iow,2001) nbc,(td(ndm+n),n=1,ndf)
-      if(ior < 0) then
-        write(*,2001) nbc,(td(ndm+n),n=1,ndf)
-      endif
-      numprt = numprt - 1
-    endif
+     if(prt) then
+        write(iow,2001) nbc,(td(ndm+n),n=1,ndf)
+        if(ior < 0) then
+           write(*,2001) nbc,(td(ndm+n),n=1,ndf)
+        endif
+        numprt = numprt - 1
+     endif
   endif
 
   !     Format
 
-  2000 format('  C o o r d i n a t e    N o d a l    F o r c e d'/ &
-    /3x,'Node',6(i2,'Force/Disp':)/(7x,6(i2,'Forcd/Disp':)))
+2000 format('  C o o r d i n a t e    N o d a l    F o r c e d'/ &
+       /3x,'Node',6(i2,'Force/Disp':)/(7x,6(i2,'Forcd/Disp':)))
 
-  2001 format(i7,1p,6e12.4/(7x,1p,6e12.4))
+2001 format(i7,1p,6e12.4/(7x,1p,6e12.4))
 
 end subroutine pfboun

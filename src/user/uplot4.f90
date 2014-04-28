@@ -27,9 +27,9 @@ subroutine uplot4(ctl)
   !     Provide user plot name
 
   if (pcomp(uct,'plt4',4)) then
-    !         uct = 'name'
+     !         uct = 'name'
 
-    !     Perform user plot function
+     !     Perform user plot function
 
   else
 

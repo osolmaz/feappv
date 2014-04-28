@@ -25,7 +25,7 @@ subroutine datest(au,jh,daval)
 
   daval = 0.0d0
   do j = 1,jh
-  daval = daval + abs(au(j))
+     daval = daval + abs(au(j))
   end do
 
 end subroutine datest

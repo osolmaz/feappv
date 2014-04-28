@@ -17,16 +17,16 @@ subroutine pnodes(xs,ndm,prt,prth)
   save
 
   if(prt) then
-    call prtitl(prth)
-    write(iow,2000) (n,n=1,ndm)
-    if(ior < 0) then
-      write(*,2000) (n,n=1,ndm)
-    endif
+     call prtitl(prth)
+     write(iow,2000) (n,n=1,ndm)
+     if(ior < 0) then
+        write(*,2000) (n,n=1,ndm)
+     endif
   endif
 
   !     Input coordinates of supernodes for blending inputs
 
-  1 if(ior < 0) write(*,3000)
+1 if(ior < 0) write(*,3000)
 
   setvar = pinput(td,ndm+1)
 
@@ -34,29 +34,29 @@ subroutine pnodes(xs,ndm,prt,prth)
 
   if(node > 0) then
 
-    do n = 1,ndm
-    xs(n,node) = td(n+1)
-    end do
+     do n = 1,ndm
+        xs(n,node) = td(n+1)
+     end do
 
-    if(prt) then
-      write(iow,2001) node,(xs(i,node),i=1,ndm)
-      if(ior < 0) then
-        write(*,2001) node,(xs(i,node),i=1,ndm)
-      endif
-    endif
+     if(prt) then
+        write(iow,2001) node,(xs(i,node),i=1,ndm)
+        if(ior < 0) then
+           write(*,2001) node,(xs(i,node),i=1,ndm)
+        endif
+     endif
 
   else
-    return
+     return
   endif
 
   go to 1
 
-  3000 format('   Input: node, xs(i,node),i=1,ndm'/'   >',$)
+3000 format('   Input: node, xs(i,node),i=1,ndm'/'   >',$)
 
-  2000 format('   S u p e r N o d e   C o o r d i n a t e s'// &
-    '       Node  ',i1,'-Coordinate':,'   ',i1,'-Coordinate':, &
-    '   ',i1,'-Coordinate'/)
+2000 format('   S u p e r N o d e   C o o r d i n a t e s'// &
+       '       Node  ',i1,'-Coordinate':,'   ',i1,'-Coordinate':, &
+       '   ',i1,'-Coordinate'/)
 
-  2001 format(i10,1p,3e15.5)
+2001 format(i10,1p,3e15.5)
 
 end subroutine pnodes

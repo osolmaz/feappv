@@ -28,12 +28,12 @@ subroutine pmovec(id,a,b,nn)
   !     Move a-array into b-array
 
   do n = 1,nn
-  j = id(n)
-  if (j > 0) then
-    b(n) = a(j)
-  else
-    b(n) = 0.0d0
-  endif
+     j = id(n)
+     if (j > 0) then
+        b(n) = a(j)
+     else
+        b(n) = 0.0d0
+     endif
   end do
 
 end subroutine pmovec

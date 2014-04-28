@@ -49,81 +49,81 @@ subroutine ptimpl
   !     Store time history plot information for converged step
 
   if(max(naplts,ncplts,ndplts,neplts,nlplts,nrplts, &
-    nsplts,ntplts,nuplts,nvplts) > 0 ) then
+       nsplts,ntplts,nuplts,nvplts) > 0 ) then
 
-  ntstep = ntstep + 1
+     ntstep = ntstep + 1
 
-  !       Check for active output increment
+     !       Check for active output increment
 
 
-  if(mod(ntstep-1,ntincr) == 0) then
+     if(mod(ntstep-1,ntincr) == 0) then
 
-    !         Set history update flag to false (no updates)
+        !         Set history update flag to false (no updates)
 
-    hflgu  = .false. 
-    h3flgu = .false. 
+        hflgu  = .false. 
+        h3flgu = .false. 
 
-    !         Set transient parameters for current
+        !         Set transient parameters for current
 
-    if(fl(9)) call dsetci
-    do i = 1,3
-    ctan(i) = gtan(i)
-    end do
+        if(fl(9)) call dsetci
+        do i = 1,3
+           ctan(i) = gtan(i)
+        end do
 
-    if(max(nsplts,nrplts,nuplts) > 0) then
-      if( .not. rfl) then
-        dtsav = dt
-        dt    = dtold
-        call pzero(hr(np(26)),nneq)
-        call formfe(np(40),np(26),np(26),np(26), &
-          .false. , .true. , .true. ,6,1,numel,1)
-        rfl = .true. 
-        dt  = dtsav
-      end if
-    end if
+        if(max(nsplts,nrplts,nuplts) > 0) then
+           if( .not. rfl) then
+              dtsav = dt
+              dt    = dtold
+              call pzero(hr(np(26)),nneq)
+              call formfe(np(40),np(26),np(26),np(26), &
+                   .false. , .true. , .true. ,6,1,numel,1)
+              rfl = .true. 
+              dt  = dtsav
+           end if
+        end if
 
-    !         Set file name for displacements
+        !         Set file name for displacements
 
-    if(ndplts > 0) then
-      call pltmv(dpl,idpl,hr(np(40)),ndplts,1.d0)
-      call ptmplt('dis', ttim, dpl,ndplts, ntstep)
-    end if
+        if(ndplts > 0) then
+           call pltmv(dpl,idpl,hr(np(40)),ndplts,1.d0)
+           call ptmplt('dis', ttim, dpl,ndplts, ntstep)
+        end if
 
-    !         Set file name for velocities
+        !         Set file name for velocities
 
-    if(nvplts > 0) then
-      call pltmv(dpl,ivpl,hr(np(42)),nvplts,1.d0)
-      call ptmplt('vel', ttim, dpl,nvplts, ntstep)
-    end if
+        if(nvplts > 0) then
+           call pltmv(dpl,ivpl,hr(np(42)),nvplts,1.d0)
+           call ptmplt('vel', ttim, dpl,nvplts, ntstep)
+        end if
 
-    !         Set file name for accelerations
+        !         Set file name for accelerations
 
-    if(naplts > 0) then
-      call pltmv(dpl,iapl,hr(np(42)+nneq),naplts,1.d0)
-      call ptmplt('acc', ttim, dpl,naplts, ntstep)
-    end if
+        if(naplts > 0) then
+           call pltmv(dpl,iapl,hr(np(42)+nneq),naplts,1.d0)
+           call ptmplt('acc', ttim, dpl,naplts, ntstep)
+        end if
 
-    !         Set file name for reactions
+        !         Set file name for reactions
 
-    if(nrplts > 0) then
-      call pltmv(rpl,irpl,hr(np(26)),nrplts,-1.d0)
-      call ptmplt('rea', ttim, rpl,nrplts, ntstep)
-    end if
+        if(nrplts > 0) then
+           call pltmv(rpl,irpl,hr(np(26)),nrplts,-1.d0)
+           call ptmplt('rea', ttim, rpl,nrplts, ntstep)
+        end if
 
-    !         Set file name for stresses
+        !         Set file name for stresses
 
-    if(nsplts > 0) then
-      call ptmplt('str', ttim, spl,nsplts,ntstep)
-    end if
+        if(nsplts > 0) then
+           call ptmplt('str', ttim, spl,nsplts,ntstep)
+        end if
 
-    !         Set file name for user stresses
+        !         Set file name for user stresses
 
-    if(nuplts > 0) then
-      call ptmplt('use', ttim, upl,nuplts, ntstep)
-    end if
+        if(nuplts > 0) then
+           call ptmplt('use', ttim, upl,nuplts, ntstep)
+        end if
 
-  end if  ! End of increment check
+     end if  ! End of increment check
 
-end if
+  end if
 
-    end subroutine ptimpl
+end subroutine ptimpl

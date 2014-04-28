@@ -17,9 +17,9 @@ function psub(val)
   !     Look at parameter
 
   if(val == 0.0d0) then
-    xval = 0.0d0
+     xval = 0.0d0
   else
-    xval = xval - val
+     xval = xval - val
   endif
 
   psub = xval
