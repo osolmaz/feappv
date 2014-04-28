@@ -1,3 +1,3 @@
 
-      integer         maxm,incred
-      common /psize/  maxm,incred
+integer ::         maxm,incred
+common /psize/  maxm,incred

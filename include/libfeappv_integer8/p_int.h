@@ -1,2 +1,2 @@
 
-      integer*8  fp(10)                   ! int8
+integer*8 ::  fp(10)                   ! int8

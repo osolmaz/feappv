@@ -1,3 +1,3 @@
 
-      real*8          ang
-      common /aceang/ ang(2)
+  real*8 ::          ang
+common /aceang/ ang(2)

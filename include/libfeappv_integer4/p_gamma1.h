@@ -1,2 +1,2 @@
 
-      integer     pr,pu                         ! int4
+integer ::     pr,pu                         ! int4

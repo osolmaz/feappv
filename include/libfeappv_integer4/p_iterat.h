@@ -1,2 +1,2 @@
 
-      integer    pu,prsd                        ! int4
+integer ::    pu,prsd                        ! int4

@@ -1,3 +1,3 @@
 
-      logical         arcf,refl
-      common /arclel/ arcf,refl
+logical ::         arcf,refl
+common /arclel/ arcf,refl

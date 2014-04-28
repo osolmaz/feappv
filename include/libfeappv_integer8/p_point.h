@@ -1,2 +1,2 @@
 
-      integer*8  point                                   ! int8
+integer*8 ::  point                                   ! int8

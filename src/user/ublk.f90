@@ -1,0 +1,56 @@
+! Id:$
+subroutine ublk(td,nn,nr,ns,nt,xl,x,ixl,ix,dr,ds,dt, &
+    ni,ne,ndm,nen1,ma,ctype,prt, isw)
+
+  !      * * F E A P * * A Finite Element Analysis Program
+
+  !....  Copyright (c) 1984-2012: Robert L. Taylor
+  !                               All rights reserved
+
+  !-----[--.----+----.----+----.-----------------------------------------]
+  !      Purpose: User interface to generate a block of node/elements
+
+  !      Inputs:
+  !         td(15)     - Parameters from 'BLOC'k read
+  !         nn         - Number of block nodes
+  !         nr         - Number of increments in r-direction
+  !         ns         - Number of increments in s-direction
+  !         nt         - Number of increments in t-direction
+  !         xl(3,*)    - Nodal coordinates for block
+  !         ixl(*)     - Nodes connected to block
+  !         dr         - Increment in r-direction
+  !         dr         - Increment in s-direction
+  !         dt         - Increment in t-direction
+  !         ni         - Initial node number
+  !         ne         - Initial element number
+  !         ndm        - Spatial dimension of mesh
+  !         nen1       - Dimension of ix array
+  !         ma         - Material set number for block
+  !         ctype      - Character array defining block node coordinate
+  !                      system (cartesian, polar, spherical)
+  !         prt        - Output if true
+  !         isw        - Switch: 1 - count nodes/elements; 2 - input mesh
+
+  !      Outputs:
+  !         x(ndm,*)   - Nodal coordinates genterated by block
+  !         ix(nen1,*) - Element nodal connection list
+  !-----[--.----+----.----+----.-----------------------------------------]
+
+  implicit  none
+
+  include  'iofile.h'
+
+  logical ::   prt
+  character ctype*15
+  integer ::   ixl(*),ix(*)
+  integer ::   nn,nr,ns,nt,ni,ne,ndm,nen1,ma,isw
+  real*8 ::    dr,ds,dt,xl(*),x(*),td(15)
+
+  save
+
+  if(ior < 0) write(*,2000)
+  write(iow,2000)
+
+  2000 format(' *ERROR* No user block generator loaded')
+
+end subroutine ublk

@@ -1,3 +1,3 @@
 
-      logical          flgpl
-      common /plast3f/ flgpl
+logical ::          flgpl
+common /plast3f/ flgpl

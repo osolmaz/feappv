@@ -1,3 +1,3 @@
 
-      integer         hlplev
-      common /hlpdat/ hlplev
+integer ::         hlplev
+common /hlpdat/ hlplev

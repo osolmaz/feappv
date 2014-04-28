@@ -1,3 +1,3 @@
 
-      integer         maplt
-      common /pbody/  maplt
+integer ::         maplt
+common /pbody/  maplt

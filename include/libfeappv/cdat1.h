@@ -1,3 +1,3 @@
 
-      integer        ndd,nie,nud
-      common /cdat1/ ndd,nie,nud
+integer ::        ndd,nie,nud
+common /cdat1/ ndd,nie,nud

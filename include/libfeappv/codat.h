@@ -1,3 +1,3 @@
 
-      logical         coflg
-      common /codat/  coflg
+logical ::         coflg
+common /codat/  coflg

@@ -1,3 +1,3 @@
 
-      integer         numg,neqg
-      common /eqslv/  numg,neqg
+integer ::         numg,neqg
+common /eqslv/  numg,neqg

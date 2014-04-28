@@ -1,4 +1,4 @@
 
-      integer         processor
-      logical                   solver
-      common /setups/ processor,solver
+integer ::         processor
+logical ::                   solver
+common /setups/ processor,solver

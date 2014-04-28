@@ -1,3 +1,3 @@
 
-      integer         ior,iow
-      common /iofile/ ior,iow
+integer ::         ior,iow
+common /iofile/ ior,iow

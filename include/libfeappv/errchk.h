@@ -1,3 +1,3 @@
 
-      logical         errck,eralloc
-      common /errchk/ errck,eralloc
+logical ::         errck,eralloc
+common /errchk/ errck,eralloc

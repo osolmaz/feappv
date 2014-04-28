@@ -1,3 +1,3 @@
 
-      integer         istv
-      common /strnum/ istv
+integer ::         istv
+common /strnum/ istv

@@ -1,2 +1,2 @@
 
-      integer*8   pnu,pnb,pna,pnl               ! int8
+integer*8 ::   pnu,pnb,pna,pnl               ! int8

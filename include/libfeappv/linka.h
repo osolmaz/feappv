@@ -1,3 +1,3 @@
 
-      integer         iclink
-      common /linka/  iclink
+integer ::         iclink
+common /linka/  iclink

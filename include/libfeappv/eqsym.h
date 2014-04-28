@@ -1,4 +1,4 @@
 
-      integer         neqs
-      common /eqsym/  neqs
+integer ::         neqs
+common /eqsym/  neqs
 

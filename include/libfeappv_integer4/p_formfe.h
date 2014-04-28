@@ -1,2 +1,2 @@
 
-      integer     pnu,pnb,pna,pnl                 ! int4
+integer ::     pnu,pnb,pna,pnl                 ! int4

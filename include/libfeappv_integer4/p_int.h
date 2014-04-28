@@ -1,2 +1,2 @@
 
-      integer    fp(10)                   ! int4
+integer ::    fp(10)                   ! int4

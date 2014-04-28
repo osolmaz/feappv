@@ -1,3 +1,3 @@
 
-      integer         nreg,mxreg
-      common /region/ nreg,mxreg
+integer ::         nreg,mxreg
+common /region/ nreg,mxreg

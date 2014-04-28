@@ -1,3 +1,3 @@
 
-      integer*8      adr                        ! int8
-      common /w_int/ adr(600)
+  integer*8 ::      adr                        ! int8
+common /w_int/ adr(600)

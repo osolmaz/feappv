@@ -1,3 +1,3 @@
 
-      character*4     o,head
-      common /bdata/  o,head(20)
+  character(4) ::     o,head
+common /bdata/  o,head(20)

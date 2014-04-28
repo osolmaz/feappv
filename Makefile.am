@@ -13,7 +13,7 @@ AUX_DIST = build-aux/install-sh \
 INCLUDE_DIRS = -I$(abs_srcdir)/include/libfeappv -I$(abs_srcdir)/include/libfeappv_integer8
 AM_CFLAGS = -g -Wall -O2 $(INCLUDE_DIRS)
 AM_FFLAGS = -g $(INCLUDE_DIRS)
-AM_FCFLAGS = -g $(INLUDE_DIRS)
+AM_FCFLAGS = -g $(INCLUDE_DIRS)
 AM_LDFLAGS = -L/usr/X11R6/lib -lX11 -lm
 
 EXTRA_DIST = src/libfeappv_la_SOURCES \
@@ -35,6 +35,6 @@ lib_LTLIBRARIES  = libfeappv.la
 
 
 bin_PROGRAMS = feappv 
-feappv_SOURCES = src/apps/feappv.f
+feappv_SOURCES = src/apps/feappv.f90
 feappv_LDADD = libfeappv.la
 

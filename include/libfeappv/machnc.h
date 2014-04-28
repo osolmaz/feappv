@@ -1,3 +1,3 @@
 
-      real*8          epmac, dops
-      common /machnc/ epmac, dops
+real*8 ::          epmac, dops
+common /machnc/ epmac, dops

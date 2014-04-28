@@ -1,3 +1,3 @@
 
-      integer         nio,neo,mao
-      common /cblktr/ nio,neo,mao
+integer ::         nio,neo,mao
+common /cblktr/ nio,neo,mao

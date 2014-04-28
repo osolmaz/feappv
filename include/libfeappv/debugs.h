@@ -1,4 +1,4 @@
 
-      integer         ndebug
-      logical                debug
-      common /debugs/ ndebug,debug
+integer ::         ndebug
+logical ::                debug
+common /debugs/ ndebug,debug

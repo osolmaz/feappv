@@ -1,2 +1,2 @@
 
-      integer*8   pr,pu                         ! int8
+integer*8 ::   pr,pu                         ! int8

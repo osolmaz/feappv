@@ -1,3 +1,3 @@
 
-      real*8          tt
-      common /elplot/ tt(200)
+  real*8 ::          tt
+common /elplot/ tt(200)

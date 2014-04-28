@@ -1,2 +1,2 @@
 
-      integer    point                                   ! int4
+integer ::    point                                   ! int4

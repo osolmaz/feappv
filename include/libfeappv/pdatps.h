@@ -1,3 +1,3 @@
 
-      logical         hdcpy,hdlogo,psfram
-      common /pdatps/ hdcpy,hdlogo,psfram
+logical ::         hdcpy,hdlogo,psfram
+common /pdatps/ hdcpy,hdlogo,psfram
